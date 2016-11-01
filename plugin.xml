@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../engine/Shopware/Components/Plugin/schema/plugin.xsd">
+
+    <label>Algolia for Shopware</label>
+    <version>0.1.0</version>
+    <copyright>JSS</copyright>
+    <link>http://www.pharmosan.com</link>
+    <author>JSS</author>
+    <description>This plugin integrates the high-performance search cluster Algolia in your Shopware system.</description>
+
+    <changelog version="0.1.0">
+        <changes>Initial Release</changes>
+    </changelog>
+
+    <compatibility minVersion="5.2.6" />
+
+</plugin>
