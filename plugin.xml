@@ -5,7 +5,7 @@
     <label>Algolia for Shopware</label>
     <version>0.1.0</version>
     <copyright>JSS</copyright>
-    <link>http://www.pharmosan.com</link>
+    <link>https://github.com/synonymous1984/SwAlgolia</link>
     <author>JSS</author>
     <description>This plugin integrates the high-performance search cluster Algolia in your Shopware system.</description>
 

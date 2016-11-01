@@ -1,6 +1,6 @@
 <?php
 
-namespace PhaMenu;
+namespace SwAlgolia;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Shopware\Components\Plugin;
@@ -12,7 +12,7 @@ use Shopware\Components\Plugin\Context\UninstallContext;
 use Shopware\Components\Theme\LessDefinition;
 
 
-class PhaMenu extends Plugin
+class SwAlgolia extends Plugin
 {
 
     /**
@@ -87,7 +87,7 @@ class PhaMenu extends Plugin
      */
     public function registerSubscriber(\Enlight_Controller_EventArgs $args)
     {
-        Shopware()->Events()->addSubscriber(new Subscriber\MenuSubscriber());
+
     }
 
     /**
@@ -99,8 +99,7 @@ class PhaMenu extends Plugin
     public function collectPluginLess() {
 
         return new LessDefinition(
-            [],
-            [__DIR__ . '/Views/frontend/_public/src/less/category-dropdown.less']
+
         );
 
     }
@@ -115,10 +114,7 @@ class PhaMenu extends Plugin
     {
         $jsDir = __DIR__ . '/Views/frontend/_public/src/js/';
 
-        return new ArrayCollection(array(
-            $jsDir . 'jquery.menu-aim.js',
-            $jsDir . 'category-dropdown.js'
-        ));
+        return new ArrayCollection(array());
     }
 
 }

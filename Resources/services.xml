@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <!-- ****************************
+        Define the logger with PSR3 logging for this plugin
+        ********************************* -->
+        <service id="sw_algolia.logger.handler" class="Monolog\Handler\RotatingFileHandler" public="false">
+            <argument>%kernel.logs_dir%/plugin_sw_algolia_%kernel.environment%.log</argument>
+            <argument>14</argument>
+            <call method="pushProcessor">
+                <argument type="service" id="monolog.processor.uid" />
+            </call>
+        </service>
+
+        <service id="sw_algolia.logger.psr3processor" class="Monolog\Processor\PsrLogMessageProcessor" public="false" />
+
+        <service id="sw_algolia.logger" class="Shopware\Components\Logger">
+            <argument>sw_agolia</argument>
+            <call method="pushHandler">
+                <argument type="service" id="sw_algolia.logger.handler" />
+            </call>
+            <call method="pushProcessor">
+                <argument type="service" id="sw_algolia.logger.psr3processor" />
+            </call>
+        </service>
+        <!-- ****************************
+        / Define the logger with PSR3 logging for this plugin
+        ********************************* -->
+
+        <!-- ****************************
+        Define the services
+        ********************************* -->
+
+        <!-- ****************************
+        /Define the services
+        ********************************* -->
+
+
+    </services>
+</container>
