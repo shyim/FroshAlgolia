@@ -35,7 +35,19 @@
         <!-- ****************************
         Define the services
         ********************************* -->
-
+        <service
+                id="sw_algolia.commands.algolia_index_command"
+                class="SwAlgolia\Commands\IndexCommand">
+            <tag name="console.command"/>
+            <argument type="service" id="sw_algolia.logger" />
+        </service>
+        <service id="sw_algolia.algolia_index_service"
+                 class="SwAlgolia\Services\AlgoliaIndexService"
+                 public="true">
+            <argument type="service" id="sw_algolia.logger" />
+            <argument type="service" id="shopware_storefront.context_service" />
+            <argument type="service" id="shopware_storefront.product_service" />
+        </service>
         <!-- ****************************
         /Define the services
         ********************************* -->

@@ -3,9 +3,24 @@
         xsi:noNamespaceSchemaLocation="../../../../engine/Shopware/Components/Plugin/schema/config.xsd">
     <elements>
         <element type="text" required="true">
-            <name>algolia-api-key</name>
-            <label>Algolia API key</label>
+            <name>algolia-application-id</name>
+            <label>Application ID</label>
             <value></value>
+        </element>
+        <element type="text" required="true">
+            <name>algolia-search-only-api-key</name>
+            <label>Search-Only API Key</label>
+            <value></value>
+        </element>
+        <element type="text" required="true">
+            <name>algolia-admin-api-key</name>
+            <label>Admin API Key</label>
+            <value></value>
+        </element>
+        <element type="text" required="true">
+            <name>index-name</name>
+            <label>Index name</label>
+            <value>shopware_articles</value>
         </element>
     </elements>
 </config>

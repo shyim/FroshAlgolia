@@ -70,7 +70,8 @@ class SwAlgolia extends Plugin
             'Enlight_Controller_Front_StartDispatch' => 'registerSubscriber',
             'Enlight_Controller_Action_PostDispatchSecure' => 'addTemplateDir',
             'Theme_Compiler_Collect_Plugin_Less' => 'collectPluginLess',
-            'Theme_Compiler_Collect_Plugin_Javascript' => 'collectJavascriptFiles'
+            'Theme_Compiler_Collect_Plugin_Javascript' => 'collectJavascriptFiles',
+            'Enlight_Controller_Action_PostDispatch_Frontend' => 'initAlgolia'
         ];
     }
 
@@ -79,6 +80,15 @@ class SwAlgolia extends Plugin
      */
     public function addTemplateDir() {
         $this->container->get('template')->addTemplateDir(__DIR__ . '/Views');
+    }
+
+    public function initAlgolia(\Enlight_Controller_ActionEventArgs $args) {
+        $pluginConfig = Shopware()->Container()->get('shopware.plugin.cached_config_reader')->getByPluginName($this->getName());
+        $controller = $args->get('subject');
+        $view = $controller->View();
+        $view->assign('algoliaApplicationId',$pluginConfig['algolia-application-id']);
+        $view->assign('algoliaSearchOnlyApiKey',$pluginConfig['algolia-search-only-api-key']);
+        $view->assign('indexName',$pluginConfig['index-name']);
     }
 
     /**
@@ -99,7 +109,8 @@ class SwAlgolia extends Plugin
     public function collectPluginLess() {
 
         return new LessDefinition(
-
+            [],
+            [__DIR__.'/Views/frontend/_public/src/less/style.less']
         );
 
     }
