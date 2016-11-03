@@ -1,15 +1,11 @@
 <?php
 namespace SwAlgolia\Services;
 
+use AlgoliaSearch\Client;
 use Doctrine\ORM\AbstractQuery;
-use Shopware\Bundle\StoreFrontBundle\Service\ContextServiceInterface;
 use Shopware\Bundle\StoreFrontBundle\Service\Core\ContextService;
 use Shopware\Bundle\StoreFrontBundle\Service\Core\ProductService;
-use Shopware\Bundle\StoreFrontBundle\Service\ProductServiceInterface;
-use Shopware\Bundle\StoreFrontBundle\Struct\ShopContext;
-use Shopware\Bundle\StoreFrontBundle\Struct\ShopContextInterface;
 use Shopware\Components;
-use AlgoliaSearch;
 
 /**
  * Class AlgoliaIndexService
@@ -45,12 +41,9 @@ class AlgoliaIndexService
 
         // Construct the context
         $repository = Shopware()->Container()->get('models')->getRepository('Shopware\Models\Shop\Shop');
-        $shop = $repository->getActiveById(1);
+        $shop = $repository->getActiveDefault();
         $shop->registerResources();
         //$this->context = Components\Routing\Context::createFromShop($shop, Shopware()->Container()->get('config'));
-
-        // Include the Algolia client library
-        require_once(__DIR__ .'/../Vendor/algolia/algoliasearch.php');
     }
 
     public function push() {
@@ -59,7 +52,7 @@ class AlgoliaIndexService
         $pluginConfig = Shopware()->Container()->get('shopware.plugin.cached_config_reader')->getByPluginName('SwAlgolia');
 
         // Init the API client
-        $client = new AlgoliaSearch\Client($pluginConfig['algolia-application-id'],$pluginConfig['algolia-admin-api-key']);
+        $client = new Client($pluginConfig['algolia-application-id'],$pluginConfig['algolia-admin-api-key']);
         $index = $client->initIndex($pluginConfig['index-name']);
 
         /**
@@ -79,14 +72,14 @@ class AlgoliaIndexService
         $paginator = Shopware()->Container()->get('models')->createPaginator($query);
         $articles = $paginator->getIterator()->getArrayCopy();
 
-        $data = array();
+        $data = [];
         $router = Shopware()->Container()->get('router');
 
-        foreach($articles as $article):
+        foreach($articles as $article) {
 
             // Get product object
             if (!$product = $this->productService->get($article->getMainDetail()->getNumber(), $this->context->getShopContext())):
-                $this->logger->addAlert('Could not generate product struct for article {number} - {articleName} for export. Product not exported.',array('number' => $article->getMainDetail()->getNumber(), 'articleName' => $article->getName()));
+                $this->logger->addAlert('Could not generate product struct for article {number} - {articleName} for export. Product not exported.', array('number' => $article->getMainDetail()->getNumber(), 'articleName' => $article->getName()));
                 continue;
             endif;
 
@@ -103,13 +96,13 @@ class AlgoliaIndexService
                 'name' => $article->getName(),
                 'number' => $article->getMainDetail()->getNumber(),
                 'manufacturer_name' => $article->getSupplier()->getName(),
-                'price' => round($product->getCheapestPrice()->getCalculatedPrice(),2),
+                'price' => round($product->getCheapestPrice()->getCalculatedPrice(), 2),
                 'link' => $link,
                 'description' => strip_tags($article->getDescription()),
                 'ean' => $article->getMainDetail()->getEan()
             );
-            $this->logger->addInfo('Successfully exported article {number} - {articleName}',array('number' => $article->getMainDetail()->getNumber(), 'articleName' => $article->getName()));
-        endforeach;
+            $this->logger->addInfo('Successfully exported article {number} - {articleName}', array('number' => $article->getMainDetail()->getNumber(), 'articleName' => $article->getName()));
+        }
 
         $index->addObjects($data);
 
