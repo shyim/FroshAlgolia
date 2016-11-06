@@ -58,6 +58,8 @@ class AssetsSubscriber implements SubscriberInterface
      */
     public function collectJavascriptFiles()
     {
-        return new ArrayCollection([]);
+        return new ArrayCollection([
+            $this->viewDir . '/frontend/_public/src/js/jquery.algolia.js'
+        ]);
     }
 }

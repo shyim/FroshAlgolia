@@ -89,8 +89,20 @@ class AlgoliaIndexService
                 $image = $mediaObject->getThumbnail(0)->getSource();
             }
 
-            $category = $product->getCategories();
-            $category = end($category);
+            $categories = $product->getCategories();
+
+            // Remove Main Kategorie (Deutsch)
+            if (isset($categories[0])) {
+                unset($categories[0]);
+            }
+
+            $categoryNames = [];
+            $categoryIds = [];
+
+            foreach ($categories as $category) {
+                $categoryNames[] = $category->getName();
+                $categoryIds[] = $category->getId();
+            }
 
             $data[] = array(
                 'objectID' => $product->getNumber(),
@@ -102,7 +114,8 @@ class AlgoliaIndexService
                 'description' => strip_tags($product->getShortDescription()),
                 'ean' => $product->getEan(),
                 'image' => $image,
-                'category' => $category->getName()
+                'category' => $categoryNames,
+                'categoryIds' => $categoryIds
             );
             $this->logger->addInfo('Successfully exported article {number} - {articleName}', array('number' => $product->getNumber(), 'articleName' => $product->getName()));
         }
