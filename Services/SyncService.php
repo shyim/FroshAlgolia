@@ -142,7 +142,7 @@ class SyncService
                 $data[] = $articleStruct->toArray();
 
                 // @TODO remove test limitation
-                if($i>=10) break;
+                if($i>=20) break;
                 $i++;
 
             endforeach;
