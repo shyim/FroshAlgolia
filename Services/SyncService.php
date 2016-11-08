@@ -96,7 +96,7 @@ class SyncService
             $router = Shopware()->Container()->get('router');
             $data = [];
 
-            $i=0;
+            $i=1;
 
             // Iterate over all found articles
             foreach($articles as $article):
@@ -141,14 +141,18 @@ class SyncService
                 $articleStruct->setAttributes($this->getAttributes($product));
                 $data[] = $articleStruct->toArray();
 
+                // Push data to Algolia if sync-batch size is reached
+                if($i % $this->pluginConfig['sync-batch-size'] == 0 || $i == count($articles)):
+                    // Push data to Algolia
+                    $this->algoliaService->push($shop, $data, $pluginConfig['index-prefix-name'] . '-' . $shop->getId());
+                    $data = null;
+                endif;
+
                 // @TODO remove test limitation
                 if($i>=20) break;
                 $i++;
 
             endforeach;
-
-            // Push data to Algolia
-            $this->algoliaService->push($shop, $data, $pluginConfig['index-prefix-name'] . '-' . $shop->getId());
 
         endforeach;
 
