@@ -49,6 +49,8 @@ class AlgoliaService
 
         // Init the API client
         $client = new AlgoliaClient($this->pluginConfig['algolia-application-id'],$this->pluginConfig['algolia-admin-api-key']);
+        $client->setConnectTimeout($this->pluginConfig['algolia-connection-timeout']);
+
         $index = $client->initIndex($index);
 
         // Send data to algolia

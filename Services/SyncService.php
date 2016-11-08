@@ -10,6 +10,7 @@ use Shopware\Bundle\StoreFrontBundle\Struct\Product;
 use Shopware\Components;
 use Shopware\Models\Shop\Shop;
 use SwAlgolia\Structs\Article as ArticleStruct;
+use SwAlgolia\Structs\Struct;
 
 /**
  * Class SyncService
@@ -155,6 +156,17 @@ class SyncService
             endforeach;
 
         endforeach;
+
+    }
+
+    /**
+     * This method consumes all events where entity data (e.g. articles) is changed and submits
+     * the changed data on the fly to Algolia.
+     * @param Product $product
+     */
+    public function liveSync(Struct $product) {
+
+        // @TODO TBD
 
     }
 

@@ -32,5 +32,10 @@
             <label>Sync batch size</label>
             <value>10</value>
         </element>
+        <element type="number" required="true">
+            <name>algolia-connection-timeout</name>
+            <label>Algolia Connection timeout (in seconds)</label>
+            <value>10</value>
+        </element>
     </elements>
 </config>
