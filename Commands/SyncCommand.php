@@ -7,9 +7,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Shopware\Components;
-use Shopware\Components\Api\Resource\Resource;
 
-class IndexCommand extends ShopwareCommand
+class SyncCommand extends ShopwareCommand
 {
 
     private $logger = null;
@@ -30,10 +29,10 @@ class IndexCommand extends ShopwareCommand
     protected function configure()
     {
         $this
-            ->setName('algoliaindex')
-            ->setDescription('Used to perform different operations on the Algolia index.')
+            ->setName('algoliasync')
+            ->setDescription('Used to perform operations on the Algolia index.')
             ->addArgument(
-                'action',
+                'operation',
                 InputArgument::REQUIRED,
                 'The action that should be performed on the Algolia index.'
             )
@@ -51,10 +50,15 @@ EOF
     {
 
         // Fetch input data
-        $action = $input->getArgument('action');
+        $operation = $input->getArgument('operation');
+        $syncService = $this->getContainer()->get('sw_algolia.sync_service');
 
-        $indexService = $this->getContainer()->get('sw_algolia.algolia_index_service');
-        $indexService->push();
+        switch($operation):
+
+            case 'full':
+                $syncService->fullSync();
+
+        endswitch;
 
     }
 

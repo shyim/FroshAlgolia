@@ -18,9 +18,14 @@
             <value></value>
         </element>
         <element type="text" required="true">
-            <name>index-name</name>
-            <label>Index name</label>
-            <value>shopware_articles</value>
+            <name>index-prefix-name</name>
+            <label>Index prefix name</label>
+            <value>swalgolia</value>
+        </element>
+        <element type="text" required="true">
+            <name>blocked-article-attributes</name>
+            <label>Blocked article attributes</label>
+            <value>id,articleID,articledetailsID</value>
         </element>
     </elements>
 </config>

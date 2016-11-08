@@ -21,12 +21,22 @@
             </call>
         </service>
 
+        <service id="sw_algolia.logger.stream_handler" class="Monolog\Handler\StreamHandler" public="false">
+            <argument>php://stdout</argument>
+            <call method="pushProcessor">
+                <argument type="service" id="monolog.processor.uid" />
+            </call>
+        </service>
+
         <service id="sw_algolia.logger.psr3processor" class="Monolog\Processor\PsrLogMessageProcessor" public="false" />
 
         <service id="sw_algolia.logger" class="Shopware\Components\Logger">
             <argument>sw_agolia</argument>
             <call method="pushHandler">
                 <argument type="service" id="sw_algolia.logger.handler" />
+            </call>
+            <call method="pushHandler">
+                <argument type="service" id="sw_algolia.logger.stream_handler" />
             </call>
             <call method="pushProcessor">
                 <argument type="service" id="sw_algolia.logger.psr3processor" />
@@ -54,23 +64,37 @@
             <tag name="shopware.event_subscriber"/>
         </service>
 
-        <service
-                id="sw_algolia.commands.algolia_index_command"
-                class="SwAlgolia\Commands\IndexCommand">
-            <tag name="console.command"/>
-            <argument type="service" id="sw_algolia.logger" />
-        </service>
-        <service id="sw_algolia.algolia_index_service"
-                 class="SwAlgolia\Services\AlgoliaIndexService"
+        <service id="sw_algolia.sync_service"
+                 class="SwAlgolia\Services\SyncService"
                  public="true">
             <argument type="service" id="sw_algolia.logger" />
             <argument type="service" id="shopware_storefront.context_service" />
             <argument type="service" id="shopware_storefront.product_service" />
+            <argument type="service" id="sw_algolia.algolia_service" />
+        </service>
+
+        <service id="sw_algolia.algolia_service"
+                 class="SwAlgolia\Services\AlgoliaService"
+                 public="true">
+            <argument type="service" id="sw_algolia.logger" />
+            <argument type="service" id="shopware_storefront.context_service" />
         </service>
         <!-- ****************************
         /Define the services
         ********************************* -->
 
+        <!-- ****************************
+        Commands
+        ********************************* -->
+        <service
+                id="sw_algolia.commands.sync_command"
+                class="SwAlgolia\Commands\SyncCommand">
+            <tag name="console.command"/>
+            <argument type="service" id="sw_algolia.logger" />
+        </service>
+        <!-- ****************************
+        /Commands
+        ********************************* -->
 
     </services>
 </container>
