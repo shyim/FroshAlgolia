@@ -31,7 +31,7 @@
         <service id="sw_algolia.logger.psr3processor" class="Monolog\Processor\PsrLogMessageProcessor" public="false" />
 
         <service id="sw_algolia.logger" class="Shopware\Components\Logger">
-            <argument>sw_agolia</argument>
+            <argument>sw_algolia</argument>
             <call method="pushHandler">
                 <argument type="service" id="sw_algolia.logger.handler" />
             </call>

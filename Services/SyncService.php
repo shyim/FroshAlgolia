@@ -91,7 +91,7 @@ class SyncService
             $shop->registerResources();
 
             // Get all articles
-            $articles = Shopware()->Db()->fetchCol('SELECT ordernumber FROM s_articles_details WHERE kind = 1');
+            $articles = Shopware()->Db()->fetchCol('SELECT ordernumber FROM s_articles_details WHERE kind = 1 and active = 1');
 
             $router = Shopware()->Container()->get('router');
             $data = [];
