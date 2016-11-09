@@ -69,12 +69,13 @@
                     var link = suggestion.link;
 
                     // render the suggestion
-                    var res = '<div class="aa-suggestion">';
+                    //var res = '<div class="aa-suggestion">';
+                    var res = '';
 
                     /// show the image
-                    if (image !== '') {
-                        res += '<span><img src="' + escapeHTML(suggestion.image) + '" alt="' + escapeHTML(stripTags(suggestion.name)) +'" /></span>';
-                    }
+//                    if (image !== '') {
+//                        res += '<span><img src="' + escapeHTML(suggestion.image) + '" alt="' + escapeHTML(stripTags(suggestion.name)) +'" /></span>';
+//                    }
 
                     // show name
                     if (name !== '') {
@@ -89,7 +90,7 @@
                         res += '</span>';
                     }
 
-                    // show pzn
+                    // show number
 //                    if (number !== '') {
 //                        if (number && number.trim() !== '') {
 //                            res += '<span class="number">';

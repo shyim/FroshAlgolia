@@ -32,7 +32,7 @@ input[type="search"] {
     -moz-box-shadow: inset 0 1px 1px #dadae5; /* WebKit */
     box-shadow: inset 0 1px 1px #dadae5; /* Standard */
     box-sizing: border-box;
-    color: #8798a9;
+    color: #3f4c58;
     -webkit-appearance: none;
     -moz-appearance: none;
 
@@ -61,6 +61,9 @@ input[type="search"] {
   -moz-border-radius: 4px;
   border-radius: 4px;
   box-sizing: border-box;
+  -webkit-box-shadow: 0 10px 25px -15px #000;; /* Firefox */
+  -moz-box-shadow: 0 10px 25px -15px #000;; /* WebKit */
+  box-shadow: 0 10px 25px -15px #000;; /* Standard */
 
   // Small top arrow
   &::after {
@@ -108,7 +111,7 @@ input[type="search"] {
 // A single suggestion row
 .aa-suggestion {
   width: 100%;
-  padding: 0.4rem;
+  padding: 0.3rem 0.4rem;
   border-top: 1px solid #dadae5;
   cursor: pointer;
   display: -webkit-box;
@@ -117,13 +120,14 @@ input[type="search"] {
   flex-direction: row;
   align-items: center;
   align-content: center;
+  color: #3f4c58;
 
   &:first-child {
     border-top: none;
   }
 
   &:hover, &.aa-cursor {
-    background-color: #f8f8fa;
+    background-color: #eeeeee;
   }
 
   em {
@@ -133,24 +137,24 @@ input[type="search"] {
   }
 
   // Parts of a suggestion row
-  span.image {
+  //span.image {
+  //  order: 1;
+  //  flex: 0 0 1rem;
+  //  img {
+  //    width: 1rem;
+  //  }
+  //}
+  span.name {
     order: 1;
-    background: red;
-    flex: 0 0 1rem;
-    img {
-      width: 1rem;
+    flex-grow: 1;
+    text-align: left;
+    a {
+      color: #3f4c58;
     }
   }
-  span.name {
-    order: 2;
-    flex-grow: 1;
-    background: green;
-    text-align: left;
-  }
   span.price {
-    order: 3;
+    order: 2;
     flex: 0 0 2rem;
-    background: yellow;
     text-align: right;
   }
 }
@@ -161,8 +165,8 @@ input[type="search"] {
 }
 
 .aa-input-close {
-  height: 1.2rem;
-  width: 1.2rem;
+  height: 1rem;
+  width: 1rem;
   position: absolute;
   top: 50%;
   right: 0.8rem;
@@ -174,8 +178,8 @@ input[type="search"] {
 }
 
 .aa-input-icon {
-  height: 1.2rem;
-  width: 1.2rem;
+  height: 1rem;
+  width: 1rem;
   position: absolute;
   top: 50%;
   right: 0.8rem;
