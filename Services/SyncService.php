@@ -91,6 +91,9 @@ class SyncService
             // Construct the context
             $shop->registerResources();
 
+            // Clear the Algolia index for this shop
+            $this->algoliaService->clearIndex($pluginConfig['index-prefix-name'] . '-' . $shop->getId());
+
             // Get all articles
             $articles = Shopware()->Db()->fetchCol('SELECT ordernumber FROM s_articles_details WHERE kind = 1 and active = 1');
 
@@ -140,6 +143,8 @@ class SyncService
                 $articleStruct->setCategories($this->getCategories($product)['categoryNames']);
                 $articleStruct->setCategoryIds($this->getCategories($product)['categoryIds']);
                 $articleStruct->setAttributes($this->getAttributes($product));
+                $articleStruct->setProperties($this->getProperties($product));
+                $articleStruct->setSales($product->getSales());
                 $data[] = $articleStruct->toArray();
 
                 // Push data to Algolia if sync-batch size is reached
@@ -150,7 +155,7 @@ class SyncService
                 endif;
 
                 // @TODO remove test limitation
-                if($i>=20) break;
+                if($i>=50) break;
                 $i++;
 
             endforeach;
@@ -162,7 +167,7 @@ class SyncService
     /**
      * This method consumes all events where entity data (e.g. articles) is changed and submits
      * the changed data on the fly to Algolia.
-     * @param Product $product
+     * @param Struct $product
      */
     public function liveSync(Struct $product) {
 
@@ -220,6 +225,35 @@ class SyncService
         }
 
         return $data;
+
+    }
+
+    /**
+     * Fetches all product properties as an array
+     * @param Product $product
+     * @return array
+     */
+    private function getProperties(Product $product) {
+
+        $properties = [];
+
+        if ($set = $product->getPropertySet()):
+
+            $groups = $set->getGroups();
+
+            foreach($groups as $group):
+                $options = $group->getOptions();
+
+                foreach($options as $option):
+                    $properties[$group->getName()] = $option->getName();
+                endforeach;
+
+            endforeach;
+
+        endif;
+
+        return $properties;
+
 
     }
 

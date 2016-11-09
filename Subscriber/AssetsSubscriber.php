@@ -45,7 +45,10 @@ class AssetsSubscriber implements SubscriberInterface
 
         return new LessDefinition(
             [],
-            [$this->viewDir.'/frontend/_public/src/less/style.less']
+            [
+                $this->viewDir.'/frontend/_public/src/less/autocomplete.less',
+                $this->viewDir.'/frontend/_public/src/less/instantsearch.less'
+            ]
         );
 
     }

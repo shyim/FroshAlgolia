@@ -23,6 +23,21 @@
             <value>swalgolia</value>
         </element>
         <element type="text" required="true">
+            <name>index-searchable-attributes</name>
+            <label>Searchable Attributes (ordered by importance)</label>
+            <value>number,name,manufacturerName,ean,description,categories</value>
+        </element>
+        <element type="text" required="true">
+            <name>index-custom-ranking-attributes</name>
+            <label>Custom Ranking Attributes (ordered by importance)</label>
+            <value>desc(sales)</value>
+        </element>
+        <element type="text" required="true">
+            <name>index-faceting-attributes</name>
+            <label>Attributes for faceting</label>
+            <value></value>
+        </element>
+        <element type="text" required="true">
             <name>blocked-article-attributes</name>
             <label>Blocked article attributes</label>
             <value>id,articleID,articledetailsID</value>
@@ -30,7 +45,7 @@
         <element type="number" required="true">
             <name>sync-batch-size</name>
             <label>Sync batch size</label>
-            <value>10</value>
+            <value>30</value>
         </element>
         <element type="number" required="true">
             <name>algolia-connection-timeout</name>

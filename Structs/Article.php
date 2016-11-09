@@ -71,6 +71,16 @@ class Article extends Struct implements StructInterface
     private $attributes = null;
 
     /**
+     * @var null|array
+     */
+    private $properties = null;
+
+    /**
+     * @var int
+     */
+    private $sales = 0;
+
+    /**
      * @return int|null
      */
     public function getObjectID()
@@ -260,6 +270,39 @@ class Article extends Struct implements StructInterface
     public function setAttributes($attributes)
     {
         $this->attributes = $attributes;
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getProperties()
+    {
+        return $this->properties;
+    }
+
+    /**
+     * @param array|null $properties
+     */
+    public function setProperties($properties)
+    {
+        $this->properties = $properties;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getSales()
+    {
+        return $this->sales;
+    }
+
+    /**
+     * @param int $sales
+     */
+    public function setSales($sales)
+    {
+        $this->sales = $sales;
     }
 
 }
