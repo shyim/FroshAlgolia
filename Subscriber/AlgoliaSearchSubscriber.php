@@ -35,6 +35,7 @@ class AlgoliaSearchSubscriber implements SubscriberInterface
         $view->assign('algoliaApplicationId', $pluginConfig['algolia-application-id']);
         $view->assign('algoliaSearchOnlyApiKey', $pluginConfig['algolia-search-only-api-key']);
         $view->assign('indexName', $pluginConfig['index-prefix-name'].'-'.$shopId);
+        $view->assign('showAlgoliaLogo',$pluginConfig['show-algolia-logo']);
 
     }
 }

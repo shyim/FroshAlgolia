@@ -10,7 +10,10 @@
 
         autocomplete('input[name=sSearch]', {
             hint: false,
-
+            templates: {
+                dropdownMenu: '#my-custom-menu-template',
+                {/literal}{if $showAlgoliaLogo}footer: '<div class="branding">Powered by <img src="https://www.algolia.com/assets/algolia128x40.png" /></div>'{/if}{literal}
+            }
         }, [
             {
                 source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),

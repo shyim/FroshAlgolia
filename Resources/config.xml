@@ -37,5 +37,10 @@
             <label>Algolia Connection timeout (in seconds)</label>
             <value>10</value>
         </element>
+        <element type="boolean" required="true">
+            <name>show-algolia-logo</name>
+            <label>Show Algolia logo next to the search results (required for free accounts)?</label>
+            <value>true</value>
+        </element>
     </elements>
 </config>
