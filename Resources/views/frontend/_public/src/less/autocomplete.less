@@ -94,17 +94,25 @@ input[type="search"] {
     display: -ms-flexbox;
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-content: center;
     align-items: center;
     font-size: 11px;
     color: #dadae5;
-    span {
-      margin-right: 0.2rem;
+    span:first-child {
+      text-align: left;
+      a {
+        color: #dadae5;
+      }
     }
-    img {
-      height: 0.7rem;
+    span:last-child {
+      text-align: right;
+      img {
+        margin-left: 0.5rem;
+        height: 0.7rem;
+      }
     }
+
   }
 }
 

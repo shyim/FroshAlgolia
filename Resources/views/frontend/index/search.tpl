@@ -58,7 +58,7 @@
             source: autocomplete.sources.hits(index, {hitsPerPage: 10}),
             displayKey: 'name',
             templates: {
-                {/literal}{if $showAlgoliaLogo}footer: '<div class="branding"><span>Powered by</span> <img src="https://www.algolia.com/assets/algolia128x40.png" /></div>',{/if}{literal}
+                {/literal}{if $showAlgoliaLogo}footer: '<div class="branding"><span><a href="https://github.com/synonymous1984/SwAlgolia" target="_blank">SwAlgolia Plugin by JSS</a></span><span>Powered by <img src="https://www.algolia.com/assets/algolia128x40.png" /></span> </div>',{/if}{literal}
                 suggestion: function(suggestion) {
 
                     var image = stripTags(suggestion.image);
