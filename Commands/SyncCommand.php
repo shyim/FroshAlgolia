@@ -3,6 +3,7 @@
 namespace SwAlgolia\Commands;
 
 use Shopware\Commands\ShopwareCommand;
+use SwAlgolia\Services\SyncService;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -10,16 +11,27 @@ use Shopware\Components;
 
 class SyncCommand extends ShopwareCommand
 {
+    /**
+     * @var Components\Logger
+     */
+    private $logger;
 
-    private $logger = null;
+    /**
+     * @var SyncService
+     */
+    private $syncService;
 
     /**
      * DiscountPriceCalculationService constructor.
      * @param Components\Logger $logger
+     * @param SyncService       $syncService
      */
-    public function __construct(Components\Logger $logger) {
-
+    public function __construct(
+        Components\Logger $logger,
+        SyncService $syncService
+    ) {
         $this->logger = $logger;
+        $this->syncService = $syncService;
         parent::__construct();
     }
 
@@ -37,7 +49,7 @@ class SyncCommand extends ShopwareCommand
                 'The action that should be performed on the Algolia index.'
             )
             ->setHelp(<<<EOF
-The <info>%command.name%</info> is responsible to execute different operations on the Algolia index.
+Allowed arguments full,fullsync
 EOF
             )
         ;
@@ -48,18 +60,14 @@ EOF
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-
         // Fetch input data
         $operation = $input->getArgument('operation');
-        $syncService = $this->getContainer()->get('sw_algolia.sync_service');
 
         switch($operation):
-
+            case 'fullsync':
             case 'full':
-                $syncService->fullSync();
+                $this->syncService->fullSync();
 
         endswitch;
-
     }
-
 }

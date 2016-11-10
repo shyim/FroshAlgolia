@@ -68,11 +68,6 @@ class Article extends Struct implements StructInterface
     /**
      * @var null|array
      */
-    private $categoryIds = null;
-
-    /**
-     * @var null|array
-     */
     private $attributes = null;
 
     /**
@@ -264,22 +259,6 @@ class Article extends Struct implements StructInterface
     /**
      * @return array|null
      */
-    public function getCategoryIds()
-    {
-        return $this->categoryIds;
-    }
-
-    /**
-     * @param array|null $categoryIds
-     */
-    public function setCategoryIds($categoryIds)
-    {
-        $this->categoryIds = $categoryIds;
-    }
-
-    /**
-     * @return array|null
-     */
     public function getAttributes()
     {
         return $this->attributes;
@@ -309,7 +288,6 @@ class Article extends Struct implements StructInterface
         $this->properties = $properties;
     }
 
-
     /**
      * @return int
      */
@@ -325,5 +303,4 @@ class Article extends Struct implements StructInterface
     {
         $this->sales = $sales;
     }
-
 }

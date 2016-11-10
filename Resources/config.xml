@@ -5,17 +5,14 @@
         <element type="text" required="true">
             <name>algolia-application-id</name>
             <label>Application ID</label>
-            <value></value>
         </element>
         <element type="text" required="true">
             <name>algolia-search-only-api-key</name>
             <label>Search-Only API Key</label>
-            <value></value>
         </element>
         <element type="text" required="true">
             <name>algolia-admin-api-key</name>
             <label>Admin API Key</label>
-            <value></value>
         </element>
         <element type="text" required="true">
             <name>index-prefix-name</name>
@@ -35,7 +32,7 @@
         <element type="text" required="true">
             <name>index-faceting-attributes</name>
             <label>Attributes for faceting</label>
-            <value></value>
+            <value>categories,price,manufacturerName</value>
         </element>
         <element type="text" required="true">
             <name>blocked-article-attributes</name>
