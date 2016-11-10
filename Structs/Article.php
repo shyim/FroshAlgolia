@@ -31,6 +31,11 @@ class Article extends Struct implements StructInterface
     private $manufacturer_name = null;
 
     /**
+     * @var null|string
+     */
+    private $currencySymbol = null;
+
+    /**
      * @var null|float
      */
     private $price = null;
@@ -142,6 +147,22 @@ class Article extends Struct implements StructInterface
     public function setManufacturerName($manufacturer_name)
     {
         $this->manufacturer_name = $manufacturer_name;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getCurrencySymbol()
+    {
+        return $this->currencySymbol;
+    }
+
+    /**
+     * @param null|string $currencySymbol
+     */
+    public function setCurrencySymbol($currencySymbol)
+    {
+        $this->currencySymbol = $currencySymbol;
     }
 
     /**

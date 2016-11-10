@@ -30,7 +30,7 @@
         <element type="text" required="true">
             <name>index-custom-ranking-attributes</name>
             <label>Custom Ranking Attributes (ordered by importance)</label>
-            <value>desc(sales)</value>
+            <value>desc(sales),asc(price)</value>
         </element>
         <element type="text" required="true">
             <name>index-faceting-attributes</name>

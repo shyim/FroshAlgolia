@@ -135,6 +135,7 @@ class SyncService
                 $articleStruct->setName($product->getName());
                 $articleStruct->setNumber($product->getNumber());
                 $articleStruct->setManufacturerName($product->getManufacturer()->getName());
+                $articleStruct->setCurrencySymbol($shop->getCurrency()->getSymbol());
                 $articleStruct->setPrice(round($product->getCheapestPrice()->getCalculatedPrice(), 2));
                 $articleStruct->setLink($link);
                 $articleStruct->setDescription(strip_tags($product->getShortDescription()));

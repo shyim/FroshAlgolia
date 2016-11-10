@@ -17,21 +17,23 @@ Pushing article data to Algolia index
 ====
 To push your article data to the algolia index, run the following command:
 
-Full index update
-==
-`php bin/console algoliasync full`
+* Full index update: `php bin/console algoliasync full`
 
 Multiple shops / Multilanguage shops
 =====
-The SwAlgolia creates one Algolia index for each of your active shops. So if you have two shops (e.g. German and English), 
-those shops would generate two indexes named
+The SwAlgolia plugin creates one Algolia index for each of your active shops. So if you have two shops (e.g. German and English), 
+those shops would generate two indices following this naming convention:
 
 `<prefix>-<shopId>`. 
 
-The prefix can be defined in the plugin config.
+The prefix can be defined in the plugin config, the shopId is added automatically.
 
 Article attributes
 =====
 By default *all article attributes* (default and plugin-added) are pushed to Algolia Index. You can block attributes from being
 transmitted by adding their names in the plugin configuration under *Blocked article attributes*. Add all attribute names here and 
 delimit them with a colon.
+
+Article properties
+=====
+All article properties are published to Algolia index.

@@ -53,8 +53,7 @@
         var inputContainer = document.getElementById("aa-input-container");
 
         autocomplete('input[id=aa-search-input]', {
-            hint: false,
-            autoselect: true,
+            hint: false
         },{
             source: autocomplete.sources.hits(index, {hitsPerPage: 10}),
             displayKey: 'name',
@@ -64,6 +63,7 @@
 
                     var image = stripTags(suggestion.image);
                     var name = suggestion._highlightResult.name.value;
+                    var currencySymbol = suggestion.currencySymbol;
                     var price = suggestion.price;
                     var number = suggestion._highlightResult.number.value;
                     var link = suggestion.link;
@@ -102,7 +102,7 @@
                     // show price
                     if (price !== '') {
                         res += '<span class="price">';
-                        res += stripTags(price);
+                        res += currencySymbol + ' ' + stripTags(price);
                         res += '</span>';
                     }
 
