@@ -55,11 +55,11 @@ class SyncService
 
     /**
      * SyncService constructor.
-     * SyncService constructor.
      * @param Components\Logger $logger
      * @param Core\ContextService $context
      * @param ProductService $productService
      * @param AlgoliaService $algoliaService
+     * @param SyncHelperService $syncHelperService
      */
     public function __construct(Components\Logger $logger, Core\ContextService $context, ProductService $productService, AlgoliaService $algoliaService, SyncHelperService $syncHelperService)
     {
@@ -157,7 +157,7 @@ class SyncService
                 if (count($data) % $this->pluginConfig['sync-batch-size'] == 0 || $i == count($articles)):
 
                     // Push data to Algolia
-                    $this->algoliaService->push($shop, $data, $this->pluginConfig['index-prefix-name'] . '-' . $shop->getId());
+                    $this->algoliaService->push($shop, $data, $this->syncHelperService->buildIndexName($shop));
                     $data = [];
                 endif;
 
@@ -166,6 +166,8 @@ class SyncService
             endforeach;
 
         endforeach;
+
+        return true;
 
     }
 
@@ -188,13 +190,48 @@ class SyncService
     private function createIndices($shop)
     {
 
-        $replicas = [];
-
         // Create main index
         $indexName = $this->syncHelperService->buildIndexName($shop);
         $index = $this->algoliaService->initIndex($indexName);
 
-        // Get the replicas so that they are created together with the main index
+        // Create indices, replicas and define settings
+        $indexSettings = array(
+            'attributesToIndex' => explode(',',$this->pluginConfig['index-searchable-attributes']),
+            'customRanking' => explode(',', $this->pluginConfig['index-custom-ranking-attributes']),
+            'attributesForFaceting'  => explode(',', $this->pluginConfig['index-faceting-attributes']),
+            'replicas' => $this->getReplicaNames($indexName)
+        );
+        $settingsResponse = $this->algoliaService->pushIndexSettings($indexSettings, $index);
+
+        // Wait for the task to be completed (to make sure replica indices are ready)
+        $index->waitTask($settingsResponse['taskID']);
+
+        // Define replica settings
+        $replicaIndices = explode('|',$this->pluginConfig['index-replicas-custom-ranking-attributes']);
+        foreach($replicaIndices as $replicaIndex):
+
+            $replicaIndexSettings = explode(',',$replicaIndex);
+
+            // Build the key / name for the replica index
+            $nameElements = explode('(',$replicaIndexSettings[0]);
+            $replicaIndexName = $indexName .'_'. rtrim($nameElements[1],')') . '_' . $nameElements[0];
+
+            $this->algoliaService->pushIndexSettings(array('ranking' => $replicaIndexSettings), null, $replicaIndexName);
+
+        endforeach;
+
+    }
+
+    /**
+     * Gets an array of all replica indices that needs to be created for a main index
+     * @param $indexName
+     * @return array
+     */
+    private function getReplicaNames($indexName) {
+
+        $names = [];
+
+        // Get the replicas from config
         $replicaIndices = explode('|',$this->pluginConfig['index-replicas-custom-ranking-attributes']);
 
         foreach($replicaIndices as $replicaIndex):
@@ -203,37 +240,13 @@ class SyncService
 
             // Build the key / name for the replica index
             $nameElements = explode('(',$replicaIndexElements[0]);
-            $replicaIndexName = $indexName .'-'. rtrim($nameElements[1],')') . '-' . $nameElements[0];
+            $replicaIndexName = $indexName .'_'. rtrim($nameElements[1],')') . '_' . $nameElements[0];
 
-            $replicas[] = $replicaIndexName;
+            $names[] = $replicaIndexName;
 
         endforeach;
 
-        // Create indices, replicas and define settings
-        $indexSettings = array(
-            'attributesToIndex' => explode(',',$this->pluginConfig['index-searchable-attributes']),
-            'customRanking' => explode(',', $this->pluginConfig['index-custom-ranking-attributes']),
-            'attributesForFaceting'  => explode(',', $this->pluginConfig['index-faceting-attributes']),
-            'replicas' => $replicas
-        );
-        $settingsResponse = $this->algoliaService->pushIndexSettings($indexSettings, $index);
-
-        // Define the settings for the replica indices
-        // Wait for the task to be completed (to make sure replica indices are ready)
-        $index->waitTask($settingsResponse['taskID']);
-
-        // Init and create the index
-        foreach($replicaIndices as $replicaIndex):
-
-            $replicaIndexSettings = explode(',',$replicaIndex);
-
-            // Build the key / name for the replica index
-            $nameElements = explode('(',$replicaIndexSettings[0]);
-            $replicaIndexName = $indexName .'-'. rtrim($nameElements[1],')') . '-' . $nameElements[0];
-
-            $this->algoliaService->pushIndexSettings(array('ranking' => $replicaIndexSettings), null, $replicaIndexName);
-        endforeach;
-
+        return $names;
 
     }
 

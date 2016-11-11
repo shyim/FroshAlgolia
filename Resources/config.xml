@@ -53,7 +53,7 @@
         <element type="number" required="true">
             <name>sync-batch-size</name>
             <label>Sync batch size</label>
-            <value>30</value>
+            <value>1000</value>
         </element>
         <element type="number" required="true">
             <name>algolia-connection-timeout</name>

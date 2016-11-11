@@ -2,9 +2,7 @@
 
 namespace SwAlgolia\Services;
 
-use AlgoliaSearch\Client;
 use AlgoliaSearch\Index;
-use Behat\Mink\Exception\Exception;
 use Shopware\Models\Shop\Shop;
 use Shopware\Components;
 use AlgoliaSearch\Client as AlgoliaClient;
@@ -38,6 +36,36 @@ class AlgoliaService
 
         // Grab the plugin config
         $this->pluginConfig = Shopware()->Container()->get('shopware.plugin.cached_config_reader')->getByPluginName('SwAlgolia');
+
+    }
+
+    /**
+     * Short test method for this and that
+     */
+    public function test() {
+
+        // Init the API client
+        $client = new AlgoliaClient($this->pluginConfig['algolia-application-id'],$this->pluginConfig['algolia-admin-api-key']);
+        $client->setConnectTimeout($this->pluginConfig['algolia-connection-timeout']);
+
+        $index = $client->initIndex('test-master');
+        $response = $index->setSettings(array(
+            'replicas' => array('test-replica-1','test-replica-2')
+        ));
+
+        // Wait for the task to be completed (to make sure replica indices are ready)
+        $index->waitTask($response['taskID']);
+
+        // Configure the replica indices
+        $client->initIndex("test-replica-1")->setSettings(array(
+            "ranking" => array("asc(price)", "typo", "geo", "words", "proximity", "attribute", "exact", "custom")
+        ));
+
+        $client->initIndex("test-replica-1")->setSettings(array(
+            "ranking" => array("desc(price)", "typo", "geo", "words", "proximity", "attribute", "exact", "custom")
+        ));
+
+        $index->addObject(array('key' => 'value'));
 
     }
 
