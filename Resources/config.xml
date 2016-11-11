@@ -24,18 +24,24 @@
         </element>
         <element type="text" required="true">
             <name>index-searchable-attributes</name>
-            <label>Searchable Attributes (ordered by importance)</label>
+            <label>Searchable attributes (ordered by importance)</label>
             <value>number,name,manufacturerName,ean,description,categories</value>
         </element>
         <element type="text" required="true">
             <name>index-custom-ranking-attributes</name>
-            <label>Custom Ranking Attributes (ordered by importance)</label>
+            <label>Custom ranking attributes (ordered by importance)</label>
             <value>desc(sales),asc(price)</value>
+        </element>
+        <element type="text" required="true">
+            <name>index-replicas-custom-ranking-attributes</name>
+            <label>Custom ranking attributes for replica indices (ordered by importance)</label>
+            <!-- @TODO find a more elegant solution for naming the additional replica indices (multi-language) -->
+            <value>desc(sales),desc(price)|asc(price),desc(sales)|desc(price),desc(sales)</value>
         </element>
         <element type="text" required="true">
             <name>index-faceting-attributes</name>
             <label>Attributes for faceting</label>
-            <value></value>
+            <value>categories,manufacturerName,price,properties</value>
         </element>
         <element type="text" required="true">
             <name>blocked-article-attributes</name>

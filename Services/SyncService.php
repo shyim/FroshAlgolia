@@ -92,7 +92,7 @@ class SyncService
             $shop->registerResources();
 
             // Clear the Algolia index for this shop
-            $this->algoliaService->clearIndex($pluginConfig['index-prefix-name'] . '-' . $shop->getId());
+            $this->algoliaService->deleteIndex($pluginConfig['index-prefix-name'] . '-' . $shop->getId());
 
             // Get all articles
             $articles = Shopware()->Db()->fetchCol('SELECT ordernumber FROM s_articles_details WHERE kind = 1 and active = 1');
