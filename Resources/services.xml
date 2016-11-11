@@ -60,6 +60,12 @@
             <tag name="shopware.event_subscriber"/>
         </service>
 
+        <service id="sw_algolia.sync_helper_service"
+                 class="SwAlgolia\Services\SyncHelperService"
+                 public="true">
+            <argument type="service" id="sw_algolia.logger" />
+        </service>
+
         <service id="sw_algolia.sync_service"
                  class="SwAlgolia\Services\SyncService"
                  public="true">
@@ -67,6 +73,7 @@
             <argument type="service" id="shopware_storefront.context_service" />
             <argument type="service" id="shopware_storefront.product_service" />
             <argument type="service" id="sw_algolia.algolia_service" />
+            <argument type="service" id="sw_algolia.sync_helper_service" />
         </service>
 
         <service id="sw_algolia.algolia_service"

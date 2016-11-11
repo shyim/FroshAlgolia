@@ -19,6 +19,11 @@
             <label>Index prefix name</label>
             <value>swalgolia</value>
         </element>
+        <element type="number" required="false">
+            <name>limit-indexed-products-for-test</name>
+            <label>Limit number of indexed products for test purposes</label>
+            <value>50</value>
+        </element>
         <element type="text" required="true">
             <name>index-searchable-attributes</name>
             <label>Searchable attributes (ordered by importance)</label>

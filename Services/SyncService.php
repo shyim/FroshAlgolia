@@ -7,6 +7,7 @@ use Shopware\Bundle\StoreFrontBundle\Service\Core\ProductService;
 use Shopware\Bundle\StoreFrontBundle\Struct\Media;
 use Shopware\Bundle\StoreFrontBundle\Struct\Product;
 use Shopware\Components;
+use Shopware\Models\Article\Article;
 use Shopware\Models\Shop\Shop;
 use SwAlgolia\Structs\Article as ArticleStruct;
 use SwAlgolia\Structs\Struct;
@@ -38,6 +39,11 @@ class SyncService
     private $algoliaService = null;
 
     /**
+     * @var SyncHelperService
+     */
+    private $syncHelperService = null;
+
+    /**
      * @var EntityManager
      */
     private $em = null;
@@ -55,12 +61,14 @@ class SyncService
      * @param ProductService $productService
      * @param AlgoliaService $algoliaService
      */
-    public function __construct(Components\Logger $logger, Core\ContextService $context, ProductService $productService, AlgoliaService $algoliaService) {
+    public function __construct(Components\Logger $logger, Core\ContextService $context, ProductService $productService, AlgoliaService $algoliaService, SyncHelperService $syncHelperService)
+    {
 
         $this->logger = $logger;
         $this->context = $context;
         $this->productService = $productService;
         $this->algoliaService = $algoliaService;
+        $this->syncHelperService = $syncHelperService;
         $this->em = Shopware()->Container()->get('models');
 
         // Grab the plugin config
@@ -73,33 +81,37 @@ class SyncService
      * @return bool
      * @throws \Exception
      */
-    public function fullSync() {
-        
+    public function fullSync()
+    {
+
         // Get all shops
         if (!$shops = $this->getShops()):
             throw new \Exception('No active shop found.');
         endif;
 
         // Iterate over all shops
-        foreach($shops as $shop):
+        foreach ($shops as $shop):
 
             // Construct the context
             $shop->registerResources();
 
             // Clear the Algolia index for this shop
-            $this->algoliaService->deleteIndex($this->pluginConfig['index-prefix-name'] . '-' . $shop->getId());
+            $this->deleteIndex($shop);
+
+            // Create the Algolia index for this shop
+            $this->createIndices($shop);
 
             // Get all articles
-            $articles = Shopware()->Db()->fetchCol('SELECT ordernumber FROM s_articles_details WHERE kind = 1 and active = 1');
+            $articles = Shopware()->Db()->fetchCol('SELECT ordernumber FROM s_articles_details WHERE kind = 1 and active = 1 LIMIT 0,'.$this->pluginConfig['limit-indexed-products-for-test']);
 
             $router = Shopware()->Container()->get('router');
             $data = [];
 
-            $i=1;
+            $i = 1;
 
             // Iterate over all found articles
-            foreach($articles as $article):
-                
+            foreach ($articles as $article):
+
                 // Get product object
                 /** @var Product $product */
                 if (!$product = $this->productService->get($article, $this->context->getShopContext())) {
@@ -142,15 +154,13 @@ class SyncService
                 $data[] = $articleStruct->toArray();
 
                 // Push data to Algolia if sync-batch size is reached
-                if(count($data) % $this->pluginConfig['sync-batch-size'] == 0 || $i == count($articles)):
+                if (count($data) % $this->pluginConfig['sync-batch-size'] == 0 || $i == count($articles)):
 
                     // Push data to Algolia
                     $this->algoliaService->push($shop, $data, $this->pluginConfig['index-prefix-name'] . '-' . $shop->getId());
                     $data = [];
                 endif;
 
-                // @TODO remove test limitation
-                if($i>=50) break;
                 $i++;
 
             endforeach;
@@ -164,9 +174,80 @@ class SyncService
      * the changed data on the fly to Algolia.
      * @param Struct $product
      */
-    public function liveSync(Struct $product) {
+    public function liveSync(Struct $product)
+    {
 
         // @TODO TBD
+
+    }
+
+    /**
+     * Creates and inits all indices and replica indices for a given shop
+     * @param $shop
+     */
+    private function createIndices($shop)
+    {
+
+        $replicas = [];
+
+        // Create main index
+        $indexName = $this->syncHelperService->buildIndexName($shop);
+        $index = $this->algoliaService->initIndex($indexName);
+
+        // Get the replicas so that they are created together with the main index
+        $replicaIndices = explode('|',$this->pluginConfig['index-replicas-custom-ranking-attributes']);
+
+        foreach($replicaIndices as $replicaIndex):
+
+            $replicaIndexElements = explode(',',$replicaIndex);
+
+            // Build the key / name for the replica index
+            $nameElements = explode('(',$replicaIndexElements[0]);
+            $replicaIndexName = $indexName .'-'. rtrim($nameElements[1],')') . '-' . $nameElements[0];
+
+            $replicas[] = $replicaIndexName;
+
+        endforeach;
+
+        // Create indices, replicas and define settings
+        $indexSettings = array(
+            'attributesToIndex' => explode(',',$this->pluginConfig['index-searchable-attributes']),
+            'customRanking' => explode(',', $this->pluginConfig['index-custom-ranking-attributes']),
+            'attributesForFaceting'  => explode(',', $this->pluginConfig['index-faceting-attributes']),
+            'replicas' => $replicas
+        );
+        $settingsResponse = $this->algoliaService->pushIndexSettings($indexSettings, $index);
+
+        // Define the settings for the replica indices
+        // Wait for the task to be completed (to make sure replica indices are ready)
+        $index->waitTask($settingsResponse['taskID']);
+
+        // Init and create the index
+        foreach($replicaIndices as $replicaIndex):
+
+            $replicaIndexSettings = explode(',',$replicaIndex);
+
+            // Build the key / name for the replica index
+            $nameElements = explode('(',$replicaIndexSettings[0]);
+            $replicaIndexName = $indexName .'-'. rtrim($nameElements[1],')') . '-' . $nameElements[0];
+
+            $this->algoliaService->pushIndexSettings(array('ranking' => $replicaIndexSettings), null, $replicaIndexName);
+        endforeach;
+
+
+    }
+
+    /**
+     * Deletes all indices for a shop
+     * @param Shop $shop
+     * @return void
+     */
+    private function deleteIndex(Shop $shop) {
+
+        $indexName = $this->syncHelperService->buildIndexName($shop);
+
+        // Delete main index
+        $this->algoliaService->deleteIndex($indexName);
 
     }
 
@@ -175,7 +256,8 @@ class SyncService
      * @param Product $product
      * @return array
      */
-    private function getAttributes(Product $product) {
+    private function getAttributes(Product $product)
+    {
 
         $data = [];
 
@@ -185,15 +267,15 @@ class SyncService
 
         $attributes = $product->getAttributes()['core']->toArray();
 
-        $blockedAttributes = explode(',',$this->pluginConfig['blocked-article-attributes']);
+        $blockedAttributes = explode(',', $this->pluginConfig['blocked-article-attributes']);
 
-        foreach($attributes as $key => $value):
+        foreach ($attributes as $key => $value):
 
             // Skip this attribute if it´s on the list of blocked attributes
-            if (false != array_search($key,$blockedAttributes,true)) continue;
+            if (false != array_search($key, $blockedAttributes, true)) continue;
 
             // Skip this attribute if its value is null or ''
-            if(!$value || $value=='') continue;
+            if (!$value || $value == '') continue;
 
             // Map value to data array
             $data[$key] = $value;
@@ -209,7 +291,8 @@ class SyncService
      * @param Product $product
      * @return array
      */
-    private function getCategories(Product $product) {
+    private function getCategories(Product $product)
+    {
 
         $categories = $product->getCategories();
         $data = [];
@@ -232,7 +315,8 @@ class SyncService
      * @param Product $product
      * @return array
      */
-    private function getProperties(Product $product) {
+    private function getProperties(Product $product)
+    {
 
         $properties = [];
 
@@ -240,10 +324,10 @@ class SyncService
 
             $groups = $set->getGroups();
 
-            foreach($groups as $group):
+            foreach ($groups as $group):
                 $options = $group->getOptions();
 
-                foreach($options as $option):
+                foreach ($options as $option):
                     $properties[$group->getName()] = $option->getName();
                 endforeach;
 
@@ -259,10 +343,13 @@ class SyncService
     /**
      * @return array
      */
-    private function getShops() {
+    private function getShops()
+    {
 
         return $this->em->getRepository(Shop::class)->findBy(array('active' => true));
 
     }
+
+
 
 }
