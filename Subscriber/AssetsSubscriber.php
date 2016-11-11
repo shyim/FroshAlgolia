@@ -28,7 +28,7 @@ class AssetsSubscriber implements SubscriberInterface
 
     /**
      * AssetsSubscriber constructor.
-     * @param $viewDir
+     * @param string $viewDir
      */
     public function __construct($viewDir)
     {
@@ -36,7 +36,7 @@ class AssetsSubscriber implements SubscriberInterface
     }
 
     /**
-     * @return \Shopware\Components\Theme\LessDefinition
+     * @return LessDefinition
      *
      * This method delivers the .less file for the added HTML elements to the Shopware .less Compiler. So this
      * .less will be automatically get integrated in the main CSS as soon as the theme is compiled.

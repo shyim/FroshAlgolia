@@ -1,7 +1,6 @@
 <?php
 namespace SwAlgolia\Services;
 
-
 use Doctrine\ORM\EntityManager;
 use Shopware\Bundle\StoreFrontBundle\Service\Core;
 use Shopware\Bundle\StoreFrontBundle\Service\Core\ProductService;
@@ -18,34 +17,33 @@ use SwAlgolia\Structs\Struct;
  */
 class SyncService
 {
-
     /**
-     * @var null|Components\Logger
+     * @var Components\Logger
      */
     private $logger = null;
 
     /**
-     * @var null|ContextService
+     * @var Core\ContextService
      */
     private $context = null;
 
     /**
-     * @var null|ProductService
+     * @var ProductService
      */
     private $productService = null;
 
     /**
-     * @var null|AlgoliaService
+     * @var AlgoliaService
      */
     private $algoliaService = null;
 
     /**
-     * @var null|EntityManager
+     * @var EntityManager
      */
     private $em = null;
 
     /**
-     * @var null|array
+     * @var array
      */
     private $pluginConfig = null;
 
@@ -76,10 +74,7 @@ class SyncService
      * @throws \Exception
      */
     public function fullSync() {
-
-        // Grab the plugin config
-        $pluginConfig = Shopware()->Container()->get('shopware.plugin.cached_config_reader')->getByPluginName('SwAlgolia');
-
+        
         // Get all shops
         if (!$shops = $this->getShops()):
             throw new \Exception('No active shop found.');
@@ -92,7 +87,7 @@ class SyncService
             $shop->registerResources();
 
             // Clear the Algolia index for this shop
-            $this->algoliaService->deleteIndex($pluginConfig['index-prefix-name'] . '-' . $shop->getId());
+            $this->algoliaService->deleteIndex($this->pluginConfig['index-prefix-name'] . '-' . $shop->getId());
 
             // Get all articles
             $articles = Shopware()->Db()->fetchCol('SELECT ordernumber FROM s_articles_details WHERE kind = 1 and active = 1');
@@ -104,8 +99,7 @@ class SyncService
 
             // Iterate over all found articles
             foreach($articles as $article):
-
-
+                
                 // Get product object
                 /** @var Product $product */
                 if (!$product = $this->productService->get($article, $this->context->getShopContext())) {
@@ -142,17 +136,17 @@ class SyncService
                 $articleStruct->setEan($product->getEan());
                 $articleStruct->setImage($image);
                 $articleStruct->setCategories($this->getCategories($product)['categoryNames']);
-                $articleStruct->setCategoryIds($this->getCategories($product)['categoryIds']);
                 $articleStruct->setAttributes($this->getAttributes($product));
                 $articleStruct->setProperties($this->getProperties($product));
                 $articleStruct->setSales($product->getSales());
                 $data[] = $articleStruct->toArray();
 
                 // Push data to Algolia if sync-batch size is reached
-                if($i % $this->pluginConfig['sync-batch-size'] == 0 || $i == count($articles)):
+                if(count($data) % $this->pluginConfig['sync-batch-size'] == 0 || $i == count($articles)):
+
                     // Push data to Algolia
-                    $this->algoliaService->push($shop, $data, $pluginConfig['index-prefix-name'] . '-' . $shop->getId());
-                    $data = null;
+                    $this->algoliaService->push($shop, $data, $this->pluginConfig['index-prefix-name'] . '-' . $shop->getId());
+                    $data = [];
                 endif;
 
                 // @TODO remove test limitation
@@ -184,6 +178,11 @@ class SyncService
     private function getAttributes(Product $product) {
 
         $data = [];
+
+        if (!isset($product->getAttributes()['core'])) {
+            return [];
+        }
+
         $attributes = $product->getAttributes()['core']->toArray();
 
         $blockedAttributes = explode(',',$this->pluginConfig['blocked-article-attributes']);
@@ -222,7 +221,6 @@ class SyncService
 
         foreach ($categories as $category) {
             $data['categoryNames'][] = $category->getName();
-            $data['categoryIds'][] = $category->getId();
         }
 
         return $data;
@@ -263,7 +261,7 @@ class SyncService
      */
     private function getShops() {
 
-        return $this->em->getRepository('Shopware\Models\Shop\Shop')->findBy(array('active' => true));
+        return $this->em->getRepository(Shop::class)->findBy(array('active' => true));
 
     }
 

@@ -50,17 +50,13 @@
         Define the services
         ********************************* -->
         <service id="sw_algolia.subscriber.algolia_search_subscriber" class="SwAlgolia\Subscriber\AlgoliaSearchSubscriber">
+            <argument type="string">%sw_algolia.view_dir%</argument>
+            <argument type="service" id="service_container"/>
             <tag name="shopware.event_subscriber"/>
         </service>
 
         <service id="sw_algolia.subscriber.assets_subscriber" class="SwAlgolia\Subscriber\AssetsSubscriber">
             <argument type="string">%sw_algolia.view_dir%</argument>
-            <tag name="shopware.event_subscriber"/>
-        </service>
-
-        <service id="sw_algolia.subscriber.frontend_subscriber" class="SwAlgolia\Subscriber\FrontendSubscriber">
-            <argument type="string">%sw_algolia.view_dir%</argument>
-            <argument type="service" id="template"/>
             <tag name="shopware.event_subscriber"/>
         </service>
 
@@ -91,6 +87,7 @@
                 class="SwAlgolia\Commands\SyncCommand">
             <tag name="console.command"/>
             <argument type="service" id="sw_algolia.logger" />
+            <argument type="service" id="sw_algolia.sync_service" />
         </service>
         <!-- ****************************
         /Commands

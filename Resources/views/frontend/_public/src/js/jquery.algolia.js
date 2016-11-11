@@ -56,7 +56,7 @@ $.plugin('swAlgolia', {
             },
             searchParameters: {
                 facetsRefinements: {
-                    category: [me.opts.currentCategory]
+                    categories: [me.opts.currentCategory]
                 }
             }
         });
@@ -128,7 +128,7 @@ $.plugin('swAlgolia', {
         me.search.addWidget(
             instantsearch.widgets.refinementList({
                 container: '#brand',
-                attributeName: 'manufacturer_name',
+                attributeName: 'manufacturerName',
                 limit: 10,
                 sortBy: ['isRefined', 'count:desc', 'name:asc'],
                 operator: 'or',
@@ -141,7 +141,7 @@ $.plugin('swAlgolia', {
         me.search.addWidget(
             instantsearch.widgets.refinementList({
                 container: '#category',
-                attributeName: 'category',
+                attributeName: 'categories',
                 limit: 10,
                 sortBy: ['isRefined', 'count:desc', 'name:asc'],
                 operator: 'or',
