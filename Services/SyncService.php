@@ -106,52 +106,54 @@ class SyncService
 
             $router = Shopware()->Container()->get('router');
             $data = [];
-
-            $i = 1;
+            $i = 0;
 
             // Iterate over all found articles
             foreach ($articles as $article):
 
+                $i++;
+
                 // Get product object
                 /** @var Product $product */
-                if (!$product = $this->productService->get($article, $this->context->getShopContext())) {
-                    $this->logger->addAlert('Could not generate product struct for article {number} - {articleName} for export. Product not exported.', array('number' => $article));
-                    continue;
+                if ($product = $this->productService->get($article, $this->context->getShopContext())) {
+
+                    // Get the SEO URL
+                    $assembleParams = array(
+                        'module' => 'frontend',
+                        'sViewport' => 'detail',
+                        'sArticle' => $product->getId()
+                    );
+                    $link = $router->assemble($assembleParams);
+
+                    $media = $product->getMedia();
+                    $image = null;
+
+                    if (!empty($media)) {
+                        /** @var Media $mediaObject */
+                        $mediaObject = current($media);
+                        $image = $mediaObject->getThumbnail(0)->getSource();
+                    }
+
+                    $articleStruct = new ArticleStruct();
+                    $articleStruct->setObjectID($product->getNumber());
+                    $articleStruct->setName($product->getName());
+                    $articleStruct->setNumber($product->getNumber());
+                    $articleStruct->setManufacturerName($product->getManufacturer()->getName());
+                    $articleStruct->setCurrencySymbol($shop->getCurrency()->getSymbol());
+                    $articleStruct->setPrice(round($product->getCheapestPrice()->getCalculatedPrice(), 2));
+                    $articleStruct->setLink($link);
+                    $articleStruct->setDescription(strip_tags($product->getShortDescription()));
+                    $articleStruct->setEan($product->getEan());
+                    $articleStruct->setImage($image);
+                    $articleStruct->setCategories($this->getCategories($product)['categoryNames']);
+                    $articleStruct->setAttributes($this->getAttributes($product));
+                    $articleStruct->setProperties($this->getProperties($product));
+                    $articleStruct->setSales($product->getSales());
+                    $data[] = $articleStruct->toArray();
+
+                } else {
+                    $this->logger->addWarning('Could not generate product struct for article {number} - {articleName} for export. Product not exported.', array('number' => $article));
                 }
-
-                // Get the SEO URL
-                $assembleParams = array(
-                    'module' => 'frontend',
-                    'sViewport' => 'detail',
-                    'sArticle' => $product->getId()
-                );
-                $link = $router->assemble($assembleParams);
-
-                $media = $product->getMedia();
-                $image = null;
-
-                if (!empty($media)) {
-                    /** @var Media $mediaObject */
-                    $mediaObject = current($media);
-                    $image = $mediaObject->getThumbnail(0)->getSource();
-                }
-
-                $articleStruct = new ArticleStruct();
-                $articleStruct->setObjectID($product->getNumber());
-                $articleStruct->setName($product->getName());
-                $articleStruct->setNumber($product->getNumber());
-                $articleStruct->setManufacturerName($product->getManufacturer()->getName());
-                $articleStruct->setCurrencySymbol($shop->getCurrency()->getSymbol());
-                $articleStruct->setPrice(round($product->getCheapestPrice()->getCalculatedPrice(), 2));
-                $articleStruct->setLink($link);
-                $articleStruct->setDescription(strip_tags($product->getShortDescription()));
-                $articleStruct->setEan($product->getEan());
-                $articleStruct->setImage($image);
-                $articleStruct->setCategories($this->getCategories($product)['categoryNames']);
-                $articleStruct->setAttributes($this->getAttributes($product));
-                $articleStruct->setProperties($this->getProperties($product));
-                $articleStruct->setSales($product->getSales());
-                $data[] = $articleStruct->toArray();
 
                 // Push data to Algolia if sync-batch size is reached
                 if (count($data) % $this->pluginConfig['sync-batch-size'] == 0 || $i == count($articles)):
@@ -159,9 +161,8 @@ class SyncService
                     // Push data to Algolia
                     $this->algoliaService->push($shop, $data, $this->syncHelperService->buildIndexName($shop));
                     $data = [];
-                endif;
 
-                $i++;
+                endif;
 
             endforeach;
 

@@ -41,7 +41,7 @@ class SyncCommand extends ShopwareCommand
     protected function configure()
     {
         $this
-            ->setName('algoliasync')
+            ->setName('swalgoliasync')
             ->setDescription('Used to perform operations on the Algolia index.')
             ->addArgument(
                 'operation',
