@@ -52,7 +52,11 @@ class AlgoliaSearchSubscriber implements SubscriberInterface
     public function initAlgoliaSearch(Enlight_Event_EventArgs $args)
     {
         $pluginConfig = $this->container->get('shopware.plugin.cached_config_reader')->getByPluginName('SwAlgolia');
+        $syncHelperService = $this->container->get('sw_algolia.sync_helper_service');
+
+        // Get the shop instance
         $shopId = $this->container->get('router')->getContext()->getShopId();
+        $shop = Shopware()->Container()->get('models')->getRepository('Shopware\Models\Shop\Shop')->getActiveById($shopId);
 
         /** @var Enlight_Controller_Action $controller */
         $controller = $args->get('subject');
@@ -61,7 +65,7 @@ class AlgoliaSearchSubscriber implements SubscriberInterface
         $view->addTemplateDir($this->viewDir);
         $view->assign('algoliaApplicationId', $pluginConfig['algolia-application-id']);
         $view->assign('algoliaSearchOnlyApiKey', $pluginConfig['algolia-search-only-api-key']);
-        $view->assign('indexName', $pluginConfig['index-prefix-name'].'-'.$shopId);
+        $view->assign('indexName', $syncHelperService->buildIndexName($shop));
         $view->assign('showAlgoliaLogo',$pluginConfig['show-algolia-logo']);
     }
 }
