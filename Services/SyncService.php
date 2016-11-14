@@ -102,6 +102,7 @@ class SyncService
             $this->createIndices($shop);
 
             // Limit articles if required
+            $limit = '';
             if($this->pluginConfig['limit-indexed-products-for-test'] > 0):
                 $limit = ' LIMIT 0,'.$this->pluginConfig['limit-indexed-products-for-test'];
             endif;
