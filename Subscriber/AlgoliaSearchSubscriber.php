@@ -2,9 +2,11 @@
 
 namespace SwAlgolia\Subscriber;
 
+use Doctrine\ORM\EntityManager;
 use Enlight\Event\SubscriberInterface;
 use Enlight_Controller_Action;
 use Enlight_Event_EventArgs;
+use Shopware\Models\Property\Option;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class AlgoliaSearchSubscriber implements SubscriberInterface
@@ -62,10 +64,15 @@ class AlgoliaSearchSubscriber implements SubscriberInterface
         $controller = $args->get('subject');
         $view = $controller->View();
 
+        /** @var $em EntityManager */
+        $em = $this->container->get('models');
+        $filterOptions = $em->getRepository(Option::class)->findAll();
+
         $view->addTemplateDir($this->viewDir);
         $view->assign('algoliaApplicationId', $pluginConfig['algolia-application-id']);
         $view->assign('algoliaSearchOnlyApiKey', $pluginConfig['algolia-search-only-api-key']);
         $view->assign('indexName', $syncHelperService->buildIndexName($shop));
         $view->assign('showAlgoliaLogo',$pluginConfig['show-algolia-logo']);
+        $view->assign('filterOptions',$filterOptions);
     }
 }

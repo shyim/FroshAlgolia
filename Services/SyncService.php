@@ -194,12 +194,13 @@ class SyncService
         // Create main index
         $indexName = $this->syncHelperService->buildIndexName($shop);
         $index = $this->algoliaService->initIndex($indexName);
+        $attributesForFaceting = explode(',', $this->pluginConfig['index-faceting-attributes']);
 
-        // Create indices, replicas and define settings
+        // Create indices, replica indices and define settings
         $indexSettings = array(
             'attributesToIndex' => explode(',',$this->pluginConfig['index-searchable-attributes']),
             'customRanking' => explode(',', $this->pluginConfig['index-custom-ranking-attributes']),
-            'attributesForFaceting'  => explode(',', $this->pluginConfig['index-faceting-attributes']),
+            'attributesForFaceting'  => $attributesForFaceting,
             'replicas' => $this->getReplicaNames($indexName)
         );
         $settingsResponse = $this->algoliaService->pushIndexSettings($indexSettings, $index);
@@ -217,7 +218,10 @@ class SyncService
             $nameElements = explode('(',$replicaIndexSettings[0]);
             $replicaIndexName = $indexName .'_'. rtrim($nameElements[1],')') . '_' . $nameElements[0];
 
-            $this->algoliaService->pushIndexSettings(array('ranking' => $replicaIndexSettings), null, $replicaIndexName);
+            $this->algoliaService->pushIndexSettings(array(
+                'ranking' => $replicaIndexSettings,
+                'attributesForFaceting'  => $attributesForFaceting
+            ), null, $replicaIndexName);
 
         endforeach;
 

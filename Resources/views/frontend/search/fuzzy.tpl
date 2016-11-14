@@ -32,14 +32,18 @@
 
 {* Main content *}
 {block name='frontend_index_content'}
-
     <div class="ai-container">
 
         <main>
             <div id="left-column">
-                <div id="category" class="facet"></div>
+                {foreach from=$filterOptions item=filterOption}
+                    {if $filterOption->isFilterable()}
+                        <div id="filterOption-{$filterOption->getId()}" class="facet"></div>
+                    {/if}
+                {/foreach}
                 <div id="manufacturerName" class="facet"></div>
                 <div id="price" class="facet"></div>
+                <div id="category" class="facet"></div>
             </div>
 
             <div id="right-column">
@@ -132,6 +136,28 @@
                     })
             );
 
+            // Show refinement widgets by properties
+            {/literal}
+            {foreach from=$filterOptions item=filterOption}
+                {if $filterOption->isFilterable()}
+                    {literal}
+                        search.addWidget(
+                                instantsearch.widgets.refinementList({
+                                    container: '#filterOption-{/literal}{$filterOption->getId()}{literal}',
+                                    attributeName: 'properties.{/literal}{$filterOption->getName()}{literal}',
+                                    limit: 10,
+                                    sortBy: ['isRefined', 'count:desc', 'name:asc'],
+                                    operator: 'or',
+                                    templates: {
+                                        header: '<h5>{/literal}{$filterOption->getName()}{literal}</h5>'
+                                    }
+                                })
+                        );
+                    {/literal}
+                {/if}
+            {/foreach}
+            {literal}
+
             search.addWidget(
                     instantsearch.widgets.refinementList({
                         container: '#category',
@@ -156,6 +182,7 @@
                         }
                     })
             );
+
             search.addWidget(
                     instantsearch.widgets.rangeSlider({
                         container: '#price',
@@ -165,18 +192,8 @@
                         }
                     })
             );
-//            search.addWidget(
-//                    instantsearch.widgets.menu({
-//                        container: '#type',
-//                        attributeName: 'type',
-//                        limit: 10,
-//                        sortBy: ['isRefined', 'count:desc', 'name:asc'],
-//                        templates: {
-//                            header: '<h5>Type</h5>'
-//                        }
-//                    })
-//            );
 
+            // Start instantsearch
             search.start();
 
         </script>
