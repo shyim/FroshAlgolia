@@ -101,8 +101,13 @@ class SyncService
             // Create the Algolia index for this shop
             $this->createIndices($shop);
 
+            // Limit articles if required
+            if($this->pluginConfig['limit-indexed-products-for-test'] > 0):
+                $limit = ' LIMIT 0,'.$this->pluginConfig['limit-indexed-products-for-test'];
+            endif;
+
             // Get all articles
-            $articles = Shopware()->Db()->fetchCol('SELECT ordernumber FROM s_articles_details WHERE kind = 1 and active = 1 LIMIT 0,'.$this->pluginConfig['limit-indexed-products-for-test']);
+            $articles = Shopware()->Db()->fetchCol('SELECT ordernumber FROM s_articles_details WHERE kind = 1 and active = 1'.$limit);
 
             $router = Shopware()->Container()->get('router');
             $data = [];

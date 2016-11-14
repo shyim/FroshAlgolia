@@ -56,19 +56,29 @@
         </main>
     </div>
 
+    {*
+    The Hogan.js themes for displaying the hits
+    --------------------
+    To avoid conflicts with the SW postfilter please replace the default HTML attributes as follows:
+    - href -> link
+    - src -> source
+    *}
     {literal}
         <script type="text/html" id="hit-template">
-            <div class="hit">
-                <div class="hit-image">
-                    <img src="{{image}}" alt="{{name}}">
+            <a link="{{{link}}}">
+                <div class="hit">
+                    <div class="hit-image">
+                        <img source="{{image}}" alt="{{name}}">
+                    </div>
+                    <div class="hit-content">
+                        <h3 class="hit-price">{{{currencySymbol}}} {{price}}</h3>
+                        <h2 class="hit-name">{{{_highlightResult.name.value}}}</h2>
+                        <p class="hit-description">{{{_highlightResult.description.value}}}</p>
+                    </div>
                 </div>
-                <div class="hit-content">
-                    <h3 class="hit-price">{{currencySymbol}} {{price}}</h3>
-                    <h2 class="hit-name"><a href="{{link}}">{{{_highlightResult.name.value}}}</a></h2>
-                    <p class="hit-description">{{{_highlightResult.description.value}}}</p>
-                </div>
-            </div>
+            </a>
         </script>
+
         <script type="text/html" id="no-results-template">
             <div id="no-results-message">
                 <p>We didn't find any results for the search <em>"{{query}}"</em>.</p>
@@ -79,12 +89,33 @@
     {literal}
         <script language="JavaScript">
 
+            /**
+             * Small helper method to grab the Hogan template
+             * @param templateName
+             * @returns {string}
+             */
             function getTemplate(templateName) {
-                return document.getElementById(templateName + '-template').innerHTML;
+
+                var templateContent = document.getElementById(templateName + '-template').innerHTML;
+
+                /**
+                * Due to the fact, that the SW PostFilter automatically adds the hostname to different DOM element attributes
+                 * (like href, src) it´s necessary to work with fake attributes and replace them on client side with the correct
+                 * HTML attribute.
+                */
+                templateContent  = templateContent.replace('link','href');
+                templateContent  = templateContent.replace('source','src');
+
+                console.log(templateContent);
+
+                return templateContent;
             }
 
+            /**
+             * Initialize instantsearch. urlsync is used to adopt the browser url bar to the actual search conditions
+             * which allows the user to copy-paste the url for an exact search definition.
+             */
             var search = instantsearch({
-                // Replace with your own values
                 appId: '{/literal}{$algoliaApplicationId}{literal}',
                 apiKey: '{/literal}{$algoliaSearchOnlyApiKey}{literal}', // search only API key, no ADMIN key
                 indexName: '{/literal}{$indexName}{literal}',

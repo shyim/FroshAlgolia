@@ -21,8 +21,8 @@
         </element>
         <element type="number" required="false">
             <name>limit-indexed-products-for-test</name>
-            <label>Limit number of indexed products for test purposes</label>
-            <value>50</value>
+            <label>Limit number of indexed products for test purposes (0 = no limitation)</label>
+            <value></value>
         </element>
         <element type="text" required="true">
             <name>index-searchable-attributes</name>
