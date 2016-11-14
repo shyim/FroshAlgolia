@@ -34,6 +34,6 @@ By default *all article attributes* (default and plugin-added) are pushed to Alg
 transmitted by adding their names in the plugin configuration under *Blocked article attributes*. Add all attribute names here and 
 delimit them with a colon.
 
-Article properties
+Article properties and instant search faceting
 =====
-All article properties are published to Algolia index.
+All article properties are published to Algolia index by default. If an option is marked as *filterable* it will be automatically added to the filter-sidebar on the instant search page. If you don´t want that a filter is shown there, simply remove the *filterable flag* from the option and recompile your theme.
