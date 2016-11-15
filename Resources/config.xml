@@ -37,8 +37,14 @@
         <element type="text" required="true">
             <name>index-replicas-custom-ranking-attributes</name>
             <label>Custom ranking attributes for replica indices (ordered by importance)</label>
-            <!-- @TODO find a more elegant solution for naming the additional replica indices (multi-language) -->
+            <!-- @TODO find a more elegant (BE) solution for naming the additional replica indices (multi-language) -->
             <value>desc(sales),desc(price)|asc(price),desc(sales)|desc(price),desc(sales)</value>
+        </element>
+        <element type="text" required="true">
+            <name>facet-filter-widget-config</name>
+            <label>Configuration for the facet filter widgets on the instant search page</label>
+            <!-- @TODO find a more elegant (BE) solution for customizing the facet filter widgets -->
+            <value>{"categories":{"widgetType":"refinementList","match":"or"},"manufacturerName":{"widgetType":"refinementList","match":"or"},"price":{"widgetType":"rangeSlider"},"properties.Flaschengröße":{"widgetType":"rangeSlider"},"properties.Farbe":{"widgetType":"refinementList","match":"or"},"properties.Alkoholgehalt":{"widgetType":"numericRefinementList"},"properties.Geschmack":{"widgetType":"refinementList","match":"or"},"properties.Trinktemperatur":{"widgetType":"refinementList","match":"or"}}</value>
         </element>
         <element type="text" required="true">
             <name>index-faceting-attributes</name>

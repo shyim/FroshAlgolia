@@ -73,6 +73,7 @@ class AlgoliaSearchSubscriber implements SubscriberInterface
         $view->assign('algoliaSearchOnlyApiKey', $pluginConfig['algolia-search-only-api-key']);
         $view->assign('indexName', $syncHelperService->buildIndexName($shop));
         $view->assign('showAlgoliaLogo',$pluginConfig['show-algolia-logo']);
+        $view->assign('facetFilterWidgetConfig',json_decode($pluginConfig['facet-filter-widget-config']));
         $view->assign('filterOptions',$filterOptions);
     }
 }

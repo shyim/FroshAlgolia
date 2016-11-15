@@ -5,7 +5,6 @@
 {block name='frontend_index_start'}{/block}
 
 {* Shop navigation *}
-{*block name='frontend_index_shop_navigation'}yyy{/block*}
 {block name='frontend_index_search'}
     <li class="navigation--entry entry--search" role="menuitem" data-search="true" aria-haspopup="true"{if $theme.focusSearch && {controllerName|lower} == 'index'} data-activeOnStart="true"{/if}>
         <a class="btn entry--link entry--trigger" href="#show-hide--search" title="{"{s namespace='frontend/index/search' name="IndexTitleSearchToggle"}{/s}"|escape}">
@@ -33,9 +32,9 @@
 {* Main content *}
 {block name='frontend_index_content'}
     <div class="ai-container">
-
         <main>
             <div id="left-column">
+                <div id="currentRefinedValues"></div>
                 {foreach from=$filterOptions item=filterOption}
                     {if $filterOption->isFilterable()}
                         <div id="filterOption-{$filterOption->getId()}" class="facet"></div>
@@ -47,7 +46,6 @@
             </div>
 
             <div id="right-column">
-                <div id="search-input2"></div>
                 <div id="sort-by-wrapper"><span id="sort-by"></span></div>
                 <div id="stats"></div>
                 <div id="hits"></div>
@@ -81,10 +79,17 @@
 
         <script type="text/html" id="no-results-template">
             <div id="no-results-message">
-                <p>We didn't find any results for the search <em>"{{query}}"</em>.</p>
-                <a href="." class="clear-all">Clear search</a>
+                <p>{/literal}{s name="noResultFound" namespace="bundle/translation"}{/s}{literal}</p>
+                <a href="." class="clear-all">{/literal}{s name="clearSearch" namespace="bundle/translation"}{/s}{literal}</a>
             </div>
         </script>
+
+        <script type="text/html" id="meta-stats-template">
+            <div id="meta-stats">
+                {/literal}{s name="metaStatsResults" namespace="bundle/translation"}{/s}{literal}
+            </div>
+        </script>
+
     {/literal}
     {literal}
         <script language="JavaScript">
@@ -126,14 +131,14 @@
             search.addWidget(
                     instantsearch.widgets.searchBox({
                         container: '#search-input',
-                        placeholder: 'Search for products'
+                        placeholder: '{/literal}{s name="indexSearchFieldPlaceholder" namespace="frontend/index/search"}{/s}{literal}'
                     })
             );
 
             search.addWidget(
                     instantsearch.widgets.hits({
                         container: '#hits',
-                        hitsPerPage: 10,
+                        hitsPerPage: 50,
                         templates: {
                             item: getTemplate('hit'),
                             empty: getTemplate('no-results')
@@ -143,7 +148,10 @@
 
             search.addWidget(
                     instantsearch.widgets.stats({
-                        container: '#stats'
+                        container: '#stats',
+                        templates: {
+                            body: getTemplate('meta-stats'),
+                        }
                     })
             );
 
@@ -152,11 +160,11 @@
                         container: '#sort-by',
                         autoHideContainer: true,
                         indices: [{
-                            name: search.indexName, label: 'Most relevant'
+                            name: search.indexName, label: '{/literal}{s name="orderMostRelevant" namespace="bundle/translation"}{/s}{literal}'
                         }, {
-                            name: search.indexName + '_price_asc', label: 'Lowest price'
+                            name: search.indexName + '_price_asc', label: '{/literal}{s name="orderLowestPrice" namespace="bundle/translation"}{/s}{literal}'
                         }, {
-                            name: search.indexName + '_price_desc', label: 'Highest price'
+                            name: search.indexName + '_price_desc', label: '{/literal}{s name="orderHighestPrice" namespace="bundle/translation"}{/s}{literal}'
                         }]
                     })
             );
@@ -164,6 +172,18 @@
             search.addWidget(
                     instantsearch.widgets.pagination({
                         container: '#pagination'
+                    })
+            );
+
+
+            // Current refined values
+            search.addWidget(
+                    instantsearch.widgets.currentRefinedValues({
+                        container: '#currentRefinedValues',
+                        clearAll: 'after',
+                        templates: {
+                            header: '<h5>{/literal}{s name="activeFilters" namespace="bundle/translation"}{/s}{literal}</h5>'
+                        }
                     })
             );
 
@@ -189,18 +209,24 @@
             {/foreach}
             {literal}
 
+            // Categories refinement widget
             search.addWidget(
-                    instantsearch.widgets.refinementList({
+
+                    instantsearch.widgets.{/literal}{$facetFilterWidgetConfig->categories->widgetType}{literal} ({
                         container: '#category',
                         attributeName: 'categories',
                         limit: 10,
                         sortBy: ['isRefined', 'count:desc', 'name:asc'],
-                        operator: 'or',
+                        {/literal}{if ($facetFilterWidgetConfig->categories->widgetType == 'refinementList' && $facetFilterWidgetConfig->categories->match)}{literal}
+                        operator: '{/literal}{$facetFilterWidgetConfig->categories->match}{literal}',
+                        {/literal}{/if}{literal}
                         templates: {
-                            header: '<h5>Category</h5>'
+                            header: '<h5>{/literal}{s name="filterCategory" namespace="bundle/translation"}{/s}{literal}</h5>'
                         }
                     })
             );
+
+            // Manufacturer refinement widget
             search.addWidget(
                     instantsearch.widgets.menu({
                         container: '#manufacturerName',
@@ -209,17 +235,18 @@
                         sortBy: ['isRefined', 'count:desc', 'name:asc'],
                         operator: 'or',
                         templates: {
-                            header: '<h5>Manufacturer</h5>'
+                            header: '<h5>{/literal}{s name="filterManufacturer" namespace="bundle/translation"}{/s}{literal}</h5>'
                         }
                     })
             );
 
+            // Price range slider
             search.addWidget(
                     instantsearch.widgets.rangeSlider({
                         container: '#price',
                         attributeName: 'price',
                         templates: {
-                            header: '<h5>Price</h5>'
+                            header: '<h5>{/literal}{s name="filterPrice" namespace="bundle/translation"}{/s}{literal}</h5>'
                         }
                     })
             );
