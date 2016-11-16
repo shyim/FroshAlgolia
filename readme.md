@@ -6,7 +6,8 @@ Algolia Search allows full-text searches over tons of records within microsecond
 
 See it in action
 -----
-Blazing fast auto-Suggestion as you type:
+Blazing fast as-you-type auto-suggestion with keyboard navigation:
+
 ![SwAlgolia auto suggestion](https://github.com/synonymous1984/SwAlgolia/blob/master/Documentation/images/screencast_autosuggest.gif "SwAlgolia auto-suggest as-you-type")
 
 
