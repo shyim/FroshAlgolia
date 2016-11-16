@@ -1,6 +1,6 @@
-Algolia for Shopware
+SwAlgolia - Algolia plugin for Shopware
 =====
-This plugin integrates the high-performance search cluster [Algolia](https://www.algolia.com/) in your Shopware system.
+This plugin integrates the high-performance search cluster [Algolia](https://www.algolia.com/) in your [Shopware](https://www.shopware.de) system.
 
 Algolia Search allows full-text searches over tons of records within microseconds. This ensures a great UX for your customers and high click-through rates on your search results.
 
@@ -9,12 +9,6 @@ See it in action
 Blazing fast as-you-type auto-suggestion with keyboard navigation:
 
 ![SwAlgolia auto suggestion](https://github.com/synonymous1984/SwAlgolia/blob/master/Documentation/images/screencast_autosuggest.gif "SwAlgolia auto-suggest as-you-type")
-
-
-Algolia credentials for development
------
-* **Application ID**: 47WGJ9ERN3
-* **Search-Only API Key**: ea33799ba0afd8de30e5c73163a72c70
 
 Requirements
 -----
