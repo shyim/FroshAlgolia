@@ -15,12 +15,12 @@
 {block name="frontend_listing_listing_content"}
     <div class="algolia--container"
          data-algolia="true"
+         data-hitTemplateFile="hitTemplateFile"
          data-appId="{$algoliaApplicationId}"
          data-apiKey="{$algoliaSearchOnlyApiKey}"
          data-indexName="{$indexName}"
          data-noImage="{link file='frontend/_public/src/img/no-picture.jpg'}"
-         data-currentCategory="{$sCategoryContent.name}"
-    >
+         data-currentCategory="{$sCategoryContent.name}">
         <div id="search-input"></div>
         <div id="sort-by-wrapper"><span id="sort-by"></span></div>
         <div id="stats"></div>

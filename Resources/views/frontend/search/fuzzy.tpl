@@ -31,7 +31,20 @@
 
 {* Main content *}
 {block name='frontend_index_content'}
-    <div class="ai-container">
+
+    {* Include hogan.js template files *}
+    {include file='frontend/instant_search/serp/hit.tpl'}
+    {include file='frontend/instant_search/serp/no-result.tpl'}
+    {include file='frontend/instant_search/serp/meta-stats.tpl'}
+
+    {* Defining the structure of instant search container *}
+    <div class="algolia--container"
+         data-algolia="true"
+         data-appId="{$algoliaApplicationId}"
+         data-apiKey="{$algoliaSearchOnlyApiKey}"
+         data-indexName="{$indexName}"
+         data-noImage="{link file='frontend/_public/src/img/no-picture.jpg'}"
+         data-currentCategory="{$sCategoryContent.name}">
         <main>
             <div id="left-column">
                 <div id="currentRefinedValues"></div>
@@ -46,215 +59,19 @@
             </div>
 
             <div id="right-column">
-                <div id="sort-by-wrapper"><span id="sort-by"></span></div>
-                <div id="stats"></div>
-                <div id="hits"></div>
-                <div id="pagination"></div>
+                <div class="listing--wrapper">
+                    <div class="listing--container">
+                        <div class="algolia--container">
+                            <div id="sort-by-wrapper"><span id="sort-by"></span></div>
+                            <div id="stats"></div>
+                            <div id="hits" class="block-group"></div>
+                            <div id="pagination"></div>
+                            <div id="hits-per-page"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </main>
     </div>
-
-    {*
-    The Hogan.js themes for displaying the hits
-    --------------------
-    To avoid conflicts with the SW postfilter please replace the default HTML attributes as follows:
-    - href -> link
-    - src -> source
-    *}
-    {literal}
-        <script type="text/html" id="hit-template">
-            <a link="{{{link}}}">
-                <div class="hit">
-                    <div class="hit-image">
-                        <img source="{{image}}" alt="{{name}}">
-                    </div>
-                    <div class="hit-content">
-                        <h3 class="hit-price">{{{currencySymbol}}} {{price}}</h3>
-                        <h2 class="hit-name">{{{_highlightResult.name.value}}}</h2>
-                        <p class="hit-description">{{{_highlightResult.description.value}}}</p>
-                    </div>
-                </div>
-            </a>
-        </script>
-
-        <script type="text/html" id="no-results-template">
-            <div id="no-results-message">
-                <p>{/literal}{s name="noResultFound" namespace="bundle/translation"}{/s}{literal}</p>
-                <a href="." class="clear-all">{/literal}{s name="clearSearch" namespace="bundle/translation"}{/s}{literal}</a>
-            </div>
-        </script>
-
-        <script type="text/html" id="meta-stats-template">
-            <div id="meta-stats">
-                {/literal}{s name="metaStatsResults" namespace="bundle/translation"}{/s}{literal}
-            </div>
-        </script>
-
-    {/literal}
-    {literal}
-        <script language="JavaScript">
-
-            /**
-             * Small helper method to grab the Hogan template
-             * @param templateName
-             * @returns {string}
-             */
-            function getTemplate(templateName) {
-
-                var templateContent = document.getElementById(templateName + '-template').innerHTML;
-
-                /**
-                * Due to the fact, that the SW PostFilter automatically adds the hostname to different DOM element attributes
-                 * (like href, src) it´s necessary to work with fake attributes and replace them on client side with the correct
-                 * HTML attribute.
-                */
-                templateContent  = templateContent.replace('link','href');
-                templateContent  = templateContent.replace('source','src');
-
-                console.log(templateContent);
-
-                return templateContent;
-            }
-
-            /**
-             * Initialize instantsearch. urlsync is used to adopt the browser url bar to the actual search conditions
-             * which allows the user to copy-paste the url for an exact search definition.
-             */
-            var search = instantsearch({
-                appId: '{/literal}{$algoliaApplicationId}{literal}',
-                apiKey: '{/literal}{$algoliaSearchOnlyApiKey}{literal}', // search only API key, no ADMIN key
-                indexName: '{/literal}{$indexName}{literal}',
-                urlSync: true
-            });
-
-            // Add searchbox widget
-            search.addWidget(
-                    instantsearch.widgets.searchBox({
-                        container: '#search-input',
-                        placeholder: '{/literal}{s name="indexSearchFieldPlaceholder" namespace="frontend/index/search"}{/s}{literal}'
-                    })
-            );
-
-            search.addWidget(
-                    instantsearch.widgets.hits({
-                        container: '#hits',
-                        hitsPerPage: 50,
-                        templates: {
-                            item: getTemplate('hit'),
-                            empty: getTemplate('no-results')
-                        }
-                    })
-            );
-
-            search.addWidget(
-                    instantsearch.widgets.stats({
-                        container: '#stats',
-                        templates: {
-                            body: getTemplate('meta-stats'),
-                        }
-                    })
-            );
-
-            search.addWidget(
-                    instantsearch.widgets.sortBySelector({
-                        container: '#sort-by',
-                        autoHideContainer: true,
-                        indices: [{
-                            name: search.indexName, label: '{/literal}{s name="orderMostRelevant" namespace="bundle/translation"}{/s}{literal}'
-                        }, {
-                            name: search.indexName + '_price_asc', label: '{/literal}{s name="orderLowestPrice" namespace="bundle/translation"}{/s}{literal}'
-                        }, {
-                            name: search.indexName + '_price_desc', label: '{/literal}{s name="orderHighestPrice" namespace="bundle/translation"}{/s}{literal}'
-                        }]
-                    })
-            );
-
-            search.addWidget(
-                    instantsearch.widgets.pagination({
-                        container: '#pagination'
-                    })
-            );
-
-
-            // Current refined values
-            search.addWidget(
-                    instantsearch.widgets.currentRefinedValues({
-                        container: '#currentRefinedValues',
-                        clearAll: 'after',
-                        templates: {
-                            header: '<h5>{/literal}{s name="activeFilters" namespace="bundle/translation"}{/s}{literal}</h5>'
-                        }
-                    })
-            );
-
-            // Show refinement widgets by properties
-            {/literal}
-            {foreach from=$filterOptions item=filterOption}
-                {if $filterOption->isFilterable()}
-                    {literal}
-                        search.addWidget(
-                                instantsearch.widgets.refinementList({
-                                    container: '#filterOption-{/literal}{$filterOption->getId()}{literal}',
-                                    attributeName: 'properties.{/literal}{$filterOption->getName()}{literal}',
-                                    limit: 10,
-                                    sortBy: ['isRefined', 'count:desc', 'name:asc'],
-                                    operator: 'or',
-                                    templates: {
-                                        header: '<h5>{/literal}{$filterOption->getName()}{literal}</h5>'
-                                    }
-                                })
-                        );
-                    {/literal}
-                {/if}
-            {/foreach}
-            {literal}
-
-            // Categories refinement widget
-            search.addWidget(
-
-                    instantsearch.widgets.{/literal}{$facetFilterWidgetConfig->categories->widgetType}{literal} ({
-                        container: '#category',
-                        attributeName: 'categories',
-                        limit: 10,
-                        sortBy: ['isRefined', 'count:desc', 'name:asc'],
-                        {/literal}{if ($facetFilterWidgetConfig->categories->widgetType == 'refinementList' && $facetFilterWidgetConfig->categories->match)}{literal}
-                        operator: '{/literal}{$facetFilterWidgetConfig->categories->match}{literal}',
-                        {/literal}{/if}{literal}
-                        templates: {
-                            header: '<h5>{/literal}{s name="filterCategory" namespace="bundle/translation"}{/s}{literal}</h5>'
-                        }
-                    })
-            );
-
-            // Manufacturer refinement widget
-            search.addWidget(
-                    instantsearch.widgets.menu({
-                        container: '#manufacturerName',
-                        attributeName: 'manufacturerName',
-                        limit: 10,
-                        sortBy: ['isRefined', 'count:desc', 'name:asc'],
-                        operator: 'or',
-                        templates: {
-                            header: '<h5>{/literal}{s name="filterManufacturer" namespace="bundle/translation"}{/s}{literal}</h5>'
-                        }
-                    })
-            );
-
-            // Price range slider
-            search.addWidget(
-                    instantsearch.widgets.rangeSlider({
-                        container: '#price',
-                        attributeName: 'price',
-                        templates: {
-                            header: '<h5>{/literal}{s name="filterPrice" namespace="bundle/translation"}{/s}{literal}</h5>'
-                        }
-                    })
-            );
-
-            // Start instantsearch
-            search.start();
-
-        </script>
-    {/literal}
 
 {/block}
