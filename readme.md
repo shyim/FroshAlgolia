@@ -4,6 +4,12 @@ This plugin integrates the high-performance search cluster [Algolia](https://www
 
 Algolia Search allows full-text searches over tons of records within microseconds. This ensures a great UX for your customers and high click-through rates on your search results.
 
+See it in action
+-----
+Blazing fast auto-Suggestion as you type:
+![SwAlgolia auto suggestion](https://github.com/synonymous1984/SwAlgolia/blob/master/Documentation/images/screencast_autosuggest.gif "SwAlgolia auto-suggest as-you-type")
+
+
 Algolia credentials for development
 -----
 * **Application ID**: 47WGJ9ERN3
@@ -37,3 +43,9 @@ delimit them with a colon.
 Article properties and instant search faceting
 =====
 All article properties are published to Algolia index by default. If an option is marked as *filterable* it will be automatically added to the filter-sidebar on the instant search page. If you don´t want that a filter is shown there, simply remove the *filterable flag* from the option and recompile your theme.
+
+Glossary
+=====
+* **SERP** is the synonym for "search engine result page" and in this plugin context SERP means the full search page that a user can access by entering a search-term in the main search box and presses enter.
+* **List** means a list of products.
+* **Auto-Suggest** means the ability to suggest matching results below the search field as soon as the user starts typing.
