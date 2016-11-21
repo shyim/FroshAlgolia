@@ -6,8 +6,10 @@
 
 {* Shop navigation *}
 {block name='frontend_index_search'}
-    <li class="navigation--entry entry--search" role="menuitem" data-search="true" aria-haspopup="true"{if $theme.focusSearch && {controllerName|lower} == 'index'} data-activeOnStart="true"{/if}>
-        <a class="btn entry--link entry--trigger" href="#show-hide--search" title="{"{s namespace='frontend/index/search' name="IndexTitleSearchToggle"}{/s}"|escape}">
+    <li class="navigation--entry entry--search" role="menuitem" data-search="true"
+        aria-haspopup="true"{if $theme.focusSearch && {controllerName|lower} == 'index'} data-activeOnStart="true"{/if}>
+        <a class="btn entry--link entry--trigger" href="#show-hide--search"
+           title="{"{s namespace='frontend/index/search' name="IndexTitleSearchToggle"}{/s}"|escape}">
             <i class="icon--search"></i>
 
             {block name='frontend_index_search_display'}
@@ -26,6 +28,48 @@
             </svg>
         {/block}
     </li>
+{/block}
+
+{* Left column with facets *}
+{block name='frontend_index_left_inner'}
+
+    <div class="sidebar--categories-wrapper">
+        <div class="shop-sites--container is--rounded">
+
+            <!-- Price facet -->
+            <div id="price" class="facet"></div>
+
+            <!-- Numeric refinement list facet -->
+            <div id="numericRefinementList" class="facet"></div>
+
+            <!-- Toggle -->
+            <div id="toggle" class="facet"></div>
+
+            <!-- Price ranges -->
+            <div id="priceRanges" class="facet"></div>
+
+            <!-- Numeric selector -->
+            <div id="numericSelector" class="facet"></div>
+
+            <!-- Start rating -->
+            <div id="starRating" class="facet"></div>
+
+            <!-- Manufacturer facet -->
+            <div id="manufacturerName" class="facet"></div>
+
+            <!-- Category facet -->
+            <div id="category" class="facet"></div>
+
+        </div>
+
+    </div>
+
+        <div id="currentRefinedValues"></div>
+        {foreach from=$filterOptions item=filterOption}
+            {if $filterOption->isFilterable()}
+                <div id="filterOption-{$filterOption->getId()}" class="facet"></div>
+            {/if}
+        {/foreach}
 
 {/block}
 
@@ -35,43 +79,88 @@
     {* Include hogan.js template files *}
     {include file='frontend/instant_search/serp/hit.tpl'}
     {include file='frontend/instant_search/serp/no-result.tpl'}
-    {include file='frontend/instant_search/serp/meta-stats.tpl'}
+    {include file='frontend/instant_search/serp/stat.tpl'}
 
     {* Defining the structure of instant search container *}
-    <div class="algolia--container"
-         data-algolia="true"
+    <div data-algolia="true"
          data-appId="{$algoliaApplicationId}"
          data-apiKey="{$algoliaSearchOnlyApiKey}"
          data-indexName="{$indexName}"
          data-noImage="{link file='frontend/_public/src/img/no-picture.jpg'}"
-         data-currentCategory="{$sCategoryContent.name}">
-        <main>
-            <div id="left-column">
-                <div id="currentRefinedValues"></div>
-                {foreach from=$filterOptions item=filterOption}
-                    {if $filterOption->isFilterable()}
-                        <div id="filterOption-{$filterOption->getId()}" class="facet"></div>
-                    {/if}
-                {/foreach}
-                <div id="manufacturerName" class="facet"></div>
-                <div id="price" class="facet"></div>
-                <div id="category" class="facet"></div>
-            </div>
+         data-currentCategory="{$sCategoryContent.name}"
+         data-sortOrderIndex="{$sortOrderIndex}">
 
-            <div id="right-column">
+        <div class="content--wrapper">
+            <div class="content listing--content">
                 <div class="listing--wrapper">
-                    <div class="listing--container">
-                        <div class="algolia--container">
-                            <div id="sort-by-wrapper"><span id="sort-by"></span></div>
+                    <div class="listing--actions is--rounded">
+                        <div class="action--filter-btn">
                             <div id="stats"></div>
-                            <div id="hits" class="block-group"></div>
-                            <div id="pagination"></div>
-                            <div id="hits-per-page"></div>
                         </div>
+                        <div id="sort-by-wrapper"><span id="sort-by"></span></div>
+                    </div>
+                    <div class="listing--container">
+                        <div id="hits" class="block-group"></div>
+                        <div id="pagination"></div>
+                        <div id="hits-per-page"></div>
                     </div>
                 </div>
             </div>
-        </main>
+        </div>
     </div>
 
+    {* Defining the structure of instant search container *}
+    {*<div class="algolia--container"*}
+         {*data-algolia="true"*}
+         {*data-appId="{$algoliaApplicationId}"*}
+         {*data-apiKey="{$algoliaSearchOnlyApiKey}"*}
+         {*data-indexName="{$indexName}"*}
+         {*data-noImage="{link file='frontend/_public/src/img/no-picture.jpg'}"*}
+         {*data-currentCategory="{$sCategoryContent.name}"*}
+         {*data-sortOrderIndex="{$sortOrderIndex}">*}
+        {*<main>*}
+            {*<div id="left-column">*}
+                {*<div id="currentRefinedValues"></div>*}
+                {*{foreach from=$filterOptions item=filterOption}*}
+                    {*{if $filterOption->isFilterable()}*}
+                        {*<div id="filterOption-{$filterOption->getId()}" class="facet"></div>*}
+                    {*{/if}*}
+                {*{/foreach}*}
+                {*<div id="manufacturerName" class="facet"></div>*}
+                {*<div id="price" class="facet"></div>*}
+                {*<div id="category" class="facet"></div>*}
+            {*</div>*}
+
+            {*<div id="right-column">*}
+                {*<div class="listing--wrapper">*}
+                    {*<div class="listing--actions is--rounded">*}
+                        {*<div class="action--filter-btn">*}
+                            {*Show meta stats here*}
+                        {*</div>*}
+                        {*<form class="action--sort action--content block" method="get" data-action-form="true">*}
+                            {*<input type="hidden" name="p" value="1">*}
+                            {*<label class="sort--label action--label">Sortierung:</label>*}
+                            {*<div class="js--fancy-select sort--select"><select name="o" class="sort--field action--field" data-auto-submit="true" data-class="sort--select">*}
+                                    {*<option value="1" selected="selected">Erscheinungsdatum</option>*}
+                                    {*<option value="2">Beliebtheit</option>*}
+                                    {*<option value="3">Niedrigster Preis</option>*}
+                                    {*<option value="4">Höchster Preis</option>*}
+                                    {*<option value="5">Artikelbezeichnung</option>*}
+                                {*</select><div class="js--fancy-select-text">Erscheinungsdatum</div><div class="js--fancy-select-trigger"><i class="icon--arrow-down"></i></div></div>*}
+                        {*</form>*}
+
+                    {*</div>*}
+                    {*<div class="listing--container">*}
+                        {*<div class="algolia--container">*}
+                            {*<div id="sort-by-wrapper"><span id="sort-by"></span></div>*}
+                            {*<div id="stats"></div>*}
+                            {*<div id="hits" class="block-group"></div>*}
+                            {*<div id="pagination"></div>*}
+                            {*<div id="hits-per-page"></div>*}
+                        {*</div>*}
+                    {*</div>*}
+                {*</div>*}
+            {*</div>*}
+        {*</main>*}
+    {*</div>*}
 {/block}

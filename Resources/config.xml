@@ -22,7 +22,7 @@
         <element type="number" required="false">
             <name>limit-indexed-products-for-test</name>
             <label>Limit number of indexed products for test purposes (0 = no limitation)</label>
-            <value></value>
+            <value>0</value>
         </element>
         <element type="text" required="true">
             <name>index-searchable-attributes</name>
@@ -31,14 +31,14 @@
         </element>
         <element type="text" required="true">
             <name>index-custom-ranking-attributes</name>
-            <label>Custom ranking attributes (ordered by importance)</label>
+            <label>Custom ranking attributes for main index (ordered by importance)</label>
             <value>desc(sales),asc(price)</value>
         </element>
         <element type="text" required="true">
             <name>index-replicas-custom-ranking-attributes</name>
-            <label>Custom ranking attributes for replica indices (ordered by importance)</label>
+            <label>Custom ranking attributes for replica / slave indices (ordered by importance)</label>
             <!-- @TODO find a more elegant (BE) solution for naming the additional replica indices (multi-language) -->
-            <value>desc(sales),desc(price)|asc(price),desc(sales)|desc(price),desc(sales)</value>
+            <value>desc(sales),asc(price)|asc(price),desc(sales)|desc(price),desc(sales)</value>
         </element>
         <element type="text" required="true">
             <name>facet-filter-widget-config</name>

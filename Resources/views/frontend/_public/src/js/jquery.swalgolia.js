@@ -11,9 +11,11 @@ $.plugin('swAlgolia', {
         showAlgoliaLogo: false,
         noImage: '',
         currentCategory: '',
+        sortOrderIndex: false,
         searchPlaceholder: 'Suchbegriff...',
         hitTemplate: 'hit-template',
         noResultTemplate: 'no-result-template',
+        statTemplate: 'stat-template',
         hitsContainerSelector: '#hits',
         statsContainerSelector: '#stats',
         paginationContainerSelector: '#pagination',
@@ -66,20 +68,17 @@ $.plugin('swAlgolia', {
     initSearch: function () {
 
         var me = this;
-        console.log(me.opts);
 
         return instantsearch({
             appId: me.opts.appId,
             apiKey: me.opts.apiKey,
             indexName: me.opts.indexName,
-            urlSync: {
-                useHash: true
-            },
-            searchParameters: {
-                facetsRefinements: {
-                    categories: [me.opts.currentCategory]
-                }
-            }
+            urlSync: true
+            // searchParameters: {
+            //     facetsRefinements: {
+            //         categories: [me.opts.currentCategory]
+            //     }
+            // }
         });
     },
 
@@ -104,7 +103,10 @@ $.plugin('swAlgolia', {
         // Meta stats widget
         me.search.addWidget(
             instantsearch.widgets.stats({
-                container: me.opts.statsContainerSelector
+                container: me.opts.statsContainerSelector,
+                templates: {
+                    body: me.getTemplate(me.opts.statTemplate)
+                }
             })
         );
 
@@ -119,6 +121,7 @@ $.plugin('swAlgolia', {
         me.search.addWidget(
             instantsearch.widgets.searchBox({
                 container: me.opts.searchInputContainerSelector,
+                autofocus: true,
                 placeholder: me.opts.searchPlaceholder,
                 poweredBy: me.opts.showAlgoliaLogo
             })
@@ -134,20 +137,14 @@ $.plugin('swAlgolia', {
                     {value: 24, label: '24 per page'}
                 ]
             })
-        )
+        );
 
         // Sort select field
         me.search.addWidget(
             instantsearch.widgets.sortBySelector({
                 container: me.opts.sortByContainerSelector,
                 autoHideContainer: true,
-                indices: [{
-                    name: me.search.indexName, label: '{/literal}{s name="orderMostRelevant" namespace="bundle/translation"}{/s}{literal}'
-                }, {
-                    name: me.search.indexName + '_price_asc', label: '{/literal}{s name="orderLowestPrice" namespace="bundle/translation"}{/s}{literal}'
-                }, {
-                    name: me.search.indexName + '_price_desc', label: '{/literal}{s name="orderHighestPrice" namespace="bundle/translation"}{/s}{literal}'
-                }]
+                indices: me.opts.sortOrderIndex
             })
         );
     },
@@ -163,7 +160,69 @@ $.plugin('swAlgolia', {
                 container: '#price',
                 attributeName: 'price',
                 templates: {
-                    header: '<h5>Preis</h5>'
+                    header: '<div class="shop-sites--headline navigation--headline">Preis</div>',
+                    item: ''
+                }
+            })
+        );
+
+        me.search.addWidget(
+            instantsearch.widgets.numericRefinementList({
+                container: '#numericRefinementList',
+                attributeName: 'price',
+                options: [
+                    {name: '0 - 10', start: 0, end: 10},
+                    {name: '11 - 20', start: 11, end: 20},
+                    {name: 'more then 20', start: 21}
+                ],
+                templates: {
+                    header: '<div class="shop-sites--headline navigation--headline">numericRefinementList</div>'
+                }
+            })
+        );
+
+        me.search.addWidget(
+            instantsearch.widgets.numericSelector({
+                container: '#numericSelector',
+                attributeName: 'price',
+                options: [
+                    {label: 'Exact 10', value: 10},
+                    {label: 'Exact 20', value: 20}
+                ],
+                templates: {
+                    header: '<div class="shop-sites--headline navigation--headline">numericSelector</div>'
+                }
+            })
+        );
+
+        me.search.addWidget(
+            instantsearch.widgets.starRating({
+                container: '#starRating',
+                attributeName: 'votes.pointCount.points',
+                max: 5,
+                templates: {
+                    header: '<div class="shop-sites--headline navigation--headline">startating</div>'
+                }
+            })
+        );
+
+        me.search.addWidget(
+            instantsearch.widgets.priceRanges({
+                container: '#priceRanges',
+                attributeName: 'price',
+                templates: {
+                    header: '<div class="shop-sites--headline navigation--headline">priceRanges</div>'
+                }
+            })
+        );
+
+        me.search.addWidget(
+            instantsearch.widgets.toggle({
+                container: '#toggle',
+                attributeName: 'foo',
+                label: 'Foo Toggle',
+                templates: {
+                    header: '<div class="shop-sites--headline navigation--headline">toggle</div>'
                 }
             })
         );
@@ -176,7 +235,7 @@ $.plugin('swAlgolia', {
                 sortBy: ['isRefined', 'count:desc', 'name:asc'],
                 operator: 'or',
                 templates: {
-                    header: '<h5>Hersteller</h5>'
+                    header: '<div class="shop-sites--headline navigation--headline">Hersteller</div>'
                 }
             })
         );
@@ -189,7 +248,7 @@ $.plugin('swAlgolia', {
                 sortBy: ['isRefined', 'count:desc', 'name:asc'],
                 operator: 'or',
                 templates: {
-                    header: '<h5>Kategorie</h5>'
+                    header: '<div class="shop-sites--headline navigation--headline">Kategorie</div>'
                 }
             })
         );

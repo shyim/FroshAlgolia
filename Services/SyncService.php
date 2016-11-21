@@ -7,7 +7,6 @@ use Shopware\Bundle\StoreFrontBundle\Service\Core\ProductService;
 use Shopware\Bundle\StoreFrontBundle\Struct\Media;
 use Shopware\Bundle\StoreFrontBundle\Struct\Product;
 use Shopware\Components;
-use Shopware\Models\Article\Article;
 use Shopware\Models\Shop\Shop;
 use SwAlgolia\Structs\Article as ArticleStruct;
 use SwAlgolia\Structs\Struct;
@@ -155,6 +154,7 @@ class SyncService
                     $articleStruct->setAttributes($this->getAttributes($product));
                     $articleStruct->setProperties($this->getProperties($product));
                     $articleStruct->setSales($product->getSales());
+                    $articleStruct->setVotes($product->getVoteAverage());
                     $data[] = $articleStruct->toArray();
 
                 } else {

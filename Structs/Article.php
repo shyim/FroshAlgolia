@@ -81,6 +81,11 @@ class Article extends Struct implements StructInterface
     private $sales = 0;
 
     /**
+     * @var null| \Shopware\Bundle\StoreFrontBundle\Struct\Product\VoteAverage
+     */
+    private $votes = null;
+
+    /**
      * @return int|null
      */
     public function getObjectID()
@@ -303,4 +308,23 @@ class Article extends Struct implements StructInterface
     {
         $this->sales = $sales;
     }
+
+    /**
+     * @return float|null
+     */
+    public function getVotes()
+    {
+        return $this->votes;
+    }
+
+    /**
+     * @param float|null $votes
+     */
+    public function setVotes($votes)
+    {
+        $this->votes = $votes;
+    }
+
+
+
 }

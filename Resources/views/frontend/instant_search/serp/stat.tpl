@@ -1,6 +1,6 @@
 {literal}
-<script type="text/html" id="meta-stats-template">
-    <div id="meta-stats">
+<script type="text/html" id="stat-template">
+    <div class="stats">
         {/literal}{s name="metaStatsResults" namespace="bundle/translation"}{/s}{literal}
     </div>
 </script>
