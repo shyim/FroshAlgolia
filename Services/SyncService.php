@@ -88,6 +88,7 @@ class SyncService
         endif;
 
         // Iterate over all shops
+        /** @var Shop $shop */
         foreach ($shops as $shop):
 
             // Construct the context
@@ -106,7 +107,9 @@ class SyncService
             endif;
 
             // Get all articles
-            $articles = Shopware()->Db()->fetchCol('SELECT ordernumber FROM s_articles_details WHERE kind = 1 and active = 1'.$limit);
+            $articles = Shopware()->Db()->fetchCol('SELECT ordernumber FROM s_articles_details INNER JOIN s_articles_categories_ro ON(s_articles_categories_ro.articleID = s_articles_details.articleID AND s_articles_categories_ro.categoryID = ?) WHERE kind = 1 and active = 1'.$limit, [
+                $shop->getCategory()->getId()
+            ]);
 
             $router = Shopware()->Container()->get('router');
             $data = [];
