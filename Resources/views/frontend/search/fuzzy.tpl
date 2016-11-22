@@ -36,6 +36,12 @@
     <div class="sidebar--categories-wrapper">
         <div class="shop-sites--container is--rounded">
 
+            <!-- Current refined values -->
+            <div id="currentRefinedValues" class="facet"></div>
+
+            <!-- Clear all widget -->
+            <div id="clearAll" class="facet"></div>
+
             <!-- Price facet -->
             <div id="price" class="facet"></div>
 
@@ -64,12 +70,12 @@
 
     </div>
 
-        <div id="currentRefinedValues"></div>
-        {foreach from=$filterOptions item=filterOption}
-            {if $filterOption->isFilterable()}
-                <div id="filterOption-{$filterOption->getId()}" class="facet"></div>
-            {/if}
-        {/foreach}
+
+        {*{foreach from=$filterOptions item=filterOption}*}
+            {*{if $filterOption->isFilterable()}*}
+                {*<div id="filterOption-{$filterOption->getId()}" class="facet"></div>*}
+            {*{/if}*}
+        {*{/foreach}*}
 
 {/block}
 
@@ -82,7 +88,7 @@
     {include file='frontend/instant_search/serp/stat.tpl'}
 
     {* Defining the structure of instant search container *}
-    <div data-algolia="true"
+    <div class="content listing--content" data-algolia="true"
          data-appId="{$algoliaApplicationId}"
          data-apiKey="{$algoliaSearchOnlyApiKey}"
          data-indexName="{$indexName}"
@@ -90,23 +96,29 @@
          data-currentCategory="{$sCategoryContent.name}"
          data-sortOrderIndex="{$sortOrderIndex}">
 
-        <div class="content--wrapper">
-            <div class="content listing--content">
-                <div class="listing--wrapper">
-                    <div class="listing--actions is--rounded">
-                        <div class="action--filter-btn">
-                            <div id="stats"></div>
-                        </div>
-                        <div id="sort-by-wrapper"><span id="sort-by"></span></div>
-                    </div>
-                    <div class="listing--container">
-                        <div id="hits" class="block-group"></div>
-                        <div id="pagination"></div>
-                        <div id="hits-per-page"></div>
-                    </div>
+        <div class="listing--wrapper">
+            <div class="listing--actions is--rounded">
+                <div class="action--filter-btn">
+                    <div id="stats"></div>
+                </div>
+                <div class="action--sort action--content block">
+                    <label class="sort--label action--label">Sortierung:</label>
+                    <div id="sort-by"></div>
+                </div>
+            </div>
+            <div class="listing--container">
+                <div class="listing">
+                    <div id="hits" class="block-group"></div>
+                </div>
+            </div>
+            <div class="listing--bottom-paging">
+                <div class="listing--paging panel--paging">
+                    <div id="pagination"></div>
+                    <div id="hits-per-page"></div>
                 </div>
             </div>
         </div>
+
     </div>
 
     {* Defining the structure of instant search container *}

@@ -86,16 +86,29 @@ $.plugin('swAlgolia', {
      * Add the default instant search widgets like hits or pagination
      */
     addDefaultWidgets: function () {
+
         var me = this;
 
         // Hits widget
         me.search.addWidget(
             instantsearch.widgets.hits({
                 container: me.opts.hitsContainerSelector,
-                hitsPerPage: 10,
+                hitsPerPage: 20,
                 templates: {
                     item: me.getTemplate(me.opts.hitTemplate),
                     empty: me.getTemplate(me.opts.noResultTemplate)
+                },
+                transformData: {
+                    item: function (hit) {
+                        console.log(hit);
+                        hit.stars = [];
+                        if (hit.voteAvgPoints > 0) {
+                            for (i = 0; i < hit.voteAvgPoints; i++) {
+                                hit.stars[i] = hit.voteAvgPoints;
+                            }
+                        }
+                        return hit;
+                    }
                 }
             })
         );
@@ -132,9 +145,9 @@ $.plugin('swAlgolia', {
             instantsearch.widgets.hitsPerPageSelector({
                 container: me.opts.hitsPerPageContainerSelector,
                 options: [
-                    {value: 6, label: '6 per page'},
-                    {value: 12, label: '12 per page'},
-                    {value: 24, label: '24 per page'}
+                    {value: 20, label: '20 per page'},
+                    {value: 50, label: '50 per page'},
+                    {value: 100, label: '100 per page'}
                 ]
             })
         );
@@ -144,9 +157,42 @@ $.plugin('swAlgolia', {
             instantsearch.widgets.sortBySelector({
                 container: me.opts.sortByContainerSelector,
                 autoHideContainer: true,
-                indices: me.opts.sortOrderIndex
+                indices: me.opts.sortOrderIndex,
+                options: [{
+                    cssClasses: [{
+                        root: 'sort--field action--field" data-auto-submit="true" data-class="sort--select"',
+                        item: ''
+                    }]
+                }]
             })
         );
+
+
+        // Sort select field
+        // var customSortBySelector = {
+        //     init: function(options) {
+        //         console.log(options);
+        //         var helper = opts.helper;
+        //         document.querySelector('#sort-by').addEventListener('change', function(e) {
+        //             console.log('change event');
+        //         })
+        //     }
+        // };
+        //
+        // me.search.addWidget(
+        //     instantsearch.widgets.customSortBySelector({
+        //         container: me.opts.sortByContainerSelector,
+        //         autoHideContainer: true,
+        //         indices: me.opts.sortOrderIndex,
+        //         options: [{
+        //             cssClasses: [{
+        //                 root: 'sort--field action--field" data-auto-submit="true" data-class="sort--select"',
+        //                 item: ''
+        //             }]
+        //         }]
+        //     })
+        // );
+
     },
 
     /**
@@ -154,6 +200,21 @@ $.plugin('swAlgolia', {
      */
     addFacets: function () {
         var me = this;
+
+        me.search.addWidget(
+            instantsearch.widgets.currentRefinedValues({
+                container: '#currentRefinedValues',
+                options: [{
+                    clearAll: false
+                }],
+            })
+        );
+
+        me.search.addWidget(
+            instantsearch.widgets.clearAll({
+                container: '#clearAll'
+            })
+        );
 
         me.search.addWidget(
             instantsearch.widgets.rangeSlider({
@@ -181,25 +242,24 @@ $.plugin('swAlgolia', {
             })
         );
 
-        me.search.addWidget(
-            instantsearch.widgets.numericSelector({
-                container: '#numericSelector',
-                attributeName: 'price',
-                options: [
-                    {label: 'Exact 10', value: 10},
-                    {label: 'Exact 20', value: 20}
-                ],
-                templates: {
-                    header: '<div class="shop-sites--headline navigation--headline">numericSelector</div>'
-                }
-            })
-        );
+        // me.search.addWidget(
+        //     instantsearch.widgets.numericSelector({
+        //         container: '#numericSelector',
+        //         attributeName: 'price',
+        //         options: [
+        //             {label: 'Exact 10', value: 10},
+        //             {label: 'Exact 20', value: 20}
+        //         ],
+        //         templates: {
+        //             header: '<div class="shop-sites--headline navigation--headline">numericSelector</div>'
+        //         }
+        //     })
+        // );
 
         me.search.addWidget(
             instantsearch.widgets.starRating({
                 container: '#starRating',
-                attributeName: 'votes.pointCount.points',
-                max: 5,
+                attributeName: 'voteAvgPoints',
                 templates: {
                     header: '<div class="shop-sites--headline navigation--headline">startating</div>'
                 }

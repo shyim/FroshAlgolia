@@ -86,6 +86,11 @@ class Article extends Struct implements StructInterface
     private $votes = null;
 
     /**
+     * @var int|null
+     */
+    private $voteAvgPoints;
+
+    /**
      * @return int|null
      */
     public function getObjectID()
@@ -324,6 +329,23 @@ class Article extends Struct implements StructInterface
     {
         $this->votes = $votes;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getVoteAvgPoints()
+    {
+        return $this->voteAvgPoints;
+    }
+
+    /**
+     * @param int $voteAvgPoints
+     */
+    public function setVoteAvgPoints($voteAvgPoints)
+    {
+        $this->voteAvgPoints = $voteAvgPoints;
+    }
+
 
 
 

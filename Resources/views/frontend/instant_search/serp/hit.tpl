@@ -10,6 +10,17 @@
                     </span>
                 </span>
             </a>
+
+            <!-- Customer rating for the product -->
+            <div class="product--rating-container">
+                <span class="product--rating">
+                    {{# stars}}
+                        <i class="icon--star"></i>
+                    {{/stars}}
+                </span>
+            </div>
+
+            <!-- Product text -->
             <div class="product--info">
                 <a link="{{link}}" class="product--title"
                    title="{{{_highlightResult.name.value}}}">{{{_highlightResult.name.value}}}</a>

@@ -130,6 +130,8 @@ class SyncService
                     );
                     $link = $router->assemble($assembleParams);
 
+
+                    // Get the media
                     $media = $product->getMedia();
                     $image = null;
 
@@ -139,6 +141,12 @@ class SyncService
                         $image = $mediaObject->getThumbnail(0)->getSource();
                     }
 
+                    // Get the votes
+                    $voteAvgPoints = 0;
+                    $votes = $product->getVoteAverage();
+                    if($votes) $voteAvgPoints = intval($votes->getPointCount()[0]['points']);
+
+                    // Buid the article struct
                     $articleStruct = new ArticleStruct();
                     $articleStruct->setObjectID($product->getNumber());
                     $articleStruct->setName($product->getName());
@@ -154,11 +162,12 @@ class SyncService
                     $articleStruct->setAttributes($this->getAttributes($product));
                     $articleStruct->setProperties($this->getProperties($product));
                     $articleStruct->setSales($product->getSales());
-                    $articleStruct->setVotes($product->getVoteAverage());
+                    $articleStruct->setVotes($votes);
+                    $articleStruct->setVoteAvgPoints($voteAvgPoints);
                     $data[] = $articleStruct->toArray();
 
                 } else {
-                    $this->logger->addWarning('Could not generate product struct for article {number} - {articleName} for export. Product not exported.', array('number' => $article));
+                    $this->logger->addWarning('Could not generate product struct for article {number} for export. Product not exported.', array('number' => $article));
                 }
 
                 // Push data to Algolia if sync-batch size is reached

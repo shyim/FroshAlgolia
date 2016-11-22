@@ -39,7 +39,7 @@
 }
 
 // Show the main sidebar on SERP
-@media screen and (min-width: 48em) {
+@media screen and (min-width: @tabletViewportWidth) {
   .is--ctl-search .sidebar-main {
     display: block;
     .shop-sites--container {
@@ -47,6 +47,14 @@
     }
   }
 }
+
+// Two column layout on SERP
+@media screen and (min-width: @tabletViewportWidth) {
+  .is--ctl-search .sidebar-main + .content--wrapper {
+    .unitize-margin(0,0,0,260);
+  }
+}
+
 
 /**********************/
 /* Facet widget styles
@@ -56,11 +64,29 @@
   .unitize-margin(0,0,30,0);
 }
 
+// stats
+.ais-stats {
+  .ais-stats--body {
+    .unitize-margin(7,0,0,10);
+    .ais-stats--time {
+      .unitize(font-size,11);
+      color: lighten(@text-color,20%);
+    }
+  }
+}
+
+@media screen and (min-width: @desktopViewportWidth) {
+  .action--filter-btn {
+    width: 40%;
+    margin-bottom: 0;
+  }
+}
+
 // refinementlist & numericRefinementlist
 .ais-refinement-list--list {
   .unitize-margin(20,10,10,10);
   .ais-refinement-list--item {
-    .unitize-padding(4,0,4,0);
+    .unitize-padding(2,0,2,0);
     &:first-child {
       padding-top: 0;
     }
@@ -108,6 +134,15 @@
     }
   }
 
+}
+
+// Price ranges
+.ais-price-ranges {
+  .unitize-margin(0,0,50,0);
+
+  .ais-price-ranges--input {
+    width: auto;
+  }
 }
 
 
