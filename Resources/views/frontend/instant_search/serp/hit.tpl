@@ -32,6 +32,29 @@
                         <span class="price--default is--nowrap">{{#helpers.price}}{{price}}{{/helpers.price}}</span>
                     </div>
                 </div>
+                <div class="product--actions" data-compare-products="true">{/literal}
+                    {if {config name="compareShow"}}
+                    <form action="{url controller='compare' action='add_article'}?articleID={literal}{{articleId}}{/literal}" method="post">
+                        <button type="submit"
+                                title="{s namespace='frontend/listing/box_article' name='ListingBoxLinkCompare'}{/s}"
+                                class="product--action action--compare"
+                                data-product-compare-add="true">
+                            <i class="icon--compare"></i> {s namespace='frontend/listing/box_article' name='ListingBoxLinkCompare'}{/s}
+                        </button>
+                    </form>
+                    {/if}
+
+                    <form action="{url controller='note' action='add'}?ordernumber={literal}{{number}}{/literal}" method="post">
+                        <button type="submit"
+                                title="{"{s name='DetailLinkNotepad' namespace='frontend/detail/actions'}{/s}"|escape}"
+                        class="product--action action--note"
+                        data-ajaxUrl="{url controller='note' action='ajaxAdd'}?ordernumber={literal}{{number}}{/literal}"
+                        data-text="{s name="DetailNotepadMarked"}{/s}">
+                        <i class="icon--heart"></i> <span class="action--text">{s name="DetailLinkNotepadShort" namespace="frontend/detail/actions"}{/s}</span>
+                        </button>
+                    </form>
+                    {literal}
+                </div>
             </div>
         </div>
     </div>

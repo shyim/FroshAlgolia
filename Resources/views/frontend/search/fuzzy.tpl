@@ -94,7 +94,9 @@
          data-indexName="{$indexName}"
          data-noImage="{link file='frontend/_public/src/img/no-picture.jpg'}"
          data-currentCategory="{$sCategoryContent.name}"
-         data-sortOrderIndex="{$sortOrderIndex}">
+         data-sortOrderIndex="{$sortOrderIndex}"
+         data-compare-ajax="true"
+         data-ajax-wishlist="true">
 
         <div class="listing--wrapper">
             <div class="listing--actions is--rounded">

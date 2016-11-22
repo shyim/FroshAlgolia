@@ -20,6 +20,12 @@ class Article extends Struct implements StructInterface
     public $name = null;
 
     /**
+     * @var integer
+     * @Assert\NotBlank()
+     */
+    public $articleId = null;
+
+    /**
      * @var null|string
      * @Assert\NotBlank()
      */
@@ -120,6 +126,22 @@ class Article extends Struct implements StructInterface
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getArticleId()
+    {
+        return $this->articleId;
+    }
+
+    /**
+     * @param integer $articleId
+     */
+    public function setArticleId($articleId)
+    {
+        $this->articleId = $articleId;
     }
 
     /**

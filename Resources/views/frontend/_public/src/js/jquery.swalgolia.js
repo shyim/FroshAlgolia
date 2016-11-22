@@ -53,6 +53,12 @@ $.plugin('swAlgolia', {
 
         me.search.on('render', function() {
             window.StateManager.updatePlugin('select:not([data-no-fancy-select="true"])', 'swSelectboxReplacement');
+            window.StateManager.destroyPlugin('*[data-compare-ajax="true"]', 'swProductCompareAdd');
+            window.StateManager.destroyPlugin('*[data-ajax-wishlist="true"]', 'swAjaxWishlist');
+            window.StateManager.removePlugin('*[data-compare-ajax="true"]', 'swProductCompareAdd');
+            window.StateManager.removePlugin('*[data-ajax-wishlist="true"]', 'swAjaxWishlist');
+            window.StateManager.addPlugin('*[data-compare-ajax="true"]', 'swProductCompareAdd');
+            window.StateManager.addPlugin('*[data-ajax-wishlist="true"]', 'swAjaxWishlist');
         });
 
         // Start instant search
@@ -104,7 +110,6 @@ $.plugin('swAlgolia', {
                 },
                 transformData: {
                     item: function (hit) {
-                        console.log(hit);
                         hit.stars = [];
                         if (hit.voteAvgPoints > 0) {
                             for (i = 0; i < hit.voteAvgPoints; i++) {

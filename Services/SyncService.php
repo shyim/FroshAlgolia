@@ -62,7 +62,6 @@ class SyncService
      */
     public function __construct(Components\Logger $logger, Core\ContextService $context, ProductService $productService, AlgoliaService $algoliaService, SyncHelperService $syncHelperService)
     {
-
         $this->logger = $logger;
         $this->context = $context;
         $this->productService = $productService;
@@ -149,6 +148,7 @@ class SyncService
                     // Buid the article struct
                     $articleStruct = new ArticleStruct();
                     $articleStruct->setObjectID($product->getNumber());
+                    $articleStruct->setArticleId($product->getId());
                     $articleStruct->setName($product->getName());
                     $articleStruct->setNumber($product->getNumber());
                     $articleStruct->setManufacturerName($product->getManufacturer()->getName());
