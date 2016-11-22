@@ -51,6 +51,10 @@ $.plugin('swAlgolia', {
         me.addDefaultWidgets();
         me.addFacets();
 
+        me.search.on('render', function() {
+            window.StateManager.updatePlugin('select:not([data-no-fancy-select="true"])', 'swSelectboxReplacement');
+        });
+
         // Start instant search
         me.search.start();
 
