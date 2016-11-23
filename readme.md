@@ -39,6 +39,14 @@ Article properties and instant search faceting
 =====
 All article properties are published to Algolia index by default. If an option is marked as *filterable* it will be automatically added to the filter-sidebar on the instant search page. If you don´t want that a filter is shown there, simply remove the *filterable flag* from the option and recompile your theme.
 
+PHPUnit tests
+=====
+This plugin uses PHPUnit for unit tests. You can find the unit tests in the directory Tests/Unit. To start a test simply run
+```
+phpunit
+```
+in the root directory of the plugin via CLI.
+
 Glossary
 =====
 * **SERP** is the synonym for "search engine result page" and in this plugin context SERP means the full search page that a user can access by entering a search-term in the main search box and presses enter.
