@@ -44,6 +44,8 @@ class AlgoliaService
      */
     public function test() {
 
+        // @TODO remove this function on release
+
         // Init the API client
         $client = new AlgoliaClient($this->pluginConfig['algolia-application-id'],$this->pluginConfig['algolia-admin-api-key']);
         $client->setConnectTimeout($this->pluginConfig['algolia-connection-timeout']);
@@ -174,48 +176,5 @@ class AlgoliaService
         }
 
     }
-
-
-
-//    /**
-//     * Creates the required replica indices at Algolia
-//     * @param AlgoliaClient $client
-//     * @param Index $index
-//     */
-//    private function createIndexReplicas(Client $client, Index $index) {
-//
-//        // Get the additional replica / sort indices
-//        $replicaIndices = $this->getIndexReplicas($index);
-//
-//        // Iterate over all required replica indices
-//        foreach($replicaIndices as $replicaIndexName => $replicaIndex):
-//
-//            // Push replica index to Algolia
-//            try {
-//
-//                // Create replica indices
-//                $response = $index->setSettings(array(
-//                        'replicas' => array($replicaIndexName),
-//                    )
-//                );
-//
-//                // Wait for the task to be completed (to make sure replica indices are ready)
-//                $index->waitTask($response['taskID']);
-//
-//                // Init and create the index
-//                $client->initIndex($replicaIndexName)->setSettings(array(
-//                    'ranking' => $replicaIndex
-//                ));
-//
-//                $this->logger->addDebug('Successfully created replica index {replicaIndexName} with TaskID {taskId}.',array('replicaIndexName' => $replicaIndexName, 'taskId' => $response['taskID']));
-//
-//            } catch (\Exception $e) {
-//                $this->logger->addError('Error while creating replica index {replicaIndexName}: {errorMessage}', array('replicaIndexName' => $replicaIndexName, 'errorMessage' => $e->getMessage()));
-//            }
-//
-//        endforeach;
-//
-//    }
-
 
 }
