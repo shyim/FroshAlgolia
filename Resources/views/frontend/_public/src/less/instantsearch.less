@@ -192,6 +192,14 @@
   }
 }
 
+// Sort drop-down
+.action--sort {
+  .js--fancy-select {
+    vertical-align: top;
+    .unitize-height(34);
+    .unitize(line-height,34);
+  }
+}
 
 // Desktop up
 @media screen and (min-width: @desktopViewportWidth) {
@@ -201,6 +209,9 @@
   }
   .action--sort {
     width: 50%;
+    .js--fancy-select {
+      .unitize-width(200);
+    }
   }
 }
 

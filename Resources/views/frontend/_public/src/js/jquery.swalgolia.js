@@ -59,7 +59,7 @@ $.plugin('swAlgolia', {
             window.StateManager.removePlugin('*[data-ajax-wishlist="true"]', 'swAjaxWishlist');
             window.StateManager.addPlugin('*[data-compare-ajax="true"]', 'swProductCompareAdd');
             window.StateManager.addPlugin('*[data-ajax-wishlist="true"]', 'swAjaxWishlist');
-        });
+          });
 
         // Start instant search
         me.search.start();
