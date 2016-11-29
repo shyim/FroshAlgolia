@@ -84,11 +84,6 @@ $.plugin('swAlgolia', {
             apiKey: me.opts.apiKey,
             indexName: me.opts.indexName,
             urlSync: true
-            // searchParameters: {
-            //     facetsRefinements: {
-            //         categories: [me.opts.currentCategory]
-            //     }
-            // }
         });
     },
 
@@ -167,40 +162,12 @@ $.plugin('swAlgolia', {
                 container: me.opts.sortByContainerSelector,
                 autoHideContainer: true,
                 indices: me.opts.sortOrderIndex,
-                options: [{
-                    cssClasses: [{
-                        root: 'sort--field action--field" data-auto-submit="true" data-class="sort--select"',
-                        item: ''
-                    }]
+                cssClasses: [{
+                    root: 'sort--field action--field',
+                    item: ''
                 }]
             })
         );
-
-
-        // Sort select field
-        // var customSortBySelector = {
-        //     init: function(options) {
-        //         console.log(options);
-        //         var helper = opts.helper;
-        //         document.querySelector('#sort-by').addEventListener('change', function(e) {
-        //             console.log('change event');
-        //         })
-        //     }
-        // };
-        //
-        // me.search.addWidget(
-        //     instantsearch.widgets.customSortBySelector({
-        //         container: me.opts.sortByContainerSelector,
-        //         autoHideContainer: true,
-        //         indices: me.opts.sortOrderIndex,
-        //         options: [{
-        //             cssClasses: [{
-        //                 root: 'sort--field action--field" data-auto-submit="true" data-class="sort--select"',
-        //                 item: ''
-        //             }]
-        //         }]
-        //     })
-        // );
 
     },
 
@@ -213,17 +180,28 @@ $.plugin('swAlgolia', {
         me.search.addWidget(
             instantsearch.widgets.currentRefinedValues({
                 container: '#currentRefinedValues',
-                options: [{
-                    clearAll: false
-                }],
+                clearAll: 'after',
+                cssClasses: {
+                    item: 'filter--active'
+                },
+                templates: {
+                    header: '',
+                    item: '<span class="filter--active-icon"></span>{{name}}<span class="is-current-refined-values--count ">{{count}}</span>'
+                },
             })
         );
 
-        me.search.addWidget(
-            instantsearch.widgets.clearAll({
-                container: '#clearAll'
-            })
-        );
+       me.search.addWidget(
+           instantsearch.widgets.rangeSlider({
+               container: '#price',
+               attributeName: 'price',
+               templates: {
+                   header: '<div class="shop-sites--headline navigation--headline">Preis</div>',
+                   item: ''
+               }
+           })
+       );
+
 
         me.search.addWidget(
             instantsearch.widgets.rangeSlider({
@@ -251,19 +229,19 @@ $.plugin('swAlgolia', {
             })
         );
 
-        // me.search.addWidget(
-        //     instantsearch.widgets.numericSelector({
-        //         container: '#numericSelector',
-        //         attributeName: 'price',
-        //         options: [
-        //             {label: 'Exact 10', value: 10},
-        //             {label: 'Exact 20', value: 20}
-        //         ],
-        //         templates: {
-        //             header: '<div class="shop-sites--headline navigation--headline">numericSelector</div>'
-        //         }
-        //     })
-        // );
+        me.search.addWidget(
+            instantsearch.widgets.numericSelector({
+                container: '#numericSelector',
+                attributeName: 'price',
+                options: [
+                    {label: 'Exact 10', value: 10},
+                    {label: 'Exact 20', value: 20}
+                ],
+                templates: {
+                    header: '<div class="shop-sites--headline navigation--headline">numericSelector</div>'
+                }
+            })
+        );
 
         me.search.addWidget(
             instantsearch.widgets.starRating({

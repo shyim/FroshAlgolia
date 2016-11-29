@@ -36,12 +36,6 @@
     <div class="sidebar--categories-wrapper">
         <div class="shop-sites--container is--rounded">
 
-            <!-- Current refined values -->
-            <div id="currentRefinedValues" class="facet"></div>
-
-            <!-- Clear all widget -->
-            <div id="clearAll" class="facet"></div>
-
             <!-- Price facet -->
             <div id="price" class="facet"></div>
 
@@ -99,15 +93,22 @@
          data-ajax-wishlist="true">
 
         <div class="listing--wrapper">
+
+            <!-- Listing action -->
             <div class="listing--actions is--rounded">
                 <div class="action--filter-btn">
                     <div id="stats"></div>
                 </div>
                 <div class="action--sort action--content block">
                     <label class="sort--label action--label">Sortierung:</label>
-                    <div id="sort-by"></div>
+                    <span id="sort-by"></span>
                 </div>
             </div>
+
+            <!-- Current refined values -->
+            <div id="currentRefinedValues" class="facet"></div>
+
+            <!-- Hit listing -->
             <div class="listing--container">
                 <div class="listing">
                     <div id="hits" class="block-group"></div>
