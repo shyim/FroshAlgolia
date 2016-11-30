@@ -2,6 +2,7 @@
 
 namespace SwAlgolia\Structs;
 
+use Shopware\Bundle\StoreFrontBundle\Struct\Product\VoteAverage;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class Article extends Struct implements StructInterface
@@ -337,7 +338,7 @@ class Article extends Struct implements StructInterface
     }
 
     /**
-     * @return float|null
+     * @return VoteAverage|null
      */
     public function getVotes()
     {

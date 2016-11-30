@@ -39,11 +39,11 @@
             '=': '&#x3D;'
         };
 
-        function escapeHTML (string) {
-            return String(string).replace(/[&<>"'`=\/]/g, function fromEntityMap (s) {
-                return entityMap[s];
-            });
-        }
+//        function escapeHTML (string) {
+//            return String(string).replace(/[&<>"'`=\/]/g, function fromEntityMap (s) {
+//                return entityMap[s];
+//            });
+//        }
 
         var client = algoliasearch('{/literal}{$algoliaApplicationId}{literal}', '{/literal}{$algoliaSearchOnlyApiKey}{literal}');
         var index = client.initIndex('{/literal}{$indexName}{literal}');

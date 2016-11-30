@@ -107,7 +107,7 @@ $.plugin('swAlgolia', {
                     item: function (hit) {
                         hit.stars = [];
                         if (hit.voteAvgPoints > 0) {
-                            for (i = 0; i < hit.voteAvgPoints; i++) {
+                            for (var i = 0; i < hit.voteAvgPoints; i++) {
                                 hit.stars[i] = hit.voteAvgPoints;
                             }
                         }
@@ -187,7 +187,7 @@ $.plugin('swAlgolia', {
                 templates: {
                     header: '',
                     item: '<span class="filter--active-icon"></span>{{name}}<span class="is-current-refined-values--count ">{{count}}</span>'
-                },
+                }
             })
         );
 
