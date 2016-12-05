@@ -125,13 +125,14 @@ class SyncService
                 if ($product = $this->productService->get($article, $this->context->getShopContext())) {
 
                     // Get the SEO URL
+                    // @TODO Fix wrong link when the shop uses a virtual path (e.g. /de or /en)
                     $assembleParams = array(
                         'module' => 'frontend',
                         'sViewport' => 'detail',
                         'sArticle' => $product->getId()
                     );
                     $link = $router->assemble($assembleParams);
-
+                    var_dump($link);
 
                     // Get the media
                     $media = $product->getMedia();
