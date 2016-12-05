@@ -34,8 +34,8 @@ class SyncHelperService
     }
 
     /**
-     * Build the main index name for a shop. We add the hostname of the shop so that
-     * we can have an unlimited number so Shopware systems and shops within a single Algolia account
+     * Build the main index name for a shop. The Index name consists of the prefix set in the
+     * plugin configuration and the shop ID.
      * @param Shop $shop
      * @return string
      */
