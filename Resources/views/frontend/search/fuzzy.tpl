@@ -36,40 +36,14 @@
     <div class="sidebar--categories-wrapper">
         <div class="shop-sites--container is--rounded">
 
-            <!-- Price facet -->
-            <div id="price" class="facet"></div>
-
-            <!-- Numeric refinement list facet -->
-            <div id="numericRefinementList" class="facet"></div>
-
-            <!-- Toggle -->
-            <div id="toggle" class="facet"></div>
-
-            <!-- Price ranges -->
-            <div id="priceRanges" class="facet"></div>
-
-            <!-- Numeric selector -->
-            <div id="numericSelector" class="facet"></div>
-
-            <!-- Start rating -->
-            <div id="starRating" class="facet"></div>
-
-            <!-- Manufacturer facet -->
-            <div id="manufacturerName" class="facet"></div>
-
-            <!-- Category facet -->
-            <div id="category" class="facet"></div>
+            <!-- Dynamically add the container for the facet widgets -->
+            {foreach $facetFilterWidgetConfig as $facetName => $facetConfig}
+                <div id="{$facetName|replace:'.':'_'|lower}" class="facet"></div>
+            {/foreach}
 
         </div>
 
     </div>
-
-
-        {*{foreach from=$filterOptions item=filterOption}*}
-            {*{if $filterOption->isFilterable()}*}
-                {*<div id="filterOption-{$filterOption->getId()}" class="facet"></div>*}
-            {*{/if}*}
-        {*{/foreach}*}
 
 {/block}
 
@@ -90,7 +64,8 @@
          data-currentCategory="{$sCategoryContent.name}"
          data-sortOrderIndex="{$sortOrderIndex}"
          data-compare-ajax="true"
-         data-ajax-wishlist="true">
+         data-ajax-wishlist="true"
+         data-facetWidgetsConfig='{$facetFilterWidgetConfigJson}'>
 
         <div class="listing--wrapper">
 

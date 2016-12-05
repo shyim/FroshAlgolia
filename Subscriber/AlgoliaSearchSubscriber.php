@@ -102,6 +102,7 @@ class AlgoliaSearchSubscriber implements SubscriberInterface
         $view->assign('indexName', $syncHelperService->buildIndexName($shop));
         $view->assign('showAlgoliaLogo',$pluginConfig['show-algolia-logo']);
         $view->assign('facetFilterWidgetConfig',json_decode($pluginConfig['facet-filter-widget-config']));
+        $view->assign('facetFilterWidgetConfigJson',$pluginConfig['facet-filter-widget-config']);
         $view->assign('filterOptions',$filterOptions);
         $view->assign('sortOrderIndex',$sortOrderIndex);
         

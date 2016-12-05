@@ -132,7 +132,6 @@ class SyncService
                         'sArticle' => $product->getId()
                     );
                     $link = $router->assemble($assembleParams);
-                    var_dump($link);
 
                     // Get the media
                     $media = $product->getMedia();

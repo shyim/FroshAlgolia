@@ -21,7 +21,8 @@ $.plugin('swAlgolia', {
         paginationContainerSelector: '#pagination',
         searchInputContainerSelector: '#search-input',
         hitsPerPageContainerSelector: '#hits-per-page',
-        sortByContainerSelector: '#sort-by'
+        sortByContainerSelector: '#sort-by',
+        facetWidgetsConfig: ''
     },
 
     // Init jQuery plugin for instant search
@@ -51,7 +52,7 @@ $.plugin('swAlgolia', {
         me.addDefaultWidgets();
         me.addFacets();
 
-        me.search.on('render', function() {
+        me.search.on('render', function () {
             window.StateManager.updatePlugin('select:not([data-no-fancy-select="true"])', 'swSelectboxReplacement');
             window.StateManager.destroyPlugin('*[data-compare-ajax="true"]', 'swProductCompareAdd');
             window.StateManager.destroyPlugin('*[data-ajax-wishlist="true"]', 'swAjaxWishlist');
@@ -59,7 +60,7 @@ $.plugin('swAlgolia', {
             window.StateManager.removePlugin('*[data-ajax-wishlist="true"]', 'swAjaxWishlist');
             window.StateManager.addPlugin('*[data-compare-ajax="true"]', 'swProductCompareAdd');
             window.StateManager.addPlugin('*[data-ajax-wishlist="true"]', 'swAjaxWishlist');
-          });
+        });
 
         // Start instant search
         me.search.start();
@@ -169,14 +170,7 @@ $.plugin('swAlgolia', {
             })
         );
 
-    },
-
-    /**
-     * Add the facet widgets (filter widgets)
-     */
-    addFacets: function () {
-        var me = this;
-
+        // List of currently refined (active) filter
         me.search.addWidget(
             instantsearch.widgets.currentRefinedValues({
                 container: '#currentRefinedValues',
@@ -191,114 +185,164 @@ $.plugin('swAlgolia', {
             })
         );
 
-       me.search.addWidget(
-           instantsearch.widgets.rangeSlider({
-               container: '#price',
-               attributeName: 'price',
-               templates: {
-                   header: '<div class="shop-sites--headline navigation--headline">Preis</div>',
-                   item: ''
-               }
-           })
-       );
+    },
+
+    /**
+     * Add the facet widgets (filter widgets)
+     */
+    addFacets: function () {
+        var me = this;
+
+        console.log(me.opts.facetWidgetsConfig);
+        $.each(me.opts.facetWidgetsConfig, function (widgetName, widgetConfig) {
+
+            // Widget of type refinementList
+            if (widgetConfig.widgetType == 'refinementList') {
+
+                me.search.addWidget(
+                    instantsearch.widgets.refinementList({
+                        container: '#' + widgetName.replace('.', '_').toLowerCase(),
+                        attributeName: widgetName,
+                        // limit: 10,
+                        // sortBy: ['isRefined', 'count:desc', 'name:asc'],
+                        operator: widgetConfig.operator,
+                        templates: {
+                            header: '<div class="shop-sites--headline navigation--headline">' + widgetName + '</div>'
+                        }
+                    })
+                );
+
+            }
+
+            // Widget of type rangeSlider
+            if (widgetConfig.widgetType == 'rangeSlider') {
+
+                me.search.addWidget(
+                    instantsearch.widgets.rangeSlider({
+                        container: '#' + widgetName.replace('.', '_').toLowerCase(),
+                        attributeName: widgetName,
+                        templates: {
+                             header: '<div class="shop-sites--headline navigation--headline">' + widgetName + '</div>',
+                             item: ''
+                         }
+                    })
+                );
+
+            }
 
 
-        me.search.addWidget(
-            instantsearch.widgets.rangeSlider({
-                container: '#price',
-                attributeName: 'price',
-                templates: {
-                    header: '<div class="shop-sites--headline navigation--headline">Preis</div>',
-                    item: ''
-                }
-            })
-        );
+        });
 
-        me.search.addWidget(
-            instantsearch.widgets.numericRefinementList({
-                container: '#numericRefinementList',
-                attributeName: 'price',
-                options: [
-                    {name: '0 - 10', start: 0, end: 10},
-                    {name: '11 - 20', start: 11, end: 20},
-                    {name: 'more then 20', start: 21}
-                ],
-                templates: {
-                    header: '<div class="shop-sites--headline navigation--headline">numericRefinementList</div>'
-                }
-            })
-        );
 
-        me.search.addWidget(
-            instantsearch.widgets.numericSelector({
-                container: '#numericSelector',
-                attributeName: 'price',
-                options: [
-                    {label: 'Exact 10', value: 10},
-                    {label: 'Exact 20', value: 20}
-                ],
-                templates: {
-                    header: '<div class="shop-sites--headline navigation--headline">numericSelector</div>'
-                }
-            })
-        );
-
-        me.search.addWidget(
-            instantsearch.widgets.starRating({
-                container: '#starRating',
-                attributeName: 'voteAvgPoints',
-                templates: {
-                    header: '<div class="shop-sites--headline navigation--headline">startating</div>'
-                }
-            })
-        );
-
-        me.search.addWidget(
-            instantsearch.widgets.priceRanges({
-                container: '#priceRanges',
-                attributeName: 'price',
-                templates: {
-                    header: '<div class="shop-sites--headline navigation--headline">priceRanges</div>'
-                }
-            })
-        );
-
-        me.search.addWidget(
-            instantsearch.widgets.toggle({
-                container: '#toggle',
-                attributeName: 'foo',
-                label: 'Foo Toggle',
-                templates: {
-                    header: '<div class="shop-sites--headline navigation--headline">toggle</div>'
-                }
-            })
-        );
-
-        me.search.addWidget(
-            instantsearch.widgets.refinementList({
-                container: '#manufacturerName',
-                attributeName: 'manufacturerName',
-                limit: 10,
-                sortBy: ['isRefined', 'count:desc', 'name:asc'],
-                operator: 'or',
-                templates: {
-                    header: '<div class="shop-sites--headline navigation--headline">Hersteller</div>'
-                }
-            })
-        );
-
-        me.search.addWidget(
-            instantsearch.widgets.refinementList({
-                container: '#category',
-                attributeName: 'categories',
-                limit: 10,
-                sortBy: ['isRefined', 'count:desc', 'name:asc'],
-                operator: 'or',
-                templates: {
-                    header: '<div class="shop-sites--headline navigation--headline">Kategorie</div>'
-                }
-            })
-        );
+        //
+        // me.search.addWidget(
+        //     instantsearch.widgets.rangeSlider({
+        //         container: '#price',
+        //         attributeName: 'price',
+        //         templates: {
+        //             header: '<div class="shop-sites--headline navigation--headline">Preis</div>',
+        //             item: ''
+        //         }
+        //     })
+        // );
+        //
+        //
+        //  me.search.addWidget(
+        //      instantsearch.widgets.rangeSlider({
+        //          container: '#price',
+        //          attributeName: 'price',
+        //          templates: {
+        //              header: '<div class="shop-sites--headline navigation--headline">Preis</div>',
+        //              item: ''
+        //          }
+        //      })
+        //  );
+        //
+        //  me.search.addWidget(
+        //      instantsearch.widgets.numericRefinementList({
+        //          container: '#numericRefinementList',
+        //          attributeName: 'price',
+        //          options: [
+        //              {name: '0 - 10', start: 0, end: 10},
+        //              {name: '11 - 20', start: 11, end: 20},
+        //              {name: 'more then 20', start: 21}
+        //          ],
+        //          templates: {
+        //              header: '<div class="shop-sites--headline navigation--headline">numericRefinementList</div>'
+        //          }
+        //      })
+        //  );
+        //
+        //  me.search.addWidget(
+        //      instantsearch.widgets.numericSelector({
+        //          container: '#numericSelector',
+        //          attributeName: 'price',
+        //          options: [
+        //              {label: 'Exact 10', value: 10},
+        //              {label: 'Exact 20', value: 20}
+        //          ],
+        //          templates: {
+        //              header: '<div class="shop-sites--headline navigation--headline">numericSelector</div>'
+        //          }
+        //      })
+        //  );
+        //
+        //  me.search.addWidget(
+        //      instantsearch.widgets.starRating({
+        //          container: '#starRating',
+        //          attributeName: 'voteAvgPoints',
+        //          templates: {
+        //              header: '<div class="shop-sites--headline navigation--headline">startating</div>'
+        //          }
+        //      })
+        //  );
+        //
+        //  me.search.addWidget(
+        //      instantsearch.widgets.priceRanges({
+        //          container: '#priceRanges',
+        //          attributeName: 'price',
+        //          templates: {
+        //              header: '<div class="shop-sites--headline navigation--headline">priceRanges</div>'
+        //          }
+        //      })
+        //  );
+        //
+        //  me.search.addWidget(
+        //      instantsearch.widgets.toggle({
+        //          container: '#toggle',
+        //          attributeName: 'foo',
+        //          label: 'Foo Toggle',
+        //          templates: {
+        //              header: '<div class="shop-sites--headline navigation--headline">toggle</div>'
+        //          }
+        //      })
+        //  );
+        //
+        //  me.search.addWidget(
+        //      instantsearch.widgets.refinementList({
+        //          container: '#manufacturerName',
+        //          attributeName: 'manufacturerName',
+        //          limit: 10,
+        //          sortBy: ['isRefined', 'count:desc', 'name:asc'],
+        //          operator: 'or',
+        //          templates: {
+        //              header: '<div class="shop-sites--headline navigation--headline">Hersteller</div>'
+        //          }
+        //      })
+        //  );
+        //
+        //  me.search.addWidget(
+        //      instantsearch.widgets.refinementList({
+        //          container: '#category',
+        //          attributeName: 'categories',
+        //          limit: 10,
+        //          sortBy: ['isRefined', 'count:desc', 'name:asc'],
+        //          operator: 'or',
+        //          templates: {
+        //              header: '<div class="shop-sites--headline navigation--headline">Kategorie</div>'
+        //          }
+        //      })
+        //  );
     },
 
     /**
@@ -316,7 +360,7 @@ $.plugin('swAlgolia', {
          * @param replacement
          * @returns {string}
          */
-        String.prototype.replaceAll = function(target, replacement) {
+        String.prototype.replaceAll = function (target, replacement) {
             return this.split(target).join(replacement);
         };
 

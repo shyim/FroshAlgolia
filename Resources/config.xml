@@ -18,6 +18,7 @@
             <name>index-prefix-name</name>
             <label>Index prefix name</label>
             <value>swalgolia</value>
+            <description>This prefix is used as prefix for your Algolia indidex for this shop. If you have multiple shops on one Algolia account, please set at unique prefix for each shop system.</description>
         </element>
         <element type="number" required="false">
             <name>limit-indexed-products-for-test</name>
@@ -28,23 +29,27 @@
             <name>index-searchable-attributes</name>
             <label>Searchable attributes (ordered by importance)</label>
             <value>number,name,manufacturerName,ean,description,categories</value>
+            <description>List of all attributes that should be searchable.</description>
         </element>
         <element type="text" required="true">
             <name>index-custom-ranking-attributes</name>
             <label>Custom ranking attributes for main index (ordered by importance)</label>
             <value>desc(sales),asc(price)</value>
+            <description>Define the ordering for the main indices here.</description>
         </element>
         <element type="text" required="true">
             <name>index-replicas-custom-ranking-attributes</name>
             <label>Custom ranking attributes for replica / slave indices (ordered by importance)</label>
             <!-- @TODO find a more elegant (BE) solution for naming the additional replica indices (multi-language) -->
             <value>desc(sales),asc(price)|asc(price),desc(sales)|desc(price),desc(sales)</value>
+            <description>Define the ordering options that should be available on the SERP page.</description>
         </element>
         <element type="text" required="true">
             <name>facet-filter-widget-config</name>
             <label>Configuration for the facet filter widgets on the instant search page</label>
             <!-- @TODO find a more elegant (BE) solution for customizing the facet filter widgets -->
-            <value>{"categories":{"widgetType":"refinementList","match":"or"},"manufacturerName":{"widgetType":"refinementList","match":"or"},"price":{"widgetType":"rangeSlider"},"properties.Flaschengröße":{"widgetType":"rangeSlider"},"properties.Farbe":{"widgetType":"refinementList","match":"or"},"properties.Alkoholgehalt":{"widgetType":"numericRefinementList"},"properties.Geschmack":{"widgetType":"refinementList","match":"or"},"properties.Trinktemperatur":{"widgetType":"refinementList","match":"or"}}</value>
+            <value>{"categories":{"widgetType":"refinementList","operator":"or"},"manufacturerName":{"widgetType":"refinementList","operator":"or"},"price":{"widgetType":"rangeSlider"},"properties.Flaschengröße":{"widgetType":"rangeSlider"},"properties.Farbe":{"widgetType":"refinementList","operator":"or"},"properties.Alkoholgehalt":{"widgetType":"numericRefinementList"},"properties.Geschmack":{"widgetType":"refinementList","operator":"or"},"properties.Trinktemperatur":{"widgetType":"refinementList","match":"or"}}</value>
+            <description>Define which facet widgets should be shown in which order and with which options on the SERP page.</description>
         </element>
         <element type="text" required="true">
             <name>index-faceting-attributes</name>
@@ -59,7 +64,7 @@
         <element type="number" required="true">
             <name>sync-batch-size</name>
             <label>Sync batch size</label>
-            <value>1000</value>
+            <value>100</value>
         </element>
         <element type="number" required="true">
             <name>algolia-connection-timeout</name>
