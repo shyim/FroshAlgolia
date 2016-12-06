@@ -193,229 +193,42 @@ $.plugin('swAlgolia', {
     addFacets: function () {
         var me = this;
 
-        console.log(me.opts.facetWidgetsConfig);
+        // Iterate over all configured facets and add them to the SERP
         $.each(me.opts.facetWidgetsConfig, function (widgetName, widgetConfig) {
+            me.search.addWidget(me.buildFacet(widgetName,widgetConfig));
+        });
 
-            // Widget of type refinementList
-            if (widgetConfig.widgetType == 'refinementList') {
+    },
 
-                me.search.addWidget(
-                    instantsearch.widgets.refinementList({
-                        container: '#' + widgetName.replace('.', '_').toLowerCase(),
-                        attributeName: widgetName,
-                        // limit: 10,
-                        sortBy: ['isRefined', 'count:desc', 'name:asc'],
-                        operator: widgetConfig.operator,
-                        templates: {
-                            header: '<div class="shop-sites--headline navigation--headline">' + widgetName + '</div>'
-                        }
-                    })
-                );
+    /**
+     * Builds the facet widget according to the passed widget config
+     * @param widgetName
+     * @param widgetConfig
+     * @returns {*}
+     */
+    buildFacet: function(widgetName, widgetConfig) {
 
+
+        // Build basic widget data
+        var data =
+            {
+                container: '#' + widgetName.replace('.', '_').toLowerCase(),
+                attributeName: widgetName,
+                templates: {
+                    header: '<div class="shop-sites--headline navigation--headline">' + widgetName + '</div>'
+                }
             }
+        ;
 
-            // Widget of type rangeSlider
-            if (widgetConfig.widgetType == 'rangeSlider') {
-
-                me.search.addWidget(
-                    instantsearch.widgets.rangeSlider({
-                        container: '#' + widgetName.replace('.', '_').toLowerCase(),
-                        attributeName: widgetName,
-                        templates: {
-                             header: '<div class="shop-sites--headline navigation--headline">' + widgetName + '</div>',
-                             item: ''
-                         }
-                    })
-                );
-
-            }
-
-            // Widget of type numericRefinementList
-            if (widgetConfig.widgetType == 'numericRefinementList') {
-
-                me.search.addWidget(
-                    instantsearch.widgets.numericRefinementList({
-                        container: '#' + widgetName.replace('.', '_').toLowerCase(),
-                        attributeName: widgetName,
-                        options: widgetConfig.options,
-                        // options: [
-                        //     {name: '0 - 10', start: 0, end: 10},
-                        //     {name: '11 - 20', start: 11, end: 20},
-                        //     {name: 'more then 20', start: 21}
-                        // ],
-                        templates: {
-                            header: '<div class="shop-sites--headline navigation--headline">' + widgetName + '</div>'
-                        }
-                    })
-                );
-
-            }
-
-            // Widget of type numericSelector
-            if (widgetConfig.widgetType == 'numericSelector') {
-                me.search.addWidget(
-                    instantsearch.widgets.numericSelector({
-                        container: '#' + widgetName.replace('.', '_').toLowerCase(),
-                        attributeName: widgetName,
-                        options: widgetConfig.options,
-                        templates: {
-                            header: '<div class="shop-sites--headline navigation--headline">' + widgetName + '</div>'
-                        }
-                    })
-                );
-            }
-
-            // Widget of type starRating
-            if (widgetConfig.widgetType == 'starRating') {
-                me.search.addWidget(
-                    instantsearch.widgets.starRating({
-                        container: '#' + widgetName.replace('.', '_').toLowerCase(),
-                        attributeName: widgetName,
-                        templates: {
-                            header: '<div class="shop-sites--headline navigation--headline">' + widgetName + '</div>'
-                        }
-                    })
-                );
-            }
-
-            // Widget of type priceRanges
-            if (widgetConfig.widgetType == 'priceRanges') {
-                me.search.addWidget(
-                    instantsearch.widgets.priceRanges({
-                        container: '#' + widgetName.replace('.', '_').toLowerCase(),
-                        attributeName: widgetName,
-                        templates: {
-                            header: '<div class="shop-sites--headline navigation--headline">' + widgetName + '</div>'
-                        }
-                    })
-                );
-            }
-
-            // Widget of type toggle
-            if (widgetConfig.widgetType == 'toggle') {
-                me.search.addWidget(
-                    instantsearch.widgets.toggle({
-                        container: '#' + widgetName.replace('.', '_').toLowerCase(),
-                        attributeName: widgetName,
-                        label: widgetName,
-                        templates: {
-                            header: '<div class="shop-sites--headline navigation--headline">' + widgetName + '</div>'
-                        }
-                    })
-                );
+        // Add specific widget settings to the facet data array
+        $.each(widgetConfig, function (key, value) {
+            if(!data.hasOwnProperty(key)) {
+                data[key] = value;
             }
         });
 
+        return instantsearch.widgets[widgetConfig.widgetType](data);
 
-        //
-        // me.search.addWidget(
-        //     instantsearch.widgets.rangeSlider({
-        //         container: '#price',
-        //         attributeName: 'price',
-        //         templates: {
-        //             header: '<div class="shop-sites--headline navigation--headline">Preis</div>',
-        //             item: ''
-        //         }
-        //     })
-        // );
-        //
-        //
-        //  me.search.addWidget(
-        //      instantsearch.widgets.rangeSlider({
-        //          container: '#price',
-        //          attributeName: 'price',
-        //          templates: {
-        //              header: '<div class="shop-sites--headline navigation--headline">Preis</div>',
-        //              item: ''
-        //          }
-        //      })
-        //  );
-        //
-        //  me.search.addWidget(
-        //      instantsearch.widgets.numericRefinementList({
-        //          container: '#numericRefinementList',
-        //          attributeName: 'price',
-        //          options: [
-        //              {name: '0 - 10', start: 0, end: 10},
-        //              {name: '11 - 20', start: 11, end: 20},
-        //              {name: 'more then 20', start: 21}
-        //          ],
-        //          templates: {
-        //              header: '<div class="shop-sites--headline navigation--headline">numericRefinementList</div>'
-        //          }
-        //      })
-        //  );
-        //
-        //  me.search.addWidget(
-        //      instantsearch.widgets.numericSelector({
-        //          container: '#numericSelector',
-        //          attributeName: 'price',
-        //          options: [
-        //              {label: 'Exact 10', value: 10},
-        //              {label: 'Exact 20', value: 20}
-        //          ],
-        //          templates: {
-        //              header: '<div class="shop-sites--headline navigation--headline">numericSelector</div>'
-        //          }
-        //      })
-        //  );
-        //
-        //  me.search.addWidget(
-        //      instantsearch.widgets.starRating({
-        //          container: '#starRating',
-        //          attributeName: 'voteAvgPoints',
-        //          templates: {
-        //              header: '<div class="shop-sites--headline navigation--headline">startating</div>'
-        //          }
-        //      })
-        //  );
-        //
-        //  me.search.addWidget(
-        //      instantsearch.widgets.priceRanges({
-        //          container: '#priceRanges',
-        //          attributeName: 'price',
-        //          templates: {
-        //              header: '<div class="shop-sites--headline navigation--headline">priceRanges</div>'
-        //          }
-        //      })
-        //  );
-        //
-        //  me.search.addWidget(
-        //      instantsearch.widgets.toggle({
-        //          container: '#toggle',
-        //          attributeName: 'foo',
-        //          label: 'Foo Toggle',
-        //          templates: {
-        //              header: '<div class="shop-sites--headline navigation--headline">toggle</div>'
-        //          }
-        //      })
-        //  );
-        //
-        //  me.search.addWidget(
-        //      instantsearch.widgets.refinementList({
-        //          container: '#manufacturerName',
-        //          attributeName: 'manufacturerName',
-        //          limit: 10,
-        //          sortBy: ['isRefined', 'count:desc', 'name:asc'],
-        //          operator: 'or',
-        //          templates: {
-        //              header: '<div class="shop-sites--headline navigation--headline">Hersteller</div>'
-        //          }
-        //      })
-        //  );
-        //
-        //  me.search.addWidget(
-        //      instantsearch.widgets.refinementList({
-        //          container: '#category',
-        //          attributeName: 'categories',
-        //          limit: 10,
-        //          sortBy: ['isRefined', 'count:desc', 'name:asc'],
-        //          operator: 'or',
-        //          templates: {
-        //              header: '<div class="shop-sites--headline navigation--headline">Kategorie</div>'
-        //          }
-        //      })
-        //  );
     },
 
     /**
