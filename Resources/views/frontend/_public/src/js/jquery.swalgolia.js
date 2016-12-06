@@ -89,7 +89,7 @@ $.plugin('swAlgolia', {
     },
 
     /**
-     * Add the default instant search widgets like hits or pagination
+     * Add the default instant search widgets like hits, pagination or active filters
      */
     addDefaultWidgets: function () {
 
@@ -180,7 +180,7 @@ $.plugin('swAlgolia', {
                 },
                 templates: {
                     header: '',
-                    item: '<span class="filter--active-icon"></span>{{name}}<span class="is-current-refined-values--count ">{{count}}</span>'
+                    item: '<span class="filter--active-icon"></span>{{name}}<span class="ais-current-refined-values--count ">{{count}}</span>'
                 }
             })
         );
@@ -204,7 +204,7 @@ $.plugin('swAlgolia', {
                         container: '#' + widgetName.replace('.', '_').toLowerCase(),
                         attributeName: widgetName,
                         // limit: 10,
-                        // sortBy: ['isRefined', 'count:desc', 'name:asc'],
+                        sortBy: ['isRefined', 'count:desc', 'name:asc'],
                         operator: widgetConfig.operator,
                         templates: {
                             header: '<div class="shop-sites--headline navigation--headline">' + widgetName + '</div>'
@@ -230,7 +230,80 @@ $.plugin('swAlgolia', {
 
             }
 
+            // Widget of type numericRefinementList
+            if (widgetConfig.widgetType == 'numericRefinementList') {
 
+                me.search.addWidget(
+                    instantsearch.widgets.numericRefinementList({
+                        container: '#' + widgetName.replace('.', '_').toLowerCase(),
+                        attributeName: widgetName,
+                        options: widgetConfig.options,
+                        // options: [
+                        //     {name: '0 - 10', start: 0, end: 10},
+                        //     {name: '11 - 20', start: 11, end: 20},
+                        //     {name: 'more then 20', start: 21}
+                        // ],
+                        templates: {
+                            header: '<div class="shop-sites--headline navigation--headline">' + widgetName + '</div>'
+                        }
+                    })
+                );
+
+            }
+
+            // Widget of type numericSelector
+            if (widgetConfig.widgetType == 'numericSelector') {
+                me.search.addWidget(
+                    instantsearch.widgets.numericSelector({
+                        container: '#' + widgetName.replace('.', '_').toLowerCase(),
+                        attributeName: widgetName,
+                        options: widgetConfig.options,
+                        templates: {
+                            header: '<div class="shop-sites--headline navigation--headline">' + widgetName + '</div>'
+                        }
+                    })
+                );
+            }
+
+            // Widget of type starRating
+            if (widgetConfig.widgetType == 'starRating') {
+                me.search.addWidget(
+                    instantsearch.widgets.starRating({
+                        container: '#' + widgetName.replace('.', '_').toLowerCase(),
+                        attributeName: widgetName,
+                        templates: {
+                            header: '<div class="shop-sites--headline navigation--headline">' + widgetName + '</div>'
+                        }
+                    })
+                );
+            }
+
+            // Widget of type priceRanges
+            if (widgetConfig.widgetType == 'priceRanges') {
+                me.search.addWidget(
+                    instantsearch.widgets.priceRanges({
+                        container: '#' + widgetName.replace('.', '_').toLowerCase(),
+                        attributeName: widgetName,
+                        templates: {
+                            header: '<div class="shop-sites--headline navigation--headline">' + widgetName + '</div>'
+                        }
+                    })
+                );
+            }
+
+            // Widget of type toggle
+            if (widgetConfig.widgetType == 'toggle') {
+                me.search.addWidget(
+                    instantsearch.widgets.toggle({
+                        container: '#' + widgetName.replace('.', '_').toLowerCase(),
+                        attributeName: widgetName,
+                        label: widgetName,
+                        templates: {
+                            header: '<div class="shop-sites--headline navigation--headline">' + widgetName + '</div>'
+                        }
+                    })
+                );
+            }
         });
 
 

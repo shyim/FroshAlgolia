@@ -161,8 +161,12 @@
       .ais-current-refined-values--link {
         color: @text-color;
         .ais-current-refined-values--count {
-          background-color: @gray;
-          color: @text-color;
+          background-color: @gray-light;
+          color: lighten(@text-color,15%);
+          .unitize(margin-left,5);
+          .unitize(margin-right,-6);
+          .unitize-padding(0,4,0,4);
+          .is--rounded;
         }
       }
     }
