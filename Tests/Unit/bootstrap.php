@@ -22,6 +22,8 @@
  * our trademarks remain entirely with us.
  */
 
+use Shopware\Models\Shop\Shop;
+
 require __DIR__ . '/../../../../../autoload.php';
 
 class TestKernel extends \Shopware\Kernel
@@ -43,7 +45,7 @@ class TestKernel extends \Shopware\Kernel
         $container->get('plugins')->Core()->ErrorHandler()->registerErrorHandler(E_ALL | E_STRICT);
 
         /** @var $repository \Shopware\Models\Shop\Repository */
-        $repository = $container->get('models')->getRepository('Shopware\Models\Shop\Shop');
+        $repository = $container->get('models')->getRepository(Shop::class);
 
         $shop = $repository->getActiveDefault();
         $shop->registerResources();

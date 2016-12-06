@@ -26,7 +26,6 @@
     <filter>
         <whitelist>
             <directory suffix=".php">../engine/Shopware/</directory>
-            <exclude></exclude>
         </whitelist>
     </filter>
 </phpunit>

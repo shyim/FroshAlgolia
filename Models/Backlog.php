@@ -23,19 +23,19 @@ class Backlog
      * @var \String
      * @ORM\Column(name="event", type="string", length=255, nullable=false)
      */
-    private $event = null;
+    private $event;
 
     /**
      * @var \String
      * @ORM\Column(name="payload", type="text", nullable=false)
      */
-    private $payload = null;
+    private $payload;
 
     /**
      * @var \DateTime
      * @ORM\Column(name="time", type="datetime", nullable=false)
      */
-    private $time = null;
+    private $time;
 
     /**
      * @return int
@@ -100,5 +100,4 @@ class Backlog
     {
         $this->time = $time;
     }
-
 }
