@@ -29,25 +29,26 @@ class AlgoliaService
      * AlgoliaService constructor.
      * @param Components\Logger $logger
      */
-    public function __construct(Components\Logger $logger) {
+    public function __construct(Components\Logger $logger)
+    {
 
         // Init Logger
         $this->logger = $logger;
 
         // Grab the plugin config
         $this->pluginConfig = Shopware()->Container()->get('shopware.plugin.cached_config_reader')->getByPluginName('SwAlgolia');
-
     }
 
     /**
      * Short test method for this and that
      */
-    public function test() {
+    public function test()
+    {
 
         // @TODO remove this function on release
 
         // Init the API client
-        $client = new AlgoliaClient($this->pluginConfig['algolia-application-id'],$this->pluginConfig['algolia-admin-api-key']);
+        $client = new AlgoliaClient($this->pluginConfig['algolia-application-id'], $this->pluginConfig['algolia-admin-api-key']);
         $client->setConnectTimeout($this->pluginConfig['algolia-connection-timeout']);
 
         $index = $client->initIndex('test-master');
@@ -68,7 +69,6 @@ class AlgoliaService
         ));
 
         $index->addObject(array('key' => 'value'));
-
     }
 
     /**
@@ -78,10 +78,11 @@ class AlgoliaService
      * @param $indexName
      * @return bool
      */
-    public function push(Shop $shop, array $data, $indexName) {
+    public function push(Shop $shop, array $data, $indexName)
+    {
 
         // Init the API client
-        $client = new AlgoliaClient($this->pluginConfig['algolia-application-id'],$this->pluginConfig['algolia-admin-api-key']);
+        $client = new AlgoliaClient($this->pluginConfig['algolia-application-id'], $this->pluginConfig['algolia-admin-api-key']);
         $client->setConnectTimeout($this->pluginConfig['algolia-connection-timeout']);
 
         // Init the index
@@ -90,13 +91,12 @@ class AlgoliaService
         // Send data to algolia
         try {
             $response = $index->addObjects($data);
-            $this->logger->addDebug('Successfully pushed elements {objectIds} for ShopId {shopId} to Algolia with TaskID {taskId}.', array('objectIds' => implode(', ',$response['objectIDs']), 'shopId' => $shop->getId(), 'taskId' => $response['taskID']));
+            $this->logger->addDebug('Successfully pushed elements {objectIds} for ShopId {shopId} to Algolia with TaskID {taskId}.', array('objectIds' => implode(', ', $response['objectIDs']), 'shopId' => $shop->getId(), 'taskId' => $response['taskID']));
             return true;
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $this->logger->addError('Error when pushing elements to Algolia: {errorMessage}', array('errorMessage' => $e->getMessage()));
             return false;
         }
-
     }
 
 
@@ -105,22 +105,22 @@ class AlgoliaService
      * @param $indexName
      * @return Index|boolean
      */
-    public function initIndex($indexName) {
+    public function initIndex($indexName)
+    {
 
         // Init the API client
-        $client = new AlgoliaClient($this->pluginConfig['algolia-application-id'],$this->pluginConfig['algolia-admin-api-key']);
+        $client = new AlgoliaClient($this->pluginConfig['algolia-application-id'], $this->pluginConfig['algolia-admin-api-key']);
         $client->setConnectTimeout($this->pluginConfig['algolia-connection-timeout']);
 
         // Init the index
-        try{
+        try {
             $index = $client->initIndex($indexName);
-            $this->logger->addDebug('Successfully initialized index {indexName}.',array('indexName' => $indexName));
+            $this->logger->addDebug('Successfully initialized index {indexName}.', array('indexName' => $indexName));
             return $index;
         } catch (\Exception $e) {
-            $this->logger->addDebug('Error while initializing index {indexName}: {errorMessage}.',array('indexName' => $indexName, 'errorMessage' => $e->getMessage()));
+            $this->logger->addDebug('Error while initializing index {indexName}: {errorMessage}.', array('indexName' => $indexName, 'errorMessage' => $e->getMessage()));
             return false;
         }
-
     }
 
     /**
@@ -131,27 +131,28 @@ class AlgoliaService
      * @return bool|mixed
      * @throws \Exception
      */
-    public function pushIndexSettings(array $settings, Index $index=null, $indexName=null) {
-
-        if(!$index && !$indexName) throw new \Exception('Either index or indexname has to be specified.');
+    public function pushIndexSettings(array $settings, Index $index=null, $indexName=null)
+    {
+        if (!$index && !$indexName) {
+            throw new \Exception('Either index or indexname has to be specified.');
+        }
 
         // Get the index if only the index name is passed
-        if(!$index):
-            $client = new AlgoliaClient($this->pluginConfig['algolia-application-id'],$this->pluginConfig['algolia-admin-api-key']);
-            $client->setConnectTimeout($this->pluginConfig['algolia-connection-timeout']);
-            $index = $client->initIndex($indexName);
+        if (!$index):
+            $client = new AlgoliaClient($this->pluginConfig['algolia-application-id'], $this->pluginConfig['algolia-admin-api-key']);
+        $client->setConnectTimeout($this->pluginConfig['algolia-connection-timeout']);
+        $index = $client->initIndex($indexName);
         endif;
 
         // Push index settings to algolia
         try {
             $response = $index->setSettings($settings);
-            $this->logger->addDebug('Successfully pushed index settings for index {indexName} to Algolia with TaskID {taskId}.',array('indexName' => $index->indexName, 'taskId' => $response['taskID']));
+            $this->logger->addDebug('Successfully pushed index settings for index {indexName} to Algolia with TaskID {taskId}.', array('indexName' => $index->indexName, 'taskId' => $response['taskID']));
             return $response;
         } catch (\Exception $e) {
             $this->logger->addError('Error while pushing index settings to Algolia: {errorMessage}', array('errorMessage' => $e->getMessage()));
             return false;
         }
-
     }
 
 
@@ -160,9 +161,9 @@ class AlgoliaService
      * @param $indexName
      * @return bool
      */
-    public function deleteIndex($indexName) {
-
-        $client = new AlgoliaClient($this->pluginConfig['algolia-application-id'],$this->pluginConfig['algolia-admin-api-key']);
+    public function deleteIndex($indexName)
+    {
+        $client = new AlgoliaClient($this->pluginConfig['algolia-application-id'], $this->pluginConfig['algolia-admin-api-key']);
         $client->setConnectTimeout($this->pluginConfig['algolia-connection-timeout']);
 
         // Delete index
@@ -170,11 +171,9 @@ class AlgoliaService
             $client->deleteIndex($indexName);
             $this->logger->addDebug('Successfully deleted index {indexName}.', array('indexName' => $indexName));
             return true;
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $this->logger->addError('Error when trying to delete the index {indexName}: {errorMessage}', array('indexName' => $indexName, 'errorMessage' => $e->getMessage()));
             return false;
         }
-
     }
-
 }

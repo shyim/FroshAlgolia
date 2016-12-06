@@ -2,7 +2,6 @@
 
 namespace SwAlgolia\Services;
 
-
 use Shopware\Components;
 use Shopware\Models\Shop\Shop;
 
@@ -25,12 +24,10 @@ class SyncHelperService
 
     public function __construct(Components\Logger $logger)
     {
-
         $this->logger = $logger;
 
         // Grab the plugin config
         $this->pluginConfig = Shopware()->Container()->get('shopware.plugin.cached_config_reader')->getByPluginName('SwAlgolia');
-
     }
 
     /**
@@ -39,11 +36,9 @@ class SyncHelperService
      * @param Shop $shop
      * @return string
      */
-    public function buildIndexName(Shop $shop) {
-
+    public function buildIndexName(Shop $shop)
+    {
         $prefix = isset($this->pluginConfig['index-prefix-name']) && $this->pluginConfig['index-prefix-name']!='' ? $this->pluginConfig['index-prefix-name'] .'_' : false;
         return $prefix . $shop->getId();
-
     }
-
 }

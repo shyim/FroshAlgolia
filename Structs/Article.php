@@ -368,8 +368,4 @@ class Article extends Struct implements StructInterface
     {
         $this->voteAvgPoints = $voteAvgPoints;
     }
-
-
-
-
 }

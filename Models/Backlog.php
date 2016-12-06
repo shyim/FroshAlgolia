@@ -100,5 +100,4 @@ class Backlog
     {
         $this->time = $time;
     }
-
 }

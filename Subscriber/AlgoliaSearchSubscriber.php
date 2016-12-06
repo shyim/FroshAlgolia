@@ -30,7 +30,7 @@ class AlgoliaSearchSubscriber implements SubscriberInterface
     public function __construct(
         $viewDir,
         ContainerInterface $container
-    ){
+    ) {
         $this->viewDir = $viewDir;
         $this->container = $container;
     }
@@ -78,34 +78,32 @@ class AlgoliaSearchSubscriber implements SubscriberInterface
                 'label' => Shopware()->Snippets()->getNamespace('bundle/translation')->get('sort_order_default') // The name which should be shown to the customer
             )
         ];
-        $replicaIndices = explode('|',$pluginConfig['index-replicas-custom-ranking-attributes']);
-        foreach($replicaIndices as $replicaIndex):
+        $replicaIndices = explode('|', $pluginConfig['index-replicas-custom-ranking-attributes']);
+        foreach ($replicaIndices as $replicaIndex):
 
-            $replicaIndexSettings = explode(',',$replicaIndex);
+            $replicaIndexSettings = explode(',', $replicaIndex);
 
             // Build the key / name for the replica index
-            $nameElements = explode('(',$replicaIndexSettings[0]);
-            $replicaIndexName = $syncHelperService->buildIndexName($shop) . '_'. rtrim($nameElements[1],')') . '_' . $nameElements[0];
+            $nameElements = explode('(', $replicaIndexSettings[0]);
+        $replicaIndexName = $syncHelperService->buildIndexName($shop) . '_'. rtrim($nameElements[1], ')') . '_' . $nameElements[0];
 
-            $sortOrderArray[] = array(
+        $sortOrderArray[] = array(
                 'name' =>  $replicaIndexName, // The index which is used for this sort order
-                'label' => Shopware()->Snippets()->getNamespace('bundle/translation')->get('sort_order_'.rtrim($nameElements[1],')') . '_' . $nameElements[0]) // The name which should be shown to the customer
+                'label' => Shopware()->Snippets()->getNamespace('bundle/translation')->get('sort_order_'.rtrim($nameElements[1], ')') . '_' . $nameElements[0]) // The name which should be shown to the customer
             );
 
         endforeach;
-        $sortOrderIndex = htmlspecialchars(json_encode($sortOrderArray,JSON_HEX_APOS));
+        $sortOrderIndex = htmlspecialchars(json_encode($sortOrderArray, JSON_HEX_APOS));
 
         // Assign data to view
         $view->addTemplateDir($this->viewDir);
         $view->assign('algoliaApplicationId', $pluginConfig['algolia-application-id']);
         $view->assign('algoliaSearchOnlyApiKey', $pluginConfig['algolia-search-only-api-key']);
         $view->assign('indexName', $syncHelperService->buildIndexName($shop));
-        $view->assign('showAlgoliaLogo',$pluginConfig['show-algolia-logo']);
-        $view->assign('facetFilterWidgetConfig',json_decode($pluginConfig['facet-filter-widget-config']));
-        $view->assign('facetFilterWidgetConfigJson',$pluginConfig['facet-filter-widget-config']);
-        $view->assign('filterOptions',$filterOptions);
-        $view->assign('sortOrderIndex',$sortOrderIndex);
-        
-        
+        $view->assign('showAlgoliaLogo', $pluginConfig['show-algolia-logo']);
+        $view->assign('facetFilterWidgetConfig', json_decode($pluginConfig['facet-filter-widget-config']));
+        $view->assign('facetFilterWidgetConfigJson', $pluginConfig['facet-filter-widget-config']);
+        $view->assign('filterOptions', $filterOptions);
+        $view->assign('sortOrderIndex', $sortOrderIndex);
     }
 }

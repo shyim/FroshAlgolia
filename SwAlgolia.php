@@ -18,7 +18,6 @@ require_once(__DIR__.'/vendor/autoload.php');
  */
 class SwAlgolia extends Plugin
 {
-
     public function install(InstallContext $context)
     {
         Schemas::createSchemas();
@@ -27,7 +26,6 @@ class SwAlgolia extends Plugin
 
     public function uninstall(UninstallContext $context)
     {
-
         Schemas::removeSchemas();
         parent::uninstall($context);
     }

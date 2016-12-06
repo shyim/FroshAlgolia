@@ -32,14 +32,11 @@ class BaseTest extends TestCase
         $this->em = Shopware()->Models();
         $repository = Shopware()->Container()->get('models')->getRepository('Shopware\Models\Shop\Shop');
         $this->shop = $repository->getActiveById(1);
-
     }
 
-    public function testBase() {
-
-        $this->assertInstanceOf('Doctrine\ORM\EntityManager',$this->em);
-        $this->assertInstanceOf('Shopware\Models\Shop\Shop',$this->shop);
-
+    public function testBase()
+    {
+        $this->assertInstanceOf('Doctrine\ORM\EntityManager', $this->em);
+        $this->assertInstanceOf('Shopware\Models\Shop\Shop', $this->shop);
     }
-
 }

@@ -71,7 +71,6 @@ class SyncService
 
         // Grab the plugin config
         $this->pluginConfig = Shopware()->Container()->get('shopware.plugin.cached_config_reader')->getByPluginName('SwAlgolia');
-
     }
 
     /**
@@ -102,18 +101,18 @@ class SyncService
 
             // Limit articles if required
             $limit = '';
-            if($this->pluginConfig['limit-indexed-products-for-test'] > 0):
+        if ($this->pluginConfig['limit-indexed-products-for-test'] > 0):
                 $limit = ' LIMIT 0,'.$this->pluginConfig['limit-indexed-products-for-test'];
-            endif;
+        endif;
 
             // Get all articles
             $articles = Shopware()->Db()->fetchCol('SELECT s_articles_details.ordernumber FROM s_articles_details INNER JOIN s_articles_categories_ro ON(s_articles_categories_ro.articleID = s_articles_details.articleID AND s_articles_categories_ro.categoryID = ?) WHERE kind = 1 and active = 1'.$limit, [
                 $shop->getCategory()->getId()
             ]);
 
-            $router = Shopware()->Container()->get('router');
-            $data = [];
-            $i = 0;
+        $router = Shopware()->Container()->get('router');
+        $data = [];
+        $i = 0;
 
             // Iterate over all found articles
             foreach ($articles as $article):
@@ -146,7 +145,9 @@ class SyncService
                     // Get the votes
                     $voteAvgPoints = 0;
                     $votes = $product->getVoteAverage();
-                    if($votes) $voteAvgPoints = intval($votes->getPointCount()[0]['points']);
+                    if ($votes) {
+                        $voteAvgPoints = intval($votes->getPointCount()[0]['points']);
+                    }
 
                     // Buid the article struct
                     $articleStruct = new ArticleStruct();
@@ -168,7 +169,6 @@ class SyncService
                     $articleStruct->setVotes($votes);
                     $articleStruct->setVoteAvgPoints($voteAvgPoints);
                     $data[] = $articleStruct->toArray();
-
                 } else {
                     $this->logger->addWarning('Could not generate product struct for article {number} for export. Product not exported.', array('number' => $article));
                 }
@@ -178,16 +178,15 @@ class SyncService
 
                     // Push data to Algolia
                     $this->algoliaService->push($shop, $data, $this->syncHelperService->buildIndexName($shop));
-                    $data = [];
+        $data = [];
 
-                endif;
+        endif;
 
-            endforeach;
+        endforeach;
 
         endforeach;
 
         return true;
-
     }
 
     /**
@@ -199,7 +198,6 @@ class SyncService
     {
 
         // @TODO TBD
-
     }
 
     /**
@@ -216,7 +214,7 @@ class SyncService
 
         // Create indices, replica indices and define settings
         $indexSettings = array(
-            'attributesToIndex' => explode(',',$this->pluginConfig['index-searchable-attributes']),
+            'attributesToIndex' => explode(',', $this->pluginConfig['index-searchable-attributes']),
             'customRanking' => explode(',', $this->pluginConfig['index-custom-ranking-attributes']),
             'attributesForFaceting'  => $attributesForFaceting,
             'replicas' => $this->getReplicaNames($indexName)
@@ -227,22 +225,21 @@ class SyncService
         $index->waitTask($settingsResponse['taskID']);
 
         // Define replica settings
-        $replicaIndices = explode('|',$this->pluginConfig['index-replicas-custom-ranking-attributes']);
-        foreach($replicaIndices as $replicaIndex):
+        $replicaIndices = explode('|', $this->pluginConfig['index-replicas-custom-ranking-attributes']);
+        foreach ($replicaIndices as $replicaIndex):
 
-            $replicaIndexSettings = explode(',',$replicaIndex);
+            $replicaIndexSettings = explode(',', $replicaIndex);
 
             // Build the key / name for the replica index
-            $nameElements = explode('(',$replicaIndexSettings[0]);
-            $replicaIndexName = $indexName .'_'. rtrim($nameElements[1],')') . '_' . $nameElements[0];
+            $nameElements = explode('(', $replicaIndexSettings[0]);
+        $replicaIndexName = $indexName .'_'. rtrim($nameElements[1], ')') . '_' . $nameElements[0];
 
-            $this->algoliaService->pushIndexSettings(array(
+        $this->algoliaService->pushIndexSettings(array(
                 'ranking' => $replicaIndexSettings,
                 'attributesForFaceting'  => $attributesForFaceting
             ), null, $replicaIndexName);
 
         endforeach;
-
     }
 
     /**
@@ -250,27 +247,26 @@ class SyncService
      * @param $indexName
      * @return array
      */
-    private function getReplicaNames($indexName) {
-
+    private function getReplicaNames($indexName)
+    {
         $names = [];
 
         // Get the replicas from config
-        $replicaIndices = explode('|',$this->pluginConfig['index-replicas-custom-ranking-attributes']);
+        $replicaIndices = explode('|', $this->pluginConfig['index-replicas-custom-ranking-attributes']);
 
-        foreach($replicaIndices as $replicaIndex):
+        foreach ($replicaIndices as $replicaIndex):
 
-            $replicaIndexElements = explode(',',$replicaIndex);
+            $replicaIndexElements = explode(',', $replicaIndex);
 
             // Build the key / name for the replica index
-            $nameElements = explode('(',$replicaIndexElements[0]);
-            $replicaIndexName = $indexName .'_'. rtrim($nameElements[1],')') . '_' . $nameElements[0];
+            $nameElements = explode('(', $replicaIndexElements[0]);
+        $replicaIndexName = $indexName .'_'. rtrim($nameElements[1], ')') . '_' . $nameElements[0];
 
-            $names[] = $replicaIndexName;
+        $names[] = $replicaIndexName;
 
         endforeach;
 
         return $names;
-
     }
 
     /**
@@ -278,13 +274,12 @@ class SyncService
      * @param Shop $shop
      * @return void
      */
-    private function deleteIndex(Shop $shop) {
-
+    private function deleteIndex(Shop $shop)
+    {
         $indexName = $this->syncHelperService->buildIndexName($shop);
 
         // Delete main index
         $this->algoliaService->deleteIndex($indexName);
-
     }
 
     /**
@@ -294,7 +289,6 @@ class SyncService
      */
     private function getAttributes(Product $product)
     {
-
         $data = [];
 
         if (!isset($product->getAttributes()['core'])) {
@@ -308,10 +302,14 @@ class SyncService
         foreach ($attributes as $key => $value):
 
             // Skip this attribute if it´s on the list of blocked attributes
-            if (false != array_search($key, $blockedAttributes, true)) continue;
+            if (false != array_search($key, $blockedAttributes, true)) {
+                continue;
+            }
 
             // Skip this attribute if its value is null or ''
-            if (!$value || $value == '') continue;
+            if (!$value || $value == '') {
+                continue;
+            }
 
             // Map value to data array
             $data[$key] = $value;
@@ -319,7 +317,6 @@ class SyncService
         endforeach;
 
         return $data;
-
     }
 
     /**
@@ -329,7 +326,6 @@ class SyncService
      */
     private function getCategories(Product $product)
     {
-
         $categories = $product->getCategories();
         $data = [];
 
@@ -343,7 +339,6 @@ class SyncService
         }
 
         return $data;
-
     }
 
     /**
@@ -353,27 +348,24 @@ class SyncService
      */
     private function getProperties(Product $product)
     {
-
         $properties = [];
 
         if ($set = $product->getPropertySet()):
 
             $groups = $set->getGroups();
 
-            foreach ($groups as $group):
+        foreach ($groups as $group):
                 $options = $group->getOptions();
 
-                foreach ($options as $option):
+        foreach ($options as $option):
                     $properties[$group->getName()] = $option->getName();
-                endforeach;
+        endforeach;
 
-            endforeach;
+        endforeach;
 
         endif;
 
         return $properties;
-
-
     }
 
     /**
@@ -381,11 +373,6 @@ class SyncService
      */
     private function getShops()
     {
-
         return $this->em->getRepository(Shop::class)->findBy(array('active' => true));
-
     }
-
-
-
 }
