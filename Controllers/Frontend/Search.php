@@ -8,7 +8,7 @@ class Shopware_Controllers_Frontend_Search extends Enlight_Controller_Action
      */
     public function indexAction()
     {
-        return $this->forward("defaultSearch");
+        return $this->forward('defaultSearch');
     }
 
     /**

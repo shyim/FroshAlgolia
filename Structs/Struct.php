@@ -11,7 +11,7 @@ abstract class Struct
      */
     public function toArray()
     {
-        $data = array();
+        $data = [];
         $methods = get_class_methods(get_class($this));
 
         foreach ($methods as $method):

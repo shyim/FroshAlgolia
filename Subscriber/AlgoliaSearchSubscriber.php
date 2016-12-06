@@ -73,10 +73,10 @@ class AlgoliaSearchSubscriber implements SubscriberInterface
          * index is the main Algolia index.
          */
         $sortOrderArray=[
-            array(
+            [
                 'name' =>  $syncHelperService->buildIndexName($shop), // The index which is used for this sort order
                 'label' => Shopware()->Snippets()->getNamespace('bundle/translation')->get('sort_order_default') // The name which should be shown to the customer
-            )
+            ]
         ];
         $replicaIndices = explode('|', $pluginConfig['index-replicas-custom-ranking-attributes']);
         foreach ($replicaIndices as $replicaIndex):
@@ -87,10 +87,10 @@ class AlgoliaSearchSubscriber implements SubscriberInterface
             $nameElements = explode('(', $replicaIndexSettings[0]);
         $replicaIndexName = $syncHelperService->buildIndexName($shop) . '_'. rtrim($nameElements[1], ')') . '_' . $nameElements[0];
 
-        $sortOrderArray[] = array(
+        $sortOrderArray[] = [
                 'name' =>  $replicaIndexName, // The index which is used for this sort order
                 'label' => Shopware()->Snippets()->getNamespace('bundle/translation')->get('sort_order_'.rtrim($nameElements[1], ')') . '_' . $nameElements[0]) // The name which should be shown to the customer
-            );
+        ];
 
         endforeach;
         $sortOrderIndex = htmlspecialchars(json_encode($sortOrderArray, JSON_HEX_APOS));

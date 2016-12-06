@@ -10,15 +10,6 @@ use AlgoliaSearch\Index;
  */
 class AlgoliaServiceTest extends BaseTest
 {
-
-    /**
-     * Set up unit test
-     */
-    public function setUp()
-    {
-        parent::setUp();
-    }
-
     /**
      * Test for initialization of the Algolia index
      */

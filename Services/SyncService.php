@@ -20,37 +20,37 @@ class SyncService
     /**
      * @var Components\Logger
      */
-    private $logger = null;
+    private $logger;
 
     /**
      * @var Core\ContextService
      */
-    private $context = null;
+    private $context;
 
     /**
      * @var ProductService
      */
-    private $productService = null;
+    private $productService;
 
     /**
      * @var AlgoliaService
      */
-    private $algoliaService = null;
+    private $algoliaService;
 
     /**
      * @var SyncHelperService
      */
-    private $syncHelperService = null;
+    private $syncHelperService;
 
     /**
      * @var EntityManager
      */
-    private $em = null;
+    private $em;
 
     /**
      * @var array
      */
-    private $pluginConfig = null;
+    private $pluginConfig;
 
     /**
      * SyncService constructor.
@@ -125,11 +125,11 @@ class SyncService
 
                     // Get the SEO URL
                     // @TODO Fix wrong link when the shop uses a virtual path (e.g. /de or /en)
-                    $assembleParams = array(
+                    $assembleParams = [
                         'module' => 'frontend',
                         'sViewport' => 'detail',
                         'sArticle' => $product->getId()
-                    );
+                    ];
                     $link = $router->assemble($assembleParams);
 
                     // Get the media
@@ -170,7 +170,7 @@ class SyncService
                     $articleStruct->setVoteAvgPoints($voteAvgPoints);
                     $data[] = $articleStruct->toArray();
                 } else {
-                    $this->logger->addWarning('Could not generate product struct for article {number} for export. Product not exported.', array('number' => $article));
+                    $this->logger->addWarning('Could not generate product struct for article {number} for export. Product not exported.', ['number' => $article]);
                 }
 
                 // Push data to Algolia if sync-batch size is reached
@@ -213,12 +213,12 @@ class SyncService
         $attributesForFaceting = explode(',', $this->pluginConfig['index-faceting-attributes']);
 
         // Create indices, replica indices and define settings
-        $indexSettings = array(
+        $indexSettings = [
             'attributesToIndex' => explode(',', $this->pluginConfig['index-searchable-attributes']),
             'customRanking' => explode(',', $this->pluginConfig['index-custom-ranking-attributes']),
             'attributesForFaceting'  => $attributesForFaceting,
             'replicas' => $this->getReplicaNames($indexName)
-        );
+        ];
         $settingsResponse = $this->algoliaService->pushIndexSettings($indexSettings, $index);
 
         // Wait for the task to be completed (to make sure replica indices are ready)
@@ -234,10 +234,10 @@ class SyncService
             $nameElements = explode('(', $replicaIndexSettings[0]);
         $replicaIndexName = $indexName .'_'. rtrim($nameElements[1], ')') . '_' . $nameElements[0];
 
-        $this->algoliaService->pushIndexSettings(array(
+        $this->algoliaService->pushIndexSettings([
                 'ranking' => $replicaIndexSettings,
                 'attributesForFaceting'  => $attributesForFaceting
-            ), null, $replicaIndexName);
+        ], null, $replicaIndexName);
 
         endforeach;
     }
@@ -373,6 +373,6 @@ class SyncService
      */
     private function getShops()
     {
-        return $this->em->getRepository(Shop::class)->findBy(array('active' => true));
+        return $this->em->getRepository(Shop::class)->findBy(['active' => true]);
     }
 }

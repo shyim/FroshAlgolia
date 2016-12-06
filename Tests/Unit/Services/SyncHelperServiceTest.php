@@ -46,6 +46,6 @@ class SyncHelperServiceTest extends BaseTest
         $this->assertInstanceOf('Shopware\Models\Shop\Shop', $this->shop);
         $this->assertNotEmpty($indexName);
         $this->assertTrue(is_int(strpos($indexName, '_')));
-        $this->assertInternalType('string', $indexName, "Got a " . gettype($indexName) . " instead of a string");
+        $this->assertInternalType('string', $indexName, 'Got a ' . gettype($indexName) . ' instead of a string');
     }
 }

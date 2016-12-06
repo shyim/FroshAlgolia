@@ -15,12 +15,12 @@ class SyncHelperService
     /**
      * @var Components\Logger
      */
-    private $logger = null;
+    private $logger;
 
     /**
      * @var array
      */
-    private $pluginConfig = null;
+    private $pluginConfig;
 
     public function __construct(Components\Logger $logger)
     {

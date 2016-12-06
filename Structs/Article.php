@@ -12,75 +12,75 @@ class Article extends Struct implements StructInterface
      * @var null|int
      * @Assert\NotBlank()
      */
-    public $objectID = null;
+    public $objectID;
 
     /**
      * @var null|string
      * @Assert\NotBlank()
      */
-    public $name = null;
+    public $name;
 
     /**
      * @var integer
      * @Assert\NotBlank()
      */
-    public $articleId = null;
+    public $articleId;
 
     /**
      * @var null|string
      * @Assert\NotBlank()
      */
-    private $number = null;
+    private $number;
 
     /**
      * @var null|string
      */
-    private $manufacturer_name = null;
+    private $manufacturer_name;
 
     /**
      * @var null|string
      */
-    private $currencySymbol = null;
+    private $currencySymbol;
 
     /**
      * @var null|float
      */
-    private $price = null;
+    private $price;
 
     /**
      * @var null|float
      */
-    private $link = null;
+    private $link;
 
     /**
      * @var null|string
      */
-    private $description = null;
+    private $description;
 
     /**
      * @var null|string
      */
-    private $ean = null;
+    private $ean;
 
     /**
      * @var null|string
      */
-    private $image = null;
+    private $image;
 
     /**
      * @var null|array
      */
-    private $categories = null;
+    private $categories;
 
     /**
      * @var null|array
      */
-    private $attributes = null;
+    private $attributes;
 
     /**
      * @var null|array
      */
-    private $properties = null;
+    private $properties;
 
     /**
      * @var int
@@ -90,7 +90,7 @@ class Article extends Struct implements StructInterface
     /**
      * @var null| \Shopware\Bundle\StoreFrontBundle\Struct\Product\VoteAverage
      */
-    private $votes = null;
+    private $votes;
 
     /**
      * @var int|null

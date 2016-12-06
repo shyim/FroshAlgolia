@@ -16,14 +16,14 @@ class AlgoliaService
 {
 
     /**
-     * @var null|Components\Logger
+     * @var Components\Logger
      */
-    private $logger = null;
+    private $logger;
 
     /**
      * @var null|array
      */
-    private $pluginConfig = null;
+    private $pluginConfig;
 
     /**
      * AlgoliaService constructor.
@@ -31,7 +31,6 @@ class AlgoliaService
      */
     public function __construct(Components\Logger $logger)
     {
-
         // Init Logger
         $this->logger = $logger;
 
@@ -52,23 +51,23 @@ class AlgoliaService
         $client->setConnectTimeout($this->pluginConfig['algolia-connection-timeout']);
 
         $index = $client->initIndex('test-master');
-        $response = $index->setSettings(array(
-            'replicas' => array('test-replica-1','test-replica-2')
-        ));
+        $response = $index->setSettings([
+            'replicas' => ['test-replica-1','test-replica-2']
+        ]);
 
         // Wait for the task to be completed (to make sure replica indices are ready)
         $index->waitTask($response['taskID']);
 
         // Configure the replica indices
-        $client->initIndex("test-replica-1")->setSettings(array(
-            "ranking" => array("asc(price)", "typo", "geo", "words", "proximity", "attribute", "exact", "custom")
-        ));
+        $client->initIndex('test-replica-1')->setSettings([
+            'ranking' => ['asc(price)', 'typo', 'geo', 'words', 'proximity', 'attribute', 'exact', 'custom']
+        ]);
 
-        $client->initIndex("test-replica-1")->setSettings(array(
-            "ranking" => array("desc(price)", "typo", "geo", "words", "proximity", "attribute", "exact", "custom")
-        ));
+        $client->initIndex('test-replica-1')->setSettings([
+            'ranking' => ['desc(price)', 'typo', 'geo', 'words', 'proximity', 'attribute', 'exact', 'custom']
+        ]);
 
-        $index->addObject(array('key' => 'value'));
+        $index->addObject(['key' => 'value']);
     }
 
     /**
@@ -91,10 +90,10 @@ class AlgoliaService
         // Send data to algolia
         try {
             $response = $index->addObjects($data);
-            $this->logger->addDebug('Successfully pushed elements {objectIds} for ShopId {shopId} to Algolia with TaskID {taskId}.', array('objectIds' => implode(', ', $response['objectIDs']), 'shopId' => $shop->getId(), 'taskId' => $response['taskID']));
+            $this->logger->addDebug('Successfully pushed elements {objectIds} for ShopId {shopId} to Algolia with TaskID {taskId}.', ['objectIds' => implode(', ', $response['objectIDs']), 'shopId' => $shop->getId(), 'taskId' => $response['taskID']]);
             return true;
         } catch (\Exception $e) {
-            $this->logger->addError('Error when pushing elements to Algolia: {errorMessage}', array('errorMessage' => $e->getMessage()));
+            $this->logger->addError('Error when pushing elements to Algolia: {errorMessage}', ['errorMessage' => $e->getMessage()]);
             return false;
         }
     }
@@ -115,10 +114,10 @@ class AlgoliaService
         // Init the index
         try {
             $index = $client->initIndex($indexName);
-            $this->logger->addDebug('Successfully initialized index {indexName}.', array('indexName' => $indexName));
+            $this->logger->addDebug('Successfully initialized index {indexName}.', ['indexName' => $indexName]);
             return $index;
         } catch (\Exception $e) {
-            $this->logger->addDebug('Error while initializing index {indexName}: {errorMessage}.', array('indexName' => $indexName, 'errorMessage' => $e->getMessage()));
+            $this->logger->addDebug('Error while initializing index {indexName}: {errorMessage}.', ['indexName' => $indexName, 'errorMessage' => $e->getMessage()]);
             return false;
         }
     }
@@ -147,10 +146,10 @@ class AlgoliaService
         // Push index settings to algolia
         try {
             $response = $index->setSettings($settings);
-            $this->logger->addDebug('Successfully pushed index settings for index {indexName} to Algolia with TaskID {taskId}.', array('indexName' => $index->indexName, 'taskId' => $response['taskID']));
+            $this->logger->addDebug('Successfully pushed index settings for index {indexName} to Algolia with TaskID {taskId}.', ['indexName' => $index->indexName, 'taskId' => $response['taskID']]);
             return $response;
         } catch (\Exception $e) {
-            $this->logger->addError('Error while pushing index settings to Algolia: {errorMessage}', array('errorMessage' => $e->getMessage()));
+            $this->logger->addError('Error while pushing index settings to Algolia: {errorMessage}', ['errorMessage' => $e->getMessage()]);
             return false;
         }
     }
@@ -169,10 +168,10 @@ class AlgoliaService
         // Delete index
         try {
             $client->deleteIndex($indexName);
-            $this->logger->addDebug('Successfully deleted index {indexName}.', array('indexName' => $indexName));
+            $this->logger->addDebug('Successfully deleted index {indexName}.', ['indexName' => $indexName]);
             return true;
         } catch (\Exception $e) {
-            $this->logger->addError('Error when trying to delete the index {indexName}: {errorMessage}', array('indexName' => $indexName, 'errorMessage' => $e->getMessage()));
+            $this->logger->addError('Error when trying to delete the index {indexName}: {errorMessage}', ['indexName' => $indexName, 'errorMessage' => $e->getMessage()]);
             return false;
         }
     }
