@@ -30,13 +30,13 @@ class BaseTest extends TestCase
     {
         parent::setUp();
         $this->em = Shopware()->Models();
-        $repository = Shopware()->Container()->get('models')->getRepository('Shopware\Models\Shop\Shop');
+        $repository = Shopware()->Container()->get('models')->getRepository(Shop::class);
         $this->shop = $repository->getActiveById(1);
     }
 
     public function testBase()
     {
-        $this->assertInstanceOf('Doctrine\ORM\EntityManager', $this->em);
-        $this->assertInstanceOf('Shopware\Models\Shop\Shop', $this->shop);
+        $this->assertInstanceOf(EntityManager::class, $this->em);
+        $this->assertInstanceOf(Shop::class, $this->shop);
     }
 }

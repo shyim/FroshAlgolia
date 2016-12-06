@@ -7,6 +7,7 @@ use Enlight\Event\SubscriberInterface;
 use Enlight_Controller_Action;
 use Enlight_Event_EventArgs;
 use Shopware\Models\Property\Option;
+use Shopware\Models\Shop\Shop;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class AlgoliaSearchSubscriber implements SubscriberInterface
@@ -58,7 +59,7 @@ class AlgoliaSearchSubscriber implements SubscriberInterface
 
         // Get the shop instance
         $shopId = $this->container->get('router')->getContext()->getShopId();
-        $shop = Shopware()->Container()->get('models')->getRepository('Shopware\Models\Shop\Shop')->getActiveById($shopId);
+        $shop = Shopware()->Container()->get('models')->getRepository(Shop::class)->getActiveById($shopId);
 
         /** @var Enlight_Controller_Action $controller */
         $controller = $args->get('subject');

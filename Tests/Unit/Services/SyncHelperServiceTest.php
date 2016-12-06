@@ -30,7 +30,7 @@ class SyncHelperServiceTest extends BaseTest
         parent::setUp();
         $this->em = Shopware()->Models();
 
-        $repository = Shopware()->Container()->get('models')->getRepository('Shopware\Models\Shop\Shop');
+        $repository = Shopware()->Container()->get('models')->getRepository(Shop::class);
         $this->shop = $repository->getActiveById(1);
     }
 
@@ -43,7 +43,7 @@ class SyncHelperServiceTest extends BaseTest
         $indexName = $snycHelperService->buildIndexName($this->shop);
 
         // Do assertion tests
-        $this->assertInstanceOf('Shopware\Models\Shop\Shop', $this->shop);
+        $this->assertInstanceOf(Shop::class, $this->shop);
         $this->assertNotEmpty($indexName);
         $this->assertTrue(is_int(strpos($indexName, '_')));
         $this->assertInternalType('string', $indexName, 'Got a ' . gettype($indexName) . ' instead of a string');
