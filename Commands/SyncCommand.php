@@ -63,7 +63,7 @@ EOF
         // Fetch input data
         $operation = $input->getArgument('operation');
 
-        switch($operation):
+        switch ($operation):
             case 'fullsync':
             case 'full':
                 $this->syncService->fullSync();

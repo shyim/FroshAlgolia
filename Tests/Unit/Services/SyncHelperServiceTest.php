@@ -30,25 +30,22 @@ class SyncHelperServiceTest extends BaseTest
         parent::setUp();
         $this->em = Shopware()->Models();
 
-        $repository = Shopware()->Container()->get('models')->getRepository('Shopware\Models\Shop\Shop');
+        $repository = Shopware()->Container()->get('models')->getRepository(Shop::class);
         $this->shop = $repository->getActiveById(1);
-
     }
 
     /**
      * Test for building the index name
      */
-    public function testBuildIndexName() {
-
+    public function testBuildIndexName()
+    {
         $snycHelperService = Shopware()->Container()->get('sw_algolia.sync_helper_service');
         $indexName = $snycHelperService->buildIndexName($this->shop);
 
         // Do assertion tests
-        $this->assertInstanceOf('Shopware\Models\Shop\Shop',$this->shop);
+        $this->assertInstanceOf(Shop::class, $this->shop);
         $this->assertNotEmpty($indexName);
-        $this->assertTrue(is_int(strpos($indexName,'_')));
-        $this->assertInternalType('string', $indexName, "Got a " . gettype($indexName) . " instead of a string");
-
+        $this->assertTrue(is_int(strpos($indexName, '_')));
+        $this->assertInternalType('string', $indexName, 'Got a ' . gettype($indexName) . ' instead of a string');
     }
-
 }

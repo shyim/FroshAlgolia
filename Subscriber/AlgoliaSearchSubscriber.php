@@ -7,6 +7,7 @@ use Enlight\Event\SubscriberInterface;
 use Enlight_Controller_Action;
 use Enlight_Event_EventArgs;
 use Shopware\Models\Property\Option;
+use Shopware\Models\Shop\Shop;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class AlgoliaSearchSubscriber implements SubscriberInterface
@@ -30,7 +31,7 @@ class AlgoliaSearchSubscriber implements SubscriberInterface
     public function __construct(
         $viewDir,
         ContainerInterface $container
-    ){
+    ) {
         $this->viewDir = $viewDir;
         $this->container = $container;
     }
@@ -58,7 +59,7 @@ class AlgoliaSearchSubscriber implements SubscriberInterface
 
         // Get the shop instance
         $shopId = $this->container->get('router')->getContext()->getShopId();
-        $shop = Shopware()->Container()->get('models')->getRepository('Shopware\Models\Shop\Shop')->getActiveById($shopId);
+        $shop = Shopware()->Container()->get('models')->getRepository(Shop::class)->getActiveById($shopId);
 
         /** @var Enlight_Controller_Action $controller */
         $controller = $args->get('subject');
@@ -73,39 +74,37 @@ class AlgoliaSearchSubscriber implements SubscriberInterface
          * index is the main Algolia index.
          */
         $sortOrderArray=[
-            array(
+            [
                 'name' =>  $syncHelperService->buildIndexName($shop), // The index which is used for this sort order
                 'label' => Shopware()->Snippets()->getNamespace('bundle/translation')->get('sort_order_default') // The name which should be shown to the customer
-            )
+            ]
         ];
-        $replicaIndices = explode('|',$pluginConfig['index-replicas-custom-ranking-attributes']);
-        foreach($replicaIndices as $replicaIndex):
+        $replicaIndices = explode('|', $pluginConfig['index-replicas-custom-ranking-attributes']);
+        foreach ($replicaIndices as $replicaIndex):
 
-            $replicaIndexSettings = explode(',',$replicaIndex);
+            $replicaIndexSettings = explode(',', $replicaIndex);
 
             // Build the key / name for the replica index
-            $nameElements = explode('(',$replicaIndexSettings[0]);
-            $replicaIndexName = $syncHelperService->buildIndexName($shop) . '_'. rtrim($nameElements[1],')') . '_' . $nameElements[0];
+            $nameElements = explode('(', $replicaIndexSettings[0]);
+        $replicaIndexName = $syncHelperService->buildIndexName($shop) . '_'. rtrim($nameElements[1], ')') . '_' . $nameElements[0];
 
-            $sortOrderArray[] = array(
+        $sortOrderArray[] = [
                 'name' =>  $replicaIndexName, // The index which is used for this sort order
-                'label' => Shopware()->Snippets()->getNamespace('bundle/translation')->get('sort_order_'.rtrim($nameElements[1],')') . '_' . $nameElements[0]) // The name which should be shown to the customer
-            );
+                'label' => Shopware()->Snippets()->getNamespace('bundle/translation')->get('sort_order_'.rtrim($nameElements[1], ')') . '_' . $nameElements[0]) // The name which should be shown to the customer
+        ];
 
         endforeach;
-        $sortOrderIndex = htmlspecialchars(json_encode($sortOrderArray,JSON_HEX_APOS));
+        $sortOrderIndex = htmlspecialchars(json_encode($sortOrderArray, JSON_HEX_APOS));
 
         // Assign data to view
         $view->addTemplateDir($this->viewDir);
         $view->assign('algoliaApplicationId', $pluginConfig['algolia-application-id']);
         $view->assign('algoliaSearchOnlyApiKey', $pluginConfig['algolia-search-only-api-key']);
         $view->assign('indexName', $syncHelperService->buildIndexName($shop));
-        $view->assign('showAlgoliaLogo',$pluginConfig['show-algolia-logo']);
-        $view->assign('facetFilterWidgetConfig',json_decode($pluginConfig['facet-filter-widget-config']));
-        $view->assign('facetFilterWidgetConfigJson',$pluginConfig['facet-filter-widget-config']);
-        $view->assign('filterOptions',$filterOptions);
-        $view->assign('sortOrderIndex',$sortOrderIndex);
-        
-        
+        $view->assign('showAlgoliaLogo', $pluginConfig['show-algolia-logo']);
+        $view->assign('facetFilterWidgetConfig', json_decode($pluginConfig['facet-filter-widget-config']));
+        $view->assign('facetFilterWidgetConfigJson', $pluginConfig['facet-filter-widget-config']);
+        $view->assign('filterOptions', $filterOptions);
+        $view->assign('sortOrderIndex', $sortOrderIndex);
     }
 }

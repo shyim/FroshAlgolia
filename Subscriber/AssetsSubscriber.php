@@ -41,8 +41,8 @@ class AssetsSubscriber implements SubscriberInterface
      * This method delivers the .less file for the added HTML elements to the Shopware .less Compiler. So this
      * .less will be automatically get integrated in the main CSS as soon as the theme is compiled.
      */
-    public function collectPluginLess() {
-
+    public function collectPluginLess()
+    {
         return new LessDefinition(
             [],
             [
@@ -50,7 +50,6 @@ class AssetsSubscriber implements SubscriberInterface
                 $this->viewDir.'/frontend/_public/src/less/instantsearch.less'
             ]
         );
-
     }
 
     /**

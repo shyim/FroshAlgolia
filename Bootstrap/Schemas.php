@@ -37,5 +37,4 @@ class Schemas
         ];
         $tool->dropSchema($classes);
     }
-
 }

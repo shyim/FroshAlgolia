@@ -10,27 +10,15 @@ use AlgoliaSearch\Index;
  */
 class AlgoliaServiceTest extends BaseTest
 {
-
-    /**
-     * Set up unit test
-     */
-    public function setUp()
-    {
-        parent::setUp();
-
-    }
-
     /**
      * Test for initialization of the Algolia index
      */
-    public function testInitIndex() {
-
+    public function testInitIndex()
+    {
         $algoliaService = Shopware()->Container()->get('sw_algolia.algolia_service');
         $index = $algoliaService->initIndex('swalgolia_1');
 
         // Do assertion tests
         $this->assertTrue(!$index || $index instanceof Index);
-
     }
-
 }

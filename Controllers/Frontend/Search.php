@@ -8,9 +8,7 @@ class Shopware_Controllers_Frontend_Search extends Enlight_Controller_Action
      */
     public function indexAction()
     {
-
-        return $this->forward("defaultSearch");
-
+        return $this->forward('defaultSearch');
     }
 
     /**
@@ -23,12 +21,11 @@ class Shopware_Controllers_Frontend_Search extends Enlight_Controller_Action
         $term = $this->getSearchTerm();
 
         // If the "q" param for instantsearch is not set, redirect the user to the url with q param
-        if(!$this->Request()->getParam('q') && $term && $term!=''):
+        if (!$this->Request()->getParam('q') && $term && $term!=''):
             $this->redirect('search?q='.$term);
         endif;
 
         $this->View()->loadTemplate('frontend/search/fuzzy.tpl');
-
     }
 
     /**
@@ -43,5 +40,4 @@ class Shopware_Controllers_Frontend_Search extends Enlight_Controller_Action
 
         return $processor->process($term);
     }
-
 }
