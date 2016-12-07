@@ -3,16 +3,19 @@
 namespace SwAlgolia\Commands;
 
 use Shopware\Commands\ShopwareCommand;
+use Shopware\Components\Logger;
 use SwAlgolia\Services\SyncService;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Shopware\Components;
 
+/**
+ * Class SyncCommand
+ */
 class SyncCommand extends ShopwareCommand
 {
     /**
-     * @var Components\Logger
+     * @var Logger
      */
     private $logger;
 
@@ -23,15 +26,17 @@ class SyncCommand extends ShopwareCommand
 
     /**
      * DiscountPriceCalculationService constructor.
-     * @param Components\Logger $logger
+     *
+     * @param Logger $logger
      * @param SyncService       $syncService
      */
     public function __construct(
-        Components\Logger $logger,
+        Logger $logger,
         SyncService $syncService
     ) {
         $this->logger = $logger;
         $this->syncService = $syncService;
+
         parent::__construct();
     }
 
@@ -63,11 +68,10 @@ EOF
         // Fetch input data
         $operation = $input->getArgument('operation');
 
-        switch ($operation):
+        switch ($operation) {
             case 'fullsync':
             case 'full':
                 $this->syncService->fullSync();
-
-        endswitch;
+        }
     }
 }

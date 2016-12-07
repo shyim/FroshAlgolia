@@ -10,7 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Backlog
 {
-
     /**
      * @var integer
      * @ORM\Column(name="id", type="integer", nullable=false)

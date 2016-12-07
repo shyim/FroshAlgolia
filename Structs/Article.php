@@ -5,29 +5,35 @@ namespace SwAlgolia\Structs;
 use Shopware\Bundle\StoreFrontBundle\Struct\Product\VoteAverage;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * Class Article
+ */
 class Article extends Struct implements StructInterface
 {
-
     /**
      * @var null|int
+     *
      * @Assert\NotBlank()
      */
     public $objectID;
 
     /**
      * @var null|string
+     *
      * @Assert\NotBlank()
      */
     public $name;
 
     /**
      * @var integer
+     *
      * @Assert\NotBlank()
      */
     public $articleId;
 
     /**
      * @var null|string
+     *
      * @Assert\NotBlank()
      */
     private $number;
@@ -88,7 +94,7 @@ class Article extends Struct implements StructInterface
     private $sales = 0;
 
     /**
-     * @var null| \Shopware\Bundle\StoreFrontBundle\Struct\Product\VoteAverage
+     * @var null|\Shopware\Bundle\StoreFrontBundle\Struct\Product\VoteAverage
      */
     private $votes;
 

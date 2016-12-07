@@ -7,11 +7,9 @@ use Shopware\Models\Shop\Shop;
 
 /**
  * Class SyncHelperService
- * @package SwAlgolia\Services
  */
 class SyncHelperService
 {
-
     /**
      * @var Components\Logger
      */
@@ -22,6 +20,11 @@ class SyncHelperService
      */
     private $pluginConfig;
 
+    /**
+     * SyncHelperService constructor.
+     *
+     * @param Components\Logger $logger
+     */
     public function __construct(Components\Logger $logger)
     {
         $this->logger = $logger;
@@ -33,12 +36,15 @@ class SyncHelperService
     /**
      * Build the main index name for a shop. The Index name consists of the prefix set in the
      * plugin configuration and the shop ID.
+     *
      * @param Shop $shop
+     *
      * @return string
      */
     public function buildIndexName(Shop $shop)
     {
         $prefix = isset($this->pluginConfig['index-prefix-name']) && $this->pluginConfig['index-prefix-name']!='' ? $this->pluginConfig['index-prefix-name'] .'_' : false;
+
         return $prefix . $shop->getId();
     }
 }

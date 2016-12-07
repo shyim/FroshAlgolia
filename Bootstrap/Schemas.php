@@ -6,14 +6,12 @@ use Doctrine\ORM\Tools\SchemaTool;
 use SwAlgolia\Models\Backlog;
 
 /**
- * Class Schemas
- * @package SwAlgolia\Bootstrap
- *
  * This class is responsible for creating schemas based on plugin models during plugin installation.
+ *
+ * Class Schemas
  */
 class Schemas
 {
-
     /**
      * Creates the schemas for the additional models
      */
