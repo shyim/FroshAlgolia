@@ -79,7 +79,7 @@ class AlgoliaSearchSubscriber implements SubscriberInterface
          */
         $sortOrderArray = [
             [
-                'name'  => $syncHelperService->buildIndexName($shop), // The index which is used for this sort order
+                'name' => $syncHelperService->buildIndexName($shop), // The index which is used for this sort order
                 'label' => Shopware()->Snippets()->getNamespace('bundle/translation')->get('sort_order_default'), // The name which should be shown to the customer
             ],
         ];
@@ -93,7 +93,7 @@ class AlgoliaSearchSubscriber implements SubscriberInterface
             $replicaIndexName = $syncHelperService->buildIndexName($shop).'_'.rtrim($nameElements[1], ')').'_'.$nameElements[0];
 
             $sortOrderArray[] = [
-                    'name'  => $replicaIndexName, // The index which is used for this sort order
+                    'name' => $replicaIndexName, // The index which is used for this sort order
                     'label' => Shopware()->Snippets()->getNamespace('bundle/translation')->get('sort_order_'.rtrim($nameElements[1], ')').'_'.$nameElements[0]), // The name which should be shown to the customer
             ];
         }

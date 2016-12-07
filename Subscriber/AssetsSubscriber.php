@@ -22,7 +22,7 @@ class AssetsSubscriber implements SubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            'Theme_Compiler_Collect_Plugin_Less'       => 'collectPluginLess',
+            'Theme_Compiler_Collect_Plugin_Less' => 'collectPluginLess',
             'Theme_Compiler_Collect_Plugin_Javascript' => 'collectJavascriptFiles',
         ];
     }
