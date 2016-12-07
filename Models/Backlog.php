@@ -2,6 +2,7 @@
 
 namespace SwAlgolia\Models;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,6 +13,7 @@ class Backlog
 {
     /**
      * @var integer
+     *
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
@@ -19,19 +21,22 @@ class Backlog
     private $id;
 
     /**
-     * @var \String
+     * @var string
+     *
      * @ORM\Column(name="event", type="string", length=255, nullable=false)
      */
     private $event;
 
     /**
-     * @var \String
+     * @var string
+     *
      * @ORM\Column(name="payload", type="text", nullable=false)
      */
     private $payload;
 
     /**
-     * @var \DateTime
+     * @var DateTime
+     *
      * @ORM\Column(name="time", type="datetime", nullable=false)
      */
     private $time;
@@ -53,7 +58,7 @@ class Backlog
     }
 
     /**
-     * @return String
+     * @return string
      */
     public function getEvent()
     {
@@ -61,7 +66,7 @@ class Backlog
     }
 
     /**
-     * @param String $event
+     * @param string $event
      */
     public function setEvent($event)
     {
@@ -69,7 +74,7 @@ class Backlog
     }
 
     /**
-     * @return String
+     * @return string
      */
     public function getPayload()
     {
@@ -77,7 +82,7 @@ class Backlog
     }
 
     /**
-     * @param String $payload
+     * @param string $payload
      */
     public function setPayload($payload)
     {
@@ -85,7 +90,7 @@ class Backlog
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
     public function getTime()
     {
@@ -93,9 +98,9 @@ class Backlog
     }
 
     /**
-     * @param \DateTime $time
+     * @param DateTime $time
      */
-    public function setTime(\DateTime $time)
+    public function setTime(DateTime $time)
     {
         $this->time = $time;
     }

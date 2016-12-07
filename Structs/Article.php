@@ -94,7 +94,7 @@ class Article extends Struct implements StructInterface
     private $sales = 0;
 
     /**
-     * @var null|\Shopware\Bundle\StoreFrontBundle\Struct\Product\VoteAverage
+     * @var null|VoteAverage
      */
     private $votes;
 
@@ -352,7 +352,7 @@ class Article extends Struct implements StructInterface
     }
 
     /**
-     * @param float|null $votes
+     * @param VoteAverage|null $votes
      */
     public function setVotes($votes)
     {
