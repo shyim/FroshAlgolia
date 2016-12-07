@@ -82,13 +82,13 @@ class SyncService
     {
 
         // Get all shops
-        if (!$shops = $this->getShops()):
+        if (!$shops = $this->getShops()) {
             throw new \Exception('No active shop found.');
-        endif;
+        }
 
         // Iterate over all shops
         /** @var Shop $shop */
-        foreach ($shops as $shop):
+        foreach ($shops as $shop) {
 
             // Construct the context
             $shop->registerResources();
@@ -101,21 +101,22 @@ class SyncService
 
             // Limit articles if required
             $limit = '';
-        if ($this->pluginConfig['limit-indexed-products-for-test'] > 0):
-                $limit = ' LIMIT 0,'.$this->pluginConfig['limit-indexed-products-for-test'];
-        endif;
+
+            if ($this->pluginConfig['limit-indexed-products-for-test'] > 0) {
+                    $limit = ' LIMIT 0,'.$this->pluginConfig['limit-indexed-products-for-test'];
+            }
 
             // Get all articles
             $articles = Shopware()->Db()->fetchCol('SELECT s_articles_details.ordernumber FROM s_articles_details INNER JOIN s_articles_categories_ro ON(s_articles_categories_ro.articleID = s_articles_details.articleID AND s_articles_categories_ro.categoryID = ?) WHERE kind = 1 and active = 1'.$limit, [
                 $shop->getCategory()->getId()
             ]);
 
-        $router = Shopware()->Container()->get('router');
-        $data = [];
-        $i = 0;
+            $router = Shopware()->Container()->get('router');
+            $data = [];
+            $i = 0;
 
             // Iterate over all found articles
-            foreach ($articles as $article):
+            foreach ($articles as $article) {
 
                 $i++;
 
@@ -146,7 +147,7 @@ class SyncService
                     $voteAvgPoints = 0;
                     $votes = $product->getVoteAverage();
                     if ($votes) {
-                        $voteAvgPoints = intval($votes->getPointCount()[0]['points']);
+                        $voteAvgPoints = (int)$votes->getPointCount()[0]['points'];
                     }
 
                     // Buid the article struct
@@ -174,17 +175,13 @@ class SyncService
                 }
 
                 // Push data to Algolia if sync-batch size is reached
-                if (count($data) % $this->pluginConfig['sync-batch-size'] == 0 || $i == count($articles)):
-
+                if (count($data) % $this->pluginConfig['sync-batch-size'] == 0 || $i === count($articles)) {
                     // Push data to Algolia
                     $this->algoliaService->push($shop, $data, $this->syncHelperService->buildIndexName($shop));
-        $data = [];
-
-        endif;
-
-        endforeach;
-
-        endforeach;
+                    $data = [];
+                }
+            }
+        }
 
         return true;
     }
@@ -192,21 +189,21 @@ class SyncService
     /**
      * This method consumes all events where entity data (e.g. articles) is changed and submits
      * the changed data on the fly to Algolia.
+     *
      * @param Struct $product
      */
     public function liveSync(Struct $product)
     {
-
         // @TODO TBD
     }
 
     /**
      * Creates and inits all indices and replica indices for a given shop
+     *
      * @param $shop
      */
     private function createIndices($shop)
     {
-
         // Create main index
         $indexName = $this->syncHelperService->buildIndexName($shop);
         $index = $this->algoliaService->initIndex($indexName);
@@ -226,25 +223,28 @@ class SyncService
 
         // Define replica settings
         $replicaIndices = explode('|', $this->pluginConfig['index-replicas-custom-ranking-attributes']);
-        foreach ($replicaIndices as $replicaIndex):
 
+        foreach ($replicaIndices as $replicaIndex) {
             $replicaIndexSettings = explode(',', $replicaIndex);
 
             // Build the key / name for the replica index
             $nameElements = explode('(', $replicaIndexSettings[0]);
-        $replicaIndexName = $indexName .'_'. rtrim($nameElements[1], ')') . '_' . $nameElements[0];
+            $replicaIndexName = $indexName .'_'. rtrim($nameElements[1], ')') . '_' . $nameElements[0];
 
-        $this->algoliaService->pushIndexSettings([
+            $params = [
                 'ranking' => $replicaIndexSettings,
                 'attributesForFaceting'  => $attributesForFaceting
-        ], null, $replicaIndexName);
+            ];
 
-        endforeach;
+            $this->algoliaService->pushIndexSettings($params, null, $replicaIndexName);
+        }
     }
 
     /**
      * Gets an array of all replica indices that needs to be created for a main index
+     *
      * @param $indexName
+     *
      * @return array
      */
     private function getReplicaNames($indexName)
@@ -254,24 +254,24 @@ class SyncService
         // Get the replicas from config
         $replicaIndices = explode('|', $this->pluginConfig['index-replicas-custom-ranking-attributes']);
 
-        foreach ($replicaIndices as $replicaIndex):
-
+        foreach ($replicaIndices as $replicaIndex) {
             $replicaIndexElements = explode(',', $replicaIndex);
 
             // Build the key / name for the replica index
             $nameElements = explode('(', $replicaIndexElements[0]);
-        $replicaIndexName = $indexName .'_'. rtrim($nameElements[1], ')') . '_' . $nameElements[0];
+            $replicaIndexName = $indexName .'_'. rtrim($nameElements[1], ')') . '_' . $nameElements[0];
 
-        $names[] = $replicaIndexName;
-
-        endforeach;
+            $names[] = $replicaIndexName;
+        }
 
         return $names;
     }
 
     /**
      * Deletes all indices for a shop
+     *
      * @param Shop $shop
+     *
      * @return void
      */
     private function deleteIndex(Shop $shop)
@@ -284,7 +284,9 @@ class SyncService
 
     /**
      * Get all product attributes
+     *
      * @param Product $product
+     *
      * @return array
      */
     private function getAttributes(Product $product)
@@ -299,8 +301,7 @@ class SyncService
 
         $blockedAttributes = explode(',', $this->pluginConfig['blocked-article-attributes']);
 
-        foreach ($attributes as $key => $value):
-
+        foreach ($attributes as $key => $value) {
             // Skip this attribute if it´s on the list of blocked attributes
             if (false != array_search($key, $blockedAttributes, true)) {
                 continue;
@@ -313,15 +314,16 @@ class SyncService
 
             // Map value to data array
             $data[$key] = $value;
-
-        endforeach;
+        }
 
         return $data;
     }
 
     /**
      * Prepare categories for data article
+     *
      * @param Product $product
+     *
      * @return array
      */
     private function getCategories(Product $product)
@@ -343,27 +345,26 @@ class SyncService
 
     /**
      * Fetches all product properties as an array
+     *
      * @param Product $product
+     *
      * @return array
      */
     private function getProperties(Product $product)
     {
         $properties = [];
 
-        if ($set = $product->getPropertySet()):
-
+        if ($set = $product->getPropertySet()) {
             $groups = $set->getGroups();
 
-        foreach ($groups as $group):
+            foreach ($groups as $group) {
                 $options = $group->getOptions();
 
-        foreach ($options as $option):
+                foreach ($options as $option) {
                     $properties[$group->getName()] = $option->getName();
-        endforeach;
-
-        endforeach;
-
-        endif;
+                }
+            }
+        }
 
         return $properties;
     }

@@ -8,11 +8,12 @@ use Shopware\Components\Theme\LessDefinition;
 
 /**
  * Class AssetsSubscriber
- *
- * @package SwAlgolia\Subscriber
  */
 class AssetsSubscriber implements SubscriberInterface
 {
+    /**
+     * @var string
+     */
     private $viewDir;
 
     /**
@@ -28,6 +29,7 @@ class AssetsSubscriber implements SubscriberInterface
 
     /**
      * AssetsSubscriber constructor.
+     *
      * @param string $viewDir
      */
     public function __construct($viewDir)

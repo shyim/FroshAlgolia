@@ -10,6 +10,9 @@ use Shopware\Models\Property\Option;
 use Shopware\Models\Shop\Shop;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * Class AlgoliaSearchSubscriber
+ */
 class AlgoliaSearchSubscriber implements SubscriberInterface
 {
     /**
@@ -25,7 +28,7 @@ class AlgoliaSearchSubscriber implements SubscriberInterface
     /**
      * AlgoliaSearchSubscriber constructor.
      *
-     * @param string             $viewDir
+     * @param string $viewDir
      * @param ContainerInterface $container
      */
     public function __construct(
@@ -37,9 +40,9 @@ class AlgoliaSearchSubscriber implements SubscriberInterface
     }
 
     /**
-     * @return array
-     *
      * Return an array of all subscribed events in this class
+     *
+     * @return array
      */
     public static function getSubscribedEvents()
     {
@@ -50,6 +53,7 @@ class AlgoliaSearchSubscriber implements SubscriberInterface
 
     /**
      * Create view variables for Algolia search
+     *
      * @param Enlight_Event_EventArgs $args
      */
     public function initAlgoliaSearch(Enlight_Event_EventArgs $args)
@@ -80,20 +84,21 @@ class AlgoliaSearchSubscriber implements SubscriberInterface
             ]
         ];
         $replicaIndices = explode('|', $pluginConfig['index-replicas-custom-ranking-attributes']);
-        foreach ($replicaIndices as $replicaIndex):
+
+        foreach ($replicaIndices as $replicaIndex) {
 
             $replicaIndexSettings = explode(',', $replicaIndex);
 
             // Build the key / name for the replica index
             $nameElements = explode('(', $replicaIndexSettings[0]);
-        $replicaIndexName = $syncHelperService->buildIndexName($shop) . '_'. rtrim($nameElements[1], ')') . '_' . $nameElements[0];
+            $replicaIndexName = $syncHelperService->buildIndexName($shop) . '_'. rtrim($nameElements[1], ')') . '_' . $nameElements[0];
 
-        $sortOrderArray[] = [
-                'name' =>  $replicaIndexName, // The index which is used for this sort order
-                'label' => Shopware()->Snippets()->getNamespace('bundle/translation')->get('sort_order_'.rtrim($nameElements[1], ')') . '_' . $nameElements[0]) // The name which should be shown to the customer
-        ];
+            $sortOrderArray[] = [
+                    'name' =>  $replicaIndexName, // The index which is used for this sort order
+                    'label' => Shopware()->Snippets()->getNamespace('bundle/translation')->get('sort_order_'.rtrim($nameElements[1], ')') . '_' . $nameElements[0]) // The name which should be shown to the customer
+            ];
+        }
 
-        endforeach;
         $sortOrderIndex = htmlspecialchars(json_encode($sortOrderArray, JSON_HEX_APOS));
 
         // Assign data to view
