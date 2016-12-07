@@ -83,7 +83,6 @@ class SyncService
      */
     public function fullSync()
     {
-
         // Get all shops
         if (!$shops = $this->getShops()) {
             throw new \Exception('No active shop found.');
@@ -92,7 +91,6 @@ class SyncService
         // Iterate over all shops
         /** @var Shop $shop */
         foreach ($shops as $shop) {
-
             // Construct the context
             $shop->registerResources();
 
@@ -120,18 +118,17 @@ class SyncService
 
             // Iterate over all found articles
             foreach ($articles as $article) {
-                $i++;
+                ++$i;
 
                 // Get product object
                 /** @var Product $product */
                 if ($product = $this->productService->get($article, $this->context->getShopContext())) {
-
                     // Get the SEO URL
                     // @TODO Fix wrong link when the shop uses a virtual path (e.g. /de or /en)
                     $assembleParams = [
-                        'module'    => 'frontend',
+                        'module' => 'frontend',
                         'sViewport' => 'detail',
-                        'sArticle'  => $product->getId(),
+                        'sArticle' => $product->getId(),
                     ];
                     $link = $router->assemble($assembleParams);
 
@@ -213,10 +210,10 @@ class SyncService
 
         // Create indices, replica indices and define settings
         $indexSettings = [
-            'attributesToIndex'      => explode(',', $this->pluginConfig['index-searchable-attributes']),
-            'customRanking'          => explode(',', $this->pluginConfig['index-custom-ranking-attributes']),
-            'attributesForFaceting'  => $attributesForFaceting,
-            'replicas'               => $this->getReplicaNames($indexName),
+            'attributesToIndex' => explode(',', $this->pluginConfig['index-searchable-attributes']),
+            'customRanking' => explode(',', $this->pluginConfig['index-custom-ranking-attributes']),
+            'attributesForFaceting' => $attributesForFaceting,
+            'replicas' => $this->getReplicaNames($indexName),
         ];
         $settingsResponse = $this->algoliaService->pushIndexSettings($indexSettings, $index);
 
@@ -234,8 +231,8 @@ class SyncService
             $replicaIndexName = $indexName.'_'.rtrim($nameElements[1], ')').'_'.$nameElements[0];
 
             $params = [
-                'ranking'                => $replicaIndexSettings,
-                'attributesForFaceting'  => $attributesForFaceting,
+                'ranking' => $replicaIndexSettings,
+                'attributesForFaceting' => $attributesForFaceting,
             ];
 
             $this->algoliaService->pushIndexSettings($params, null, $replicaIndexName);
@@ -273,8 +270,6 @@ class SyncService
      * Deletes all indices for a shop.
      *
      * @param Shop $shop
-     *
-     * @return void
      */
     private function deleteIndex(Shop $shop)
     {
