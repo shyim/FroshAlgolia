@@ -1,5 +1,22 @@
 {
+    "name": "synonymous1984/SwAlgolia",
+    "license": "MIT",
+    "type": "project",
+    "description": "Algolia Shopware Plugin",
+    "keywords": [
+        "shopware",
+        "Algolia"
+    ],
+    "homepage": "https://github.com/synonymous1984/SwAlgolia",
     "require": {
         "algolia/algoliasearch-client-php": "^1.11"
+    },
+    "autoload": {
+        "psr-4": {
+            "SwAlgolia\\": ""
+        }
+    },
+    "scripts": {
+        "test": "phpunit -c tests/"
     }
 }
