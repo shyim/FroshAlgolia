@@ -16,6 +16,9 @@
 {* Search submit *}
 {block name='frontend_index_search_field_submit'}{/block}
 
+{* Ajax loader *}
+{block name='frontend_index_search_ajax_loader'}{/block}
+
 {* Search results *}
 {block name='frontend_index_search_results'}
 
