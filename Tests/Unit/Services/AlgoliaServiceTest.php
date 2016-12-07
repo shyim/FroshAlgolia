@@ -5,13 +5,12 @@ namespace SwAlgolia\Tests\Unit\Services;
 use AlgoliaSearch\Index;
 
 /**
- * Class AlgoliaServiceTest
- * @package SwAlgolia\Tests\Unit\Services
+ * Class AlgoliaServiceTest.
  */
 class AlgoliaServiceTest extends BaseTest
 {
     /**
-     * Test for initialization of the Algolia index
+     * Test for initialization of the Algolia index.
      */
     public function testInitIndex()
     {

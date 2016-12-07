@@ -2,13 +2,13 @@
 
 namespace SwAlgolia\Services;
 
-use AlgoliaSearch\Index;
-use Shopware\Models\Shop\Shop;
-use Shopware\Components;
 use AlgoliaSearch\Client as AlgoliaClient;
+use AlgoliaSearch\Index;
+use Shopware\Components;
+use Shopware\Models\Shop\Shop;
 
 /**
- * Class AlgoliaService
+ * Class AlgoliaService.
  *
  * Wraps the AlgoliaSearch as a service.
  */
@@ -39,7 +39,7 @@ class AlgoliaService
     }
 
     /**
-     * Short test method for this and that
+     * Short test method for this and that.
      */
     public function test()
     {
@@ -51,7 +51,7 @@ class AlgoliaService
 
         $index = $client->initIndex('test-master');
         $response = $index->setSettings([
-            'replicas' => ['test-replica-1','test-replica-2']
+            'replicas' => ['test-replica-1', 'test-replica-2'],
         ]);
 
         // Wait for the task to be completed (to make sure replica indices are ready)
@@ -59,20 +59,20 @@ class AlgoliaService
 
         // Configure the replica indices
         $client->initIndex('test-replica-1')->setSettings([
-            'ranking' => ['asc(price)', 'typo', 'geo', 'words', 'proximity', 'attribute', 'exact', 'custom']
+            'ranking' => ['asc(price)', 'typo', 'geo', 'words', 'proximity', 'attribute', 'exact', 'custom'],
         ]);
 
         $client->initIndex('test-replica-1')->setSettings([
-            'ranking' => ['desc(price)', 'typo', 'geo', 'words', 'proximity', 'attribute', 'exact', 'custom']
+            'ranking' => ['desc(price)', 'typo', 'geo', 'words', 'proximity', 'attribute', 'exact', 'custom'],
         ]);
 
         $index->addObject(['key' => 'value']);
     }
 
     /**
-     * Push a data array to an Algolia index
+     * Push a data array to an Algolia index.
      *
-     * @param Shop $shop
+     * @param Shop  $shop
      * @param array $data
      * @param $indexName
      *
@@ -100,13 +100,12 @@ class AlgoliaService
         }
     }
 
-
     /**
-     * Initialize index
+     * Initialize index.
      *
      * @param $indexName
      *
-     * @return Index|boolean
+     * @return Index|bool
      */
     public function initIndex($indexName)
     {
@@ -128,17 +127,17 @@ class AlgoliaService
     }
 
     /**
-     * Pushes the index settings from plugin configuration to the Algolia index
+     * Pushes the index settings from plugin configuration to the Algolia index.
      *
-     * @param array $settings
+     * @param array      $settings
      * @param Index|null $index
-     * @param null $indexName
-     *
-     * @return bool|mixed
+     * @param null       $indexName
      *
      * @throws \Exception
+     *
+     * @return bool|mixed
      */
-    public function pushIndexSettings(array $settings, Index $index=null, $indexName=null)
+    public function pushIndexSettings(array $settings, Index $index = null, $indexName = null)
     {
         if (!$index && !$indexName) {
             throw new \Exception('Either index or indexname has to be specified.');
@@ -164,10 +163,11 @@ class AlgoliaService
         }
     }
 
-
     /**
-     * Deletes an Algolia index and it´s replica indices by name
+     * Deletes an Algolia index and it´s replica indices by name.
+     *
      * @param $indexName
+     *
      * @return bool
      */
     public function deleteIndex($indexName)

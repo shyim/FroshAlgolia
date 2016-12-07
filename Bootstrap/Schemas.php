@@ -13,25 +13,25 @@ use SwAlgolia\Models\Backlog;
 class Schemas
 {
     /**
-     * Creates the schemas for the additional models
+     * Creates the schemas for the additional models.
      */
     public static function createSchemas()
     {
         $tool = new SchemaTool(Shopware()->Container()->get('models'));
         $classes = [
-            Shopware()->Container()->get('models')->getClassMetadata(Backlog::class)
+            Shopware()->Container()->get('models')->getClassMetadata(Backlog::class),
         ];
         $tool->createSchema($classes);
     }
 
     /**
-     * Removes the schemas for the additional models
+     * Removes the schemas for the additional models.
      */
     public static function removeSchemas()
     {
         $tool = new SchemaTool(Shopware()->Container()->get('models'));
         $classes = [
-            Shopware()->Container()->get('models')->getClassMetadata(Backlog::class)
+            Shopware()->Container()->get('models')->getClassMetadata(Backlog::class),
         ];
         $tool->dropSchema($classes);
     }

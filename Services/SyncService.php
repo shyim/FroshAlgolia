@@ -1,4 +1,5 @@
 <?php
+
 namespace SwAlgolia\Services;
 
 use Doctrine\ORM\EntityManager;
@@ -12,8 +13,7 @@ use SwAlgolia\Structs\Article as ArticleStruct;
 use SwAlgolia\Structs\Struct;
 
 /**
- * Class SyncService
- * @package SwAlgolia\Services
+ * Class SyncService.
  */
 class SyncService
 {
@@ -54,11 +54,12 @@ class SyncService
 
     /**
      * SyncService constructor.
-     * @param Components\Logger $logger
+     *
+     * @param Components\Logger   $logger
      * @param Core\ContextService $context
-     * @param ProductService $productService
-     * @param AlgoliaService $algoliaService
-     * @param SyncHelperService $syncHelperService
+     * @param ProductService      $productService
+     * @param AlgoliaService      $algoliaService
+     * @param SyncHelperService   $syncHelperService
      */
     public function __construct(Components\Logger $logger, Core\ContextService $context, ProductService $productService, AlgoliaService $algoliaService, SyncHelperService $syncHelperService)
     {
@@ -74,9 +75,11 @@ class SyncService
     }
 
     /**
-     * Syncs complete article data to Angolia
-     * @return bool
+     * Syncs complete article data to Angolia.
+     *
      * @throws \Exception
+     *
+     * @return bool
      */
     public function fullSync()
     {
@@ -103,12 +106,12 @@ class SyncService
             $limit = '';
 
             if ($this->pluginConfig['limit-indexed-products-for-test'] > 0) {
-                    $limit = ' LIMIT 0,'.$this->pluginConfig['limit-indexed-products-for-test'];
+                $limit = ' LIMIT 0,'.$this->pluginConfig['limit-indexed-products-for-test'];
             }
 
             // Get all articles
             $articles = Shopware()->Db()->fetchCol('SELECT s_articles_details.ordernumber FROM s_articles_details INNER JOIN s_articles_categories_ro ON(s_articles_categories_ro.articleID = s_articles_details.articleID AND s_articles_categories_ro.categoryID = ?) WHERE kind = 1 and active = 1'.$limit, [
-                $shop->getCategory()->getId()
+                $shop->getCategory()->getId(),
             ]);
 
             $router = Shopware()->Container()->get('router');
@@ -117,7 +120,6 @@ class SyncService
 
             // Iterate over all found articles
             foreach ($articles as $article) {
-
                 $i++;
 
                 // Get product object
@@ -127,9 +129,9 @@ class SyncService
                     // Get the SEO URL
                     // @TODO Fix wrong link when the shop uses a virtual path (e.g. /de or /en)
                     $assembleParams = [
-                        'module' => 'frontend',
+                        'module'    => 'frontend',
                         'sViewport' => 'detail',
-                        'sArticle' => $product->getId()
+                        'sArticle'  => $product->getId(),
                     ];
                     $link = $router->assemble($assembleParams);
 
@@ -147,7 +149,7 @@ class SyncService
                     $voteAvgPoints = 0;
                     $votes = $product->getVoteAverage();
                     if ($votes) {
-                        $voteAvgPoints = (int)$votes->getPointCount()[0]['points'];
+                        $voteAvgPoints = (int) $votes->getPointCount()[0]['points'];
                     }
 
                     // Buid the article struct
@@ -198,7 +200,7 @@ class SyncService
     }
 
     /**
-     * Creates and inits all indices and replica indices for a given shop
+     * Creates and inits all indices and replica indices for a given shop.
      *
      * @param $shop
      */
@@ -211,10 +213,10 @@ class SyncService
 
         // Create indices, replica indices and define settings
         $indexSettings = [
-            'attributesToIndex' => explode(',', $this->pluginConfig['index-searchable-attributes']),
-            'customRanking' => explode(',', $this->pluginConfig['index-custom-ranking-attributes']),
+            'attributesToIndex'      => explode(',', $this->pluginConfig['index-searchable-attributes']),
+            'customRanking'          => explode(',', $this->pluginConfig['index-custom-ranking-attributes']),
             'attributesForFaceting'  => $attributesForFaceting,
-            'replicas' => $this->getReplicaNames($indexName)
+            'replicas'               => $this->getReplicaNames($indexName),
         ];
         $settingsResponse = $this->algoliaService->pushIndexSettings($indexSettings, $index);
 
@@ -229,11 +231,11 @@ class SyncService
 
             // Build the key / name for the replica index
             $nameElements = explode('(', $replicaIndexSettings[0]);
-            $replicaIndexName = $indexName .'_'. rtrim($nameElements[1], ')') . '_' . $nameElements[0];
+            $replicaIndexName = $indexName.'_'.rtrim($nameElements[1], ')').'_'.$nameElements[0];
 
             $params = [
-                'ranking' => $replicaIndexSettings,
-                'attributesForFaceting'  => $attributesForFaceting
+                'ranking'                => $replicaIndexSettings,
+                'attributesForFaceting'  => $attributesForFaceting,
             ];
 
             $this->algoliaService->pushIndexSettings($params, null, $replicaIndexName);
@@ -241,7 +243,7 @@ class SyncService
     }
 
     /**
-     * Gets an array of all replica indices that needs to be created for a main index
+     * Gets an array of all replica indices that needs to be created for a main index.
      *
      * @param $indexName
      *
@@ -259,7 +261,7 @@ class SyncService
 
             // Build the key / name for the replica index
             $nameElements = explode('(', $replicaIndexElements[0]);
-            $replicaIndexName = $indexName .'_'. rtrim($nameElements[1], ')') . '_' . $nameElements[0];
+            $replicaIndexName = $indexName.'_'.rtrim($nameElements[1], ')').'_'.$nameElements[0];
 
             $names[] = $replicaIndexName;
         }
@@ -268,7 +270,7 @@ class SyncService
     }
 
     /**
-     * Deletes all indices for a shop
+     * Deletes all indices for a shop.
      *
      * @param Shop $shop
      *
@@ -283,7 +285,7 @@ class SyncService
     }
 
     /**
-     * Get all product attributes
+     * Get all product attributes.
      *
      * @param Product $product
      *
@@ -320,7 +322,7 @@ class SyncService
     }
 
     /**
-     * Prepare categories for data article
+     * Prepare categories for data article.
      *
      * @param Product $product
      *
@@ -344,7 +346,7 @@ class SyncService
     }
 
     /**
-     * Fetches all product properties as an array
+     * Fetches all product properties as an array.
      *
      * @param Product $product
      *

@@ -6,12 +6,10 @@ use Doctrine\ORM\EntityManager;
 use Shopware\Models\Shop\Shop;
 
 /**
- * Class SyncHelperServiceTest
- * @package SwAlgolia\Tests\Unit\Services
+ * Class SyncHelperServiceTest.
  */
 class SyncHelperServiceTest extends BaseTest
 {
-
     /**
      * @var EntityManager
      */
@@ -23,7 +21,7 @@ class SyncHelperServiceTest extends BaseTest
     private $shop;
 
     /**
-     * Set up unit test
+     * Set up unit test.
      */
     public function setUp()
     {
@@ -35,7 +33,7 @@ class SyncHelperServiceTest extends BaseTest
     }
 
     /**
-     * Test for building the index name
+     * Test for building the index name.
      */
     public function testBuildIndexName()
     {
@@ -46,6 +44,6 @@ class SyncHelperServiceTest extends BaseTest
         $this->assertInstanceOf(Shop::class, $this->shop);
         $this->assertNotEmpty($indexName);
         $this->assertTrue(is_int(strpos($indexName, '_')));
-        $this->assertInternalType('string', $indexName, 'Got a ' . gettype($indexName) . ' instead of a string');
+        $this->assertInternalType('string', $indexName, 'Got a '.gettype($indexName).' instead of a string');
     }
 }

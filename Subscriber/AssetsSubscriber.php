@@ -7,7 +7,7 @@ use Enlight\Event\SubscriberInterface;
 use Shopware\Components\Theme\LessDefinition;
 
 /**
- * Class AssetsSubscriber
+ * Class AssetsSubscriber.
  */
 class AssetsSubscriber implements SubscriberInterface
 {
@@ -22,7 +22,7 @@ class AssetsSubscriber implements SubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            'Theme_Compiler_Collect_Plugin_Less' => 'collectPluginLess',
+            'Theme_Compiler_Collect_Plugin_Less'       => 'collectPluginLess',
             'Theme_Compiler_Collect_Plugin_Javascript' => 'collectJavascriptFiles',
         ];
     }
@@ -49,7 +49,7 @@ class AssetsSubscriber implements SubscriberInterface
             [],
             [
                 $this->viewDir.'/frontend/_public/src/less/autocomplete.less',
-                $this->viewDir.'/frontend/_public/src/less/instantsearch.less'
+                $this->viewDir.'/frontend/_public/src/less/instantsearch.less',
             ]
         );
     }
@@ -63,7 +63,7 @@ class AssetsSubscriber implements SubscriberInterface
     public function collectJavascriptFiles()
     {
         return new ArrayCollection([
-            $this->viewDir . '/frontend/_public/src/js/jquery.swalgolia.js'
+            $this->viewDir.'/frontend/_public/src/js/jquery.swalgolia.js',
         ]);
     }
 }
