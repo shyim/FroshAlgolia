@@ -7,12 +7,10 @@ use PHPUnit\Framework\TestCase;
 use Shopware\Models\Shop\Shop;
 
 /**
- * Class AlgoliaServiceTest
- * @package SwAlgolia\Tests\Unit\Services
+ * Class AlgoliaServiceTest.
  */
 class BaseTest extends TestCase
 {
-
     /**
      * @var EntityManager
      */
@@ -24,7 +22,7 @@ class BaseTest extends TestCase
     private $shop;
 
     /**
-     * Set up unit test
+     * Set up unit test.
      */
     public function setUp()
     {

@@ -1,7 +1,7 @@
 <?php
 /**
  * Shopware 5
- * Copyright (c) shopware AG
+ * Copyright (c) shopware AG.
  *
  * According to our dual licensing model, this program can be used either
  * under the terms of the GNU Affero General Public License, version 3,
@@ -21,20 +21,19 @@
  * trademark license. Therefore any rights, title and interest in
  * our trademarks remain entirely with us.
  */
-
 use Shopware\Models\Shop\Shop;
 
-require __DIR__ . '/../../../../../autoload.php';
+require __DIR__.'/../../../../../autoload.php';
 
 class TestKernel extends \Shopware\Kernel
 {
     protected function getConfigPath()
     {
-        return __DIR__ . '/config.php';
+        return __DIR__.'/config.php';
     }
 
     /**
-     * Static method to start boot kernel without leaving local scope in test helper
+     * Static method to start boot kernel without leaving local scope in test helper.
      */
     public static function start()
     {

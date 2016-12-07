@@ -3,7 +3,7 @@
 use Shopware\Bundle\SearchBundle\SearchTermPreProcessorInterface;
 
 /**
- * Class Shopware_Controllers_Frontend_Search
+ * Class Shopware_Controllers_Frontend_Search.
  */
 class Shopware_Controllers_Frontend_Search extends Enlight_Controller_Action
 {
@@ -16,7 +16,7 @@ class Shopware_Controllers_Frontend_Search extends Enlight_Controller_Action
     }
 
     /**
-     * Default search
+     * Default search.
      */
     public function defaultSearchAction()
     {
@@ -24,7 +24,7 @@ class Shopware_Controllers_Frontend_Search extends Enlight_Controller_Action
         $term = $this->getSearchTerm();
 
         // If the "q" param for instantsearch is not set, redirect the user to the url with q param
-        if (!$this->Request()->getParam('q') && $term && $term!='') {
+        if (!$this->Request()->getParam('q') && $term && $term != '') {
             $this->redirect('search?q='.$term);
         }
 
@@ -39,7 +39,7 @@ class Shopware_Controllers_Frontend_Search extends Enlight_Controller_Action
         $term = $this->Request()->getParam('sSearch', '');
 
         /**
-         * @var SearchTermPreProcessorInterface $processor
+         * @var SearchTermPreProcessorInterface
          */
         $processor = $this->get('shopware_search.search_term_pre_processor');
 

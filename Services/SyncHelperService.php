@@ -6,7 +6,7 @@ use Shopware\Components;
 use Shopware\Models\Shop\Shop;
 
 /**
- * Class SyncHelperService
+ * Class SyncHelperService.
  */
 class SyncHelperService
 {
@@ -43,8 +43,8 @@ class SyncHelperService
      */
     public function buildIndexName(Shop $shop)
     {
-        $prefix = isset($this->pluginConfig['index-prefix-name']) && $this->pluginConfig['index-prefix-name']!='' ? $this->pluginConfig['index-prefix-name'] .'_' : false;
+        $prefix = isset($this->pluginConfig['index-prefix-name']) && $this->pluginConfig['index-prefix-name'] != '' ? $this->pluginConfig['index-prefix-name'].'_' : false;
 
-        return $prefix . $shop->getId();
+        return $prefix.$shop->getId();
     }
 }

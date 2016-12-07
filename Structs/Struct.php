@@ -3,12 +3,12 @@
 namespace SwAlgolia\Structs;
 
 /**
- * Class Struct
+ * Class Struct.
  */
 abstract class Struct
 {
     /**
-     * Converts the given struct to a multidimensional array
+     * Converts the given struct to a multidimensional array.
      *
      * @return array
      */

@@ -9,10 +9,10 @@ use SwAlgolia\Bootstrap\Schemas;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 // Composer autoload
-require_once(__DIR__.'/vendor/autoload.php');
+require_once __DIR__.'/vendor/autoload.php';
 
 /**
- * Class SwAlgolia
+ * Class SwAlgolia.
  *
  * Plugin main class for SwAlgolia Algolia (https://www.algolia.com) search plugin
  */

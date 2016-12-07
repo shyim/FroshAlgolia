@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class SyncCommand
+ * Class SyncCommand.
  */
 class SyncCommand extends ShopwareCommand
 {
@@ -27,8 +27,8 @@ class SyncCommand extends ShopwareCommand
     /**
      * DiscountPriceCalculationService constructor.
      *
-     * @param Logger $logger
-     * @param SyncService       $syncService
+     * @param Logger      $logger
+     * @param SyncService $syncService
      */
     public function __construct(
         Logger $logger,
@@ -53,11 +53,10 @@ class SyncCommand extends ShopwareCommand
                 InputArgument::REQUIRED,
                 'The action that should be performed on the Algolia index.'
             )
-            ->setHelp(<<<EOF
+            ->setHelp(<<<'EOF'
 Allowed arguments full,fullsync
 EOF
-            )
-        ;
+            );
     }
 
     /**

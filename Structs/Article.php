@@ -6,7 +6,7 @@ use Shopware\Bundle\StoreFrontBundle\Struct\Product\VoteAverage;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class Article
+ * Class Article.
  */
 class Article extends Struct implements StructInterface
 {
@@ -25,7 +25,7 @@ class Article extends Struct implements StructInterface
     public $name;
 
     /**
-     * @var integer
+     * @var int
      *
      * @Assert\NotBlank()
      */
@@ -136,7 +136,7 @@ class Article extends Struct implements StructInterface
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getArticleId()
     {
@@ -144,7 +144,7 @@ class Article extends Struct implements StructInterface
     }
 
     /**
-     * @param integer $articleId
+     * @param int $articleId
      */
     public function setArticleId($articleId)
     {
