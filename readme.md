@@ -1,3 +1,5 @@
+![Travis CI](hhttps://travis-ci.org/synonymous1984/SwAlgolia.svg?branch=master)
+
 SwAlgolia - Algolia plugin for Shopware
 =====
 This plugin integrates the high-performance search cluster [Algolia](https://www.algolia.com/) in your [Shopware](https://www.shopware.de) system.
