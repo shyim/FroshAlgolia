@@ -42,5 +42,3 @@ matrix:
 
 notifications:
   slack: swalgolia:khIrAeVIs925HdujhG7S19rX
-    on_success: always
-    on_failure: always
