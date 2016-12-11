@@ -1,4 +1,4 @@
-![Travis CI](hhttps://travis-ci.org/synonymous1984/SwAlgolia.svg?branch=master)
+[![Build Status](https://travis-ci.org/synonymous1984/SwAlgolia.svg?branch=master)](https://travis-ci.org/synonymous1984/SwAlgolia)
 [![StyleCI](https://styleci.io/repos/72530399/shield?branch=master)](https://styleci.io/repos/72530399)
 
 SwAlgolia - Algolia plugin for Shopware
