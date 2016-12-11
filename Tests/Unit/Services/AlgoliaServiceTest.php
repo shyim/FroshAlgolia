@@ -9,7 +9,7 @@ use AlgoliaSearch\Index;
  */
 class AlgoliaServiceTest extends BaseTest
 {
-    /**
+    /*
      * Test for initialization of the Algolia index.
      */
 //    public function testInitIndex()

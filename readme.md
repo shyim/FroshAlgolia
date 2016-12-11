@@ -1,4 +1,5 @@
 ![Travis CI](hhttps://travis-ci.org/synonymous1984/SwAlgolia.svg?branch=master)
+[![StyleCI](https://styleci.io/repos/72530399/shield?branch=master)](https://styleci.io/repos/72530399)
 
 SwAlgolia - Algolia plugin for Shopware
 =====
