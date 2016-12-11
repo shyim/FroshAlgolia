@@ -12,12 +12,12 @@ class AlgoliaServiceTest extends BaseTest
     /**
      * Test for initialization of the Algolia index.
      */
-    public function testInitIndex()
-    {
-        $algoliaService = Shopware()->Container()->get('sw_algolia.algolia_service');
-        $index = $algoliaService->initIndex('swalgolia_1');
-
-        // Do assertion tests
-        $this->assertTrue(!$index || $index instanceof Index);
-    }
+//    public function testInitIndex()
+//    {
+//        $algoliaService = Shopware()->Container()->get('sw_algolia.algolia_service');
+//        $index = $algoliaService->initIndex('swalgolia_1');
+//
+//        // Do assertion tests
+//        $this->assertTrue(!$index || $index instanceof Index);
+//    }
 }
