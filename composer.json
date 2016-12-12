@@ -1,6 +1,6 @@
 {
     "name": "synonymous1984/SwAlgolia",
-    "license": "AGPL",
+    "license": "MIT",
     "type": "project",
     "description": "Algolia Shopware Plugin",
     "keywords": [
