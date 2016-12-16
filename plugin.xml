@@ -3,7 +3,7 @@
         xsi:noNamespaceSchemaLocation="../../../engine/Shopware/Components/Plugin/schema/plugin.xsd">
 
     <label>Algolia for Shopware</label>
-    <version>0.1.0</version>
+    <version>0.2.0</version>
     <copyright>FriendsOfShopware</copyright>
     <link>https://github.com/synonymous1984/SwAlgolia</link>
     <author>FriendsOfShopware</author>
@@ -11,6 +11,10 @@
 
     <changelog version="0.1.0">
         <changes>Initial Release</changes>
+    </changelog>
+
+    <changelog version="0.2.0">
+        <changes>Added live backlog sync.</changes>
     </changelog>
 
     <compatibility minVersion="5.2.6" />

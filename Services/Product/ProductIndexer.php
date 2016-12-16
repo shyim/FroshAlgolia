@@ -60,13 +60,13 @@ class ProductIndexer implements DataIndexerInterface
 
     /**
      * @param ShopIndex $index
-     * @param string[] $numbers
-     * @return \string[]
+     * @param $numbers
+     * @return null
      */
     public function indexProducts(ShopIndex $index, $numbers)
     {
         if (empty($numbers)) {
-            return;
+            return null;
         }
 
         $products = $this->provider->get($index->getShop(), $numbers);

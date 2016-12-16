@@ -1,13 +1,14 @@
 <?php
 
 namespace SwAlgolia\Services;
+use SwAlgolia\Structs\Backlog;
 
 interface BacklogReaderInterface
 {
     /**
      * @param int $lastId
      * @param int $limit
-     * @return SwAlgolia\Structs\Backlog[]
+     * @return Backlog[]
      */
     public function read($lastId, $limit);
 

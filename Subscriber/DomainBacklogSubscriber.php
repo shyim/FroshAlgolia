@@ -42,8 +42,8 @@ class DomainBacklogSubscriber implements SubscriberInterface
      */
     public function onProductStockWasChanged(EventArgs $eventArgs)
     {
-        $backlog = new Backlog(BacklogORMSubscriber::EVENT_VARIANT_UPDATED, ['number' => $eventArgs->get('number')]);
-        $this->container->get('sw_algolia.backlog_processor_service')->add([$backlog]);
+        $backlog = new Backlog(ORMBacklogSubscriber::EVENT_VARIANT_UPDATED, ['number' => $eventArgs->get('number')]);
+        $this->container->get('sw_algolia.backlog_processor')->add([$backlog]);
     }
 
 }

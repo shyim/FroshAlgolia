@@ -60,10 +60,10 @@
             <tag name="shopware.event_subscriber"/>
         </service>
 
-        <!--<service id="sw_algolia.orm_backlog_subscriber" class="SwAlgolia\Subscriber\ORMBacklogSubscriber" public="false">-->
-            <!--<argument type="service" id="service_container" />-->
-            <!--<tag name="doctrine.event_subscriber" />-->
-        <!--</service>-->
+        <service id="sw_algolia.orm_backlog_subscriber" class="SwAlgolia\Subscriber\ORMBacklogSubscriber" public="false">
+            <argument type="service" id="service_container" />
+            <tag name="doctrine.event_subscriber" />
+        </service>
 
         <service id="sw_algolia.domain_backlog_subscriber" class="SwAlgolia\Subscriber\DomainBacklogSubscriber">
             <argument type="service" id="service_container" />
@@ -100,7 +100,7 @@
         </service>
 
         <service id="sw_algolia.client" class="AlgoliaSearch\Client" >
-            <factory class="SwAlgolia\ClientFactory" method="createClient" />
+            <factory class="Shopware\Bundle\ESIndexingBundle\ClientFactory" method="createClient" />
         </service>
 
         <service id="sw_algolia.shop_indexer_factory" class="SwAlgolia\Services\DependencyInjection\Factory\ShopIndexerFactory" >

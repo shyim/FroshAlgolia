@@ -51,13 +51,15 @@ class ShopIndexer implements ShopIndexerInterface
     private $configuration;
 
     /**
+     * ShopIndexer constructor.
      * @param Client $client
      * @param BacklogReaderInterface $backlogReader
      * @param BacklogProcessorInterface $backlogProcessor
      * @param IndexFactoryInterface $indexFactory
-     * @param DataIndexerInterface[] $indexer
-     * @param MappingInterface[] $mappings
-     * @param SettingsInterface[] $settings
+     * @param array $indexer
+     * @param array $mappings
+     * @param array $settings
+     * @param array $configuration
      */
     public function __construct(
         Client $client,

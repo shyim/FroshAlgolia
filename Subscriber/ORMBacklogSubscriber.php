@@ -159,7 +159,7 @@ class ORMBacklogSubscriber implements EventSubscriber
         if (empty($this->queue)) {
             return;
         }
-        $this->container->get('shopware_elastic_search.backlog_processor')->add($this->queue);
+        $this->container->get('sw_algolia.backlog_processor')->add($this->queue);
         $this->queue = [];
     }
 
