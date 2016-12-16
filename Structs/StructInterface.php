@@ -3,7 +3,8 @@
 namespace SwAlgolia\Structs;
 
 /**
- * Interface StructInterface.
+ * Interface StructInterface
+ * @package SwAlgolia\Structs
  */
 interface StructInterface
 {

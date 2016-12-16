@@ -10,9 +10,9 @@
 
     <services>
 
-        <!-- ****************************
-        Define the logger with PSR3 logging for this plugin
-        ********************************* -->
+        <!-- =============================  -->
+        <!-- PSR3 Logger                    -->
+        <!-- =============================  -->
         <service id="sw_algolia.logger.handler" class="Monolog\Handler\RotatingFileHandler" public="false">
             <argument>%kernel.logs_dir%/plugin_sw_algolia_%kernel.environment%.log</argument>
             <argument>14</argument>
@@ -42,13 +42,13 @@
                 <argument type="service" id="sw_algolia.logger.psr3processor" />
             </call>
         </service>
-        <!-- ****************************
-        / Define the logger with PSR3 logging for this plugin
-        ********************************* -->
+        <!-- =============================  -->
+        <!-- /PSR3 Logger                   -->
+        <!-- =============================  -->
 
-        <!-- ****************************
-        Define the services
-        ********************************* -->
+        <!-- =============================  -->
+        <!-- Event subscriber               -->
+        <!-- =============================  -->
         <service id="sw_algolia.subscriber.algolia_search_subscriber" class="SwAlgolia\Subscriber\AlgoliaSearchSubscriber">
             <argument type="string">%sw_algolia.view_dir%</argument>
             <argument type="service" id="service_container"/>
@@ -60,6 +60,22 @@
             <tag name="shopware.event_subscriber"/>
         </service>
 
+        <!--<service id="sw_algolia.orm_backlog_subscriber" class="SwAlgolia\Subscriber\ORMBacklogSubscriber" public="false">-->
+            <!--<argument type="service" id="service_container" />-->
+            <!--<tag name="doctrine.event_subscriber" />-->
+        <!--</service>-->
+
+        <service id="sw_algolia.domain_backlog_subscriber" class="SwAlgolia\Subscriber\DomainBacklogSubscriber">
+            <argument type="service" id="service_container" />
+            <tag name="shopware.event_subscriber" />
+        </service>
+        <!-- =============================  -->
+        <!-- /Event subscriber              -->
+        <!-- =============================  -->
+
+        <!-- =============================  -->
+        <!-- Define the services            -->
+        <!-- =============================  -->
         <service id="sw_algolia.sync_helper_service"
                  class="SwAlgolia\Services\SyncHelperService"
                  public="true">
@@ -82,13 +98,136 @@
             <argument type="service" id="sw_algolia.logger" />
             <argument type="service" id="shopware_storefront.context_service" />
         </service>
-        <!-- ****************************
-        /Define the services
-        ********************************* -->
 
-        <!-- ****************************
-        Commands
-        ********************************* -->
+        <service id="sw_algolia.client" class="AlgoliaSearch\Client" >
+            <factory class="SwAlgolia\ClientFactory" method="createClient" />
+        </service>
+
+        <service id="sw_algolia.shop_indexer_factory" class="SwAlgolia\Services\DependencyInjection\Factory\ShopIndexerFactory" >
+            <argument type="collection" />
+            <argument type="collection" />
+            <argument type="collection" />
+        </service>
+
+        <service id="sw_algolia.shop_indexer" class="SwAlgolia\Services\ShopIndexer">
+            <factory service="sw_algolia.shop_indexer_factory" method="factory" />
+            <argument type="service" id="service_container" />
+        </service>
+
+        <service id="sw_algolia.field_mapping" class="SwAlgolia\Services\FieldMapping">
+            <argument type="service" id="sw_algolia.shop_analyzer" />
+        </service>
+
+        <service id="sw_algolia.index_factory" class="SwAlgolia\Services\IndexFactory" >
+            <argument>test</argument>
+            <argument>1</argument>
+            <argument>1</argument>
+        </service>
+
+        <service id="sw_algolia.shop_analyzer" class="SwAlgolia\Services\ShopAnalyzer" />
+
+        <service id="sw_algolia.product_query_factory" class="SwAlgolia\Services\Product\ProductQueryFactory">
+            <argument type="service" id="dbal_connection" />
+        </service>
+
+        <service id="sw_algolia.property_query_factory" class="SwAlgolia\Services\Property\PropertyQueryFactory">
+            <argument type="service" id="dbal_connection" />
+        </service>
+
+        <service id="sw_algolia.identifier_selector" class="SwAlgolia\Services\IdentifierSelector">
+            <argument type="service" id="dbal_connection" />
+            <argument type="service" id="shopware_storefront.shop_gateway_dbal" />
+        </service>
+
+        <service id="sw_algolia.composite_synchronizer_factory" class="SwAlgolia\Services\DependencyInjection\Factory\CompositeSynchronizerFactory" >
+            <argument type="collection" />
+        </service>
+
+        <service id="sw_algolia.composite_synchronizer" class="SwAlgolia\Services\CompositeSynchronizerService">
+            <factory service="sw_algolia.composite_synchronizer_factory" method="factory" />
+            <argument type="service" id="service_container" />
+        </service>
+
+        <service id="sw_algolia.backlog_processor"
+                 class="SwAlgolia\Services\BacklogProcessor"
+                 public="true">
+            <argument type="service" id="dbal_connection" />
+            <argument type="service" id="sw_algolia.composite_synchronizer" />
+            <argument type="service" id="sw_algolia.index_factory" />
+            <argument type="service" id="sw_algolia.identifier_selector" />
+        </service>
+
+        <service id="sw_algolia.backlog_reader" class="SwAlgolia\Services\BacklogReader">
+            <argument type="service" id="dbal_connection" />
+        </service>
+
+        <service id="sw_algolia.property_indexer" class="SwAlgolia\Services\Property\PropertyIndexer">
+            <argument type="service" id="sw_algolia.client" />
+            <argument type="service" id="sw_algolia.property_query_factory" />
+            <argument type="service" id="sw_algolia.property_provider" />
+            <tag name="sw_algolia.data_indexer" />
+        </service>
+
+        <service id="sw_algolia.property_synchronizer" class="SwAlgolia\Services\Property\PropertySynchronizer">
+            <argument type="service" id="sw_algolia.property_indexer" />
+            <tag name="sw_algolia.synchronizer" />
+        </service>
+
+        <service id="sw_algolia.property_provider" class="SwAlgolia\Services\Property\PropertyProvider">
+            <argument type="service" id="dbal_connection" />
+            <argument type="service" id="shopware_storefront.context_service" />
+            <argument type="service" id="shopware_storefront.field_helper_dbal" />
+            <argument type="service" id="shopware_storefront.property_hydrator_dbal" />
+        </service>
+
+        <service id="sw_algolia.property_mapping" class="SwAlgolia\Services\Property\PropertyMapping">
+            <argument type="service" id="sw_algolia.field_mapping" />
+            <tag name="sw_algolia.mapping" />
+        </service>
+
+        <service id="sw_algolia.product_indexer" class="SwAlgolia\Services\Product\ProductIndexer">
+            <argument type="service" id="sw_algolia.client" />
+            <argument type="service" id="sw_algolia.product_provider" />
+            <argument type="service" id="sw_algolia.product_query_factory" />
+
+            <tag name="sw_algolia.data_indexer" />
+        </service>
+
+        <service id="sw_algolia.product_synchronizer" class="SwAlgolia\Services\Product\ProductSynchronizer">
+            <argument type="service" id="sw_algolia.product_query_factory" />
+            <argument type="service" id="sw_algolia.product_indexer" />
+            <tag name="sw_algolia.synchronizer" />
+        </service>
+
+        <service id="sw_algolia.product_provider" class="SwAlgolia\Services\Product\ProductProvider">
+            <argument type="service" id="shopware_storefront.list_product_gateway" />
+            <argument type="service" id="shopware_storefront.cheapest_price_service" />
+            <argument type="service" id="shopware_storefront.vote_service" />
+            <argument type="service" id="shopware_storefront.context_service" />
+            <argument type="service" id="dbal_connection" />
+            <argument type="service" id="sw_algolia.identifier_selector" />
+            <argument type="service" id="shopware_storefront.price_calculation_service" />
+            <argument type="service" id="shopware_storefront.field_helper_dbal" />
+            <argument type="service" id="shopware_storefront.property_hydrator_dbal" />
+        </service>
+
+        <service id="sw_algolia.product_mapping" class="SwAlgolia\Services\Product\ProductMapping">
+            <argument type="service" id="sw_algolia.identifier_selector" />
+            <argument type="service" id="sw_algolia.field_mapping" />
+            <tag name="sw_algolia.mapping" />
+        </service>
+
+        <service id="sw_algolia.service_subscriber" class="SwAlgolia\Subscriber\ServiceSubscriber">
+            <tag name="shopware.event_subscriber" />
+        </service>
+
+        <!-- =============================  -->
+        <!-- /Define the services           -->
+        <!-- =============================  -->
+
+        <!-- =============================  -->
+        <!-- Commands                       -->
+        <!-- =============================  -->
         <service
                 id="sw_algolia.commands.sync_command"
                 class="SwAlgolia\Commands\SyncCommand">
@@ -96,9 +235,9 @@
             <argument type="service" id="sw_algolia.logger" />
             <argument type="service" id="sw_algolia.sync_service" />
         </service>
-        <!-- ****************************
-        /Commands
-        ********************************* -->
+        <!-- =============================  -->
+        <!-- /Commands                      -->
+        <!-- =============================  -->
 
     </services>
 </container>

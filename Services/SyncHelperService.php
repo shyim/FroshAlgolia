@@ -6,7 +6,8 @@ use Shopware\Components;
 use Shopware\Models\Shop\Shop;
 
 /**
- * Class SyncHelperService.
+ * Class SyncHelperService
+ * @package SwAlgolia\Services
  */
 class SyncHelperService
 {

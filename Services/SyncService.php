@@ -13,7 +13,8 @@ use SwAlgolia\Structs\Article as ArticleStruct;
 use SwAlgolia\Structs\Struct;
 
 /**
- * Class SyncService.
+ * Class SyncService
+ * @package SwAlgolia\Services
  */
 class SyncService
 {

@@ -6,7 +6,8 @@ use Shopware\Bundle\StoreFrontBundle\Struct\Product\VoteAverage;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class Article.
+ * Class Article
+ * @package SwAlgolia\Structs
  */
 class Article extends Struct implements StructInterface
 {

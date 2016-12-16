@@ -8,9 +8,8 @@ use Shopware\Components;
 use Shopware\Models\Shop\Shop;
 
 /**
- * Class AlgoliaService.
- *
- * Wraps the AlgoliaSearch as a service.
+ * Class AlgoliaService
+ * @package SwAlgolia\Services
  */
 class AlgoliaService
 {
