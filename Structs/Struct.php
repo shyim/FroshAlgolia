@@ -3,7 +3,8 @@
 namespace SwAlgolia\Structs;
 
 /**
- * Class Struct.
+ * Class Struct
+ * @package SwAlgolia\Structs
  */
 abstract class Struct
 {
@@ -18,8 +19,8 @@ abstract class Struct
         $methods = get_class_methods(get_class($this));
 
         foreach ($methods as $method) {
-            if (0 === strpos('get', $method)) {
-                //$propertyName = ltrim(strtolower(preg_replace('/[A-Z]/', '_$0', substr($method,3))), '_');
+
+            if (0 === strpos($method,'get')) {
                 $propertyName = lcfirst(substr($method, 3));
                 $data[$propertyName] = $this->$method();
             }
