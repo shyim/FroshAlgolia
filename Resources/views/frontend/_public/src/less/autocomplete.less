@@ -15,26 +15,13 @@ input[type="search"] {
 
   &.aa-input-search {
     padding: .5625rem 2.375rem .5625rem .5625rem;
-    background: #f8f8fa;
+    background: white;
     height: 2.5rem;
     vertical-align: middle;
     width: 100%;
-    border: 1px solid #dadae5;
-    border-top-color: #cbcbdb;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
-    -webkit-transition: all .2s ease; /* Firefox */
-    -moz-transition: all .2s ease; /* WebKit */
-    -o-transition: all .2s ease; /* Opera */
-    transition: all .2s ease; /* Standard */
-    -webkit-box-shadow: inset 0 1px 1px #dadae5; /* Firefox */
-    -moz-box-shadow: inset 0 1px 1px #dadae5; /* WebKit */
-    box-shadow: inset 0 1px 1px #dadae5; /* Standard */
-    box-sizing: border-box;
-    color: #3f4c58;
-    -webkit-appearance: none;
-    -moz-appearance: none;
+    border: none;
+    .unitize-border-radius(@border-radius,@border-radius,@border-radius,@border-radius);
+    .box-shadow(inset 1px 1px 4px rgba(0,0,0,0.2));
 
     &::-webkit-search-decoration, &::-webkit-search-cancel-button, &::-webkit-search-results-button, &::-webkit-search-results-decoration {
       display: none;
@@ -42,7 +29,6 @@ input[type="search"] {
 
     &:focus {
       outline: 0;
-      border-color: #DA400B;
       background: white;
       -webkit-box-shadow: none; /* Firefox */
       -moz-box-shadow: none; /* WebKit */

@@ -67,7 +67,9 @@
                     var name = suggestion._highlightResult.name.value;
                     var currencySymbol = suggestion.currencySymbol;
                     var price = suggestion.price;
-                    var link = suggestion.link;
+                    // var link = suggestion.link;
+                    // Remove Hostname from link to avoid issues with shopware inputFilter
+                    var link = suggestion.link.replace(/^.*\/\/[^\/]+\//, '');
 
                     // render the suggestion
                     var res = '';
