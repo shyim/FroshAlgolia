@@ -216,11 +216,6 @@
             <argument type="service" id="sw_algolia.field_mapping" />
             <tag name="sw_algolia.mapping" />
         </service>
-
-        <service id="sw_algolia.service_subscriber" class="SwAlgolia\Subscriber\ServiceSubscriber">
-            <tag name="shopware.event_subscriber" />
-        </service>
-
         <!-- =============================  -->
         <!-- /Define the services           -->
         <!-- =============================  -->

@@ -61,24 +61,16 @@
             source: autocomplete.sources.hits(index, {hitsPerPage: 10}),
             displayKey: 'name',
             templates: {
-                {/literal}{if $showAlgoliaLogo}footer: '<div class="branding"><span><a href="https://github.com/synonymous1984/SwAlgolia" target="_blank">SwAlgolia Plugin by JSS</a></span><span>Powered by <img src="https://www.algolia.com/assets/algolia128x40.png" /></span> </div>',{/if}{literal}
+                {/literal}{if $showAlgoliaLogo}footer: '<div class="branding"><span><a href="https://github.com/synonymous1984/SwAlgolia" target="_blank">SwAlgolia Plugin by FOS</a></span><span>Powered by <img src="https://www.algolia.com/assets/algolia128x40.png" /></span> </div>',{/if}{literal}
                 suggestion: function(suggestion) {
 
-                    var image = stripTags(suggestion.image);
                     var name = suggestion._highlightResult.name.value;
                     var currencySymbol = suggestion.currencySymbol;
                     var price = suggestion.price;
-                    var number = suggestion._highlightResult.number.value;
                     var link = suggestion.link;
 
                     // render the suggestion
-                    //var res = '<div class="aa-suggestion">';
                     var res = '';
-
-                    /// show the image
-//                    if (image !== '') {
-//                        res += '<span><img src="' + escapeHTML(suggestion.image) + '" alt="' + escapeHTML(stripTags(suggestion.name)) +'" /></span>';
-//                    }
 
                     // show name
                     if (name !== '') {
@@ -93,21 +85,16 @@
                         res += '</span>';
                     }
 
-                    // show number
-//                    if (number !== '') {
-//                        if (number && number.trim() !== '') {
-//                            res += '<span class="number">';
-//                            res += stripTags(number);
-//                            res += '</span>';
-//                        }
-//                    }
-
                     // show price
-                    if (price !== '') {
-                        res += '<span class="price">';
-                        res += currencySymbol + ' ' + stripTags(price);
-                        res += '</span>';
-                    }
+                    {/literal}
+                    {if $showAutocompletePrice}
+                        if (price !== '') {
+                            res += '<span class="price">';
+                            res += currencySymbol + ' ' + stripTags(price);
+                            res += '</span>';
+                        }
+                    {/if}
+                    {literal}
 
                     return res;
                 }

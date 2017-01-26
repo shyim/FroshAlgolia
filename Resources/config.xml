@@ -76,5 +76,10 @@
             <label>Show Algolia logo next to the search results (required for free accounts)?</label>
             <value>true</value>
         </element>
+        <element type="boolean" required="true">
+            <name>show-autocomplete-price</name>
+            <label>Show the article price in autocomplete results?</label>
+            <value>false</value>
+        </element>
     </elements>
 </config>
