@@ -5,8 +5,7 @@ namespace SwAlgolia\Services;
 use SwAlgolia\Structs\ShopIndex;
 
 /**
- * Class CompositeSynchronizerService
- * @package SwAlgolia\Services
+ * Class CompositeSynchronizerService.
  */
 class CompositeSynchronizerService implements SynchronizerInterface
 {

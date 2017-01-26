@@ -8,8 +8,7 @@ use SwAlgolia\Services\SynchronizerInterface;
 use Symfony\Component\DependencyInjection\Container;
 
 /**
- * Class CompositeSynchronizerFactory
- * @package SwAlgolia\Services\DependencyInjection\Factory
+ * Class CompositeSynchronizerFactory.
  */
 class CompositeSynchronizerFactory
 {
@@ -33,12 +32,14 @@ class CompositeSynchronizerFactory
 
     /**
      * @param Container $container
+     *
      * @return CompositeSynchronizerService
      */
     public function factory(Container $container)
     {
         $this->container = $container;
         $synchronizer = $this->collectSynchronizer();
+
         return new CompositeSynchronizerService($synchronizer);
     }
 
@@ -52,6 +53,7 @@ class CompositeSynchronizerFactory
             'SwAlgolia_Collect_Synchronizer',
             $collection
         );
+
         return array_merge($collection->toArray(), $this->synchronizer);
     }
 }

@@ -5,8 +5,7 @@ namespace SwAlgolia\Services;
 use Doctrine\DBAL\Query\QueryBuilder;
 
 /**
- * Class LastIdQuery
- * @package SwAlgolia\Services
+ * Class LastIdQuery.
  */
 class LastIdQuery
 {
@@ -31,6 +30,7 @@ class LastIdQuery
         $data = $this->query->execute()->fetchAll(\PDO::FETCH_KEY_PAIR);
         $keys = array_keys($data);
         $this->query->setParameter(':lastId', array_pop($keys));
+
         return array_values($data);
     }
 
@@ -39,14 +39,14 @@ class LastIdQuery
      */
     public function fetchCount()
     {
-        /**@var $query QueryBuilder*/
+        /** @var $query QueryBuilder */
         $query = clone $this->query;
 
         //get first column for distinct selection
         $select = $query->getQueryPart('select');
 
         $query->resetQueryPart('orderBy');
-        $query->select('COUNT(DISTINCT '. array_shift($select) .')');
+        $query->select('COUNT(DISTINCT '.array_shift($select).')');
 
         return $query->execute()->fetch(\PDO::FETCH_COLUMN);
     }

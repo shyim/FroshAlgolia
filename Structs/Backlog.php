@@ -3,8 +3,7 @@
 namespace SwAlgolia\Structs;
 
 /**
- * Class Backlog
- * @package SwAlgolia\Structs
+ * Class Backlog.
  */
 class Backlog extends Struct implements StructInterface
 {
@@ -29,9 +28,9 @@ class Backlog extends Struct implements StructInterface
     private $time;
 
     /**
-     * @param string $event
-     * @param string $payload
-     * @param string $time
+     * @param string   $event
+     * @param string   $payload
+     * @param string   $time
      * @param null|int $id
      */
     public function __construct($event, $payload, $time = 'now', $id = null)

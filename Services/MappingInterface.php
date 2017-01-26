@@ -13,6 +13,7 @@ interface MappingInterface
 
     /**
      * @param Shop $shop
+     *
      * @return array
      */
     public function get(Shop $shop);

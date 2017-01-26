@@ -42,6 +42,7 @@ class PropertySynchronizer implements SynchronizerInterface
 
     /**
      * @param Backlog[] $backlogs
+     *
      * @return int[]
      */
     private function getPropertyIdsOfBacklog($backlogs)
@@ -64,6 +65,7 @@ class PropertySynchronizer implements SynchronizerInterface
                     break;
             }
         }
+
         return array_unique(array_filter($ids));
     }
 }

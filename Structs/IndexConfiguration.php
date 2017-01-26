@@ -3,8 +3,7 @@
 namespace SwAlgolia\Structs;
 
 /**
- * Class IndexConfiguration
- * @package SwAlgolia\Structs
+ * Class IndexConfiguration.
  */
 class IndexConfiguration
 {
@@ -29,8 +28,8 @@ class IndexConfiguration
     private $numberOfReplicas = null;
 
     /**
-     * @param string $name
-     * @param string $alias
+     * @param string   $name
+     * @param string   $alias
      * @param int|null $numberOfShards
      * @param int|null $numberOfReplicas
      */

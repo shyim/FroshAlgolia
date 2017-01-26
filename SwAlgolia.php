@@ -41,7 +41,7 @@ class SwAlgolia extends Plugin
 
     /**
      * @param ActivateContext $context
-     * This method is called on activation of the plugin
+     *                                 This method is called on activation of the plugin
      */
     public function activate(ActivateContext $context)
     {
@@ -51,7 +51,7 @@ class SwAlgolia extends Plugin
 
     /**
      * @param DeactivateContext $context
-     * This method is called on deactivation of the plugin
+     *                                   This method is called on deactivation of the plugin
      */
     public function deactivate(DeactivateContext $context)
     {

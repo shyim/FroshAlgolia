@@ -9,8 +9,7 @@ use SwAlgolia\Structs\ShopIndex;
 use Shopware\Bundle\StoreFrontBundle\Struct\Property\Group;
 
 /**
- * Class PropertyIndexer
- * @package Shopware\Bundle\ESIndexingBundle\Property
+ * Class PropertyIndexer.
  */
 class PropertyIndexer implements DataIndexerInterface
 {
@@ -30,9 +29,9 @@ class PropertyIndexer implements DataIndexerInterface
     private $queryFactory;
 
     /**
-     * @param Client $client
+     * @param Client               $client
      * @param PropertyQueryFactory $queryFactory
-     * @param PropertyProvider $provider
+     * @param PropertyProvider     $provider
      */
     public function __construct(
         Client $client,
@@ -45,7 +44,7 @@ class PropertyIndexer implements DataIndexerInterface
     }
 
     /**
-     * @param ShopIndex $index
+     * @param ShopIndex               $index
      * @param ProgressHelperInterface $progress
      */
     public function populate(ShopIndex $index, ProgressHelperInterface $progress)
@@ -63,7 +62,7 @@ class PropertyIndexer implements DataIndexerInterface
 
     /**
      * @param ShopIndex $index
-     * @param int[] $groupIds
+     * @param int[]     $groupIds
      */
     public function indexProperties(ShopIndex $index, $groupIds)
     {
@@ -73,7 +72,7 @@ class PropertyIndexer implements DataIndexerInterface
 
         /** @var Group[] $properties */
         $properties = $this->provider->get($index->getShop(), $groupIds);
-        $remove     = array_diff($groupIds, array_keys($properties));
+        $remove = array_diff($groupIds, array_keys($properties));
 
         $documents = [];
         foreach ($properties as $property) {
@@ -87,8 +86,8 @@ class PropertyIndexer implements DataIndexerInterface
 
         $this->client->bulk([
             'index' => $index->getName(),
-            'type'  => PropertyMapping::TYPE,
-            'body'  => $documents
+            'type' => PropertyMapping::TYPE,
+            'body' => $documents,
         ]);
     }
 }

@@ -6,8 +6,7 @@ use Doctrine\DBAL\Connection;
 use SwAlgolia\Structs\Backlog;
 
 /**
- * Class BacklogReader
- * @package SwAlgolia\Services
+ * Class BacklogReader.
  */
 class BacklogReader implements BacklogReaderInterface
 {
