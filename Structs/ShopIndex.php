@@ -5,8 +5,7 @@ namespace SwAlgolia\Structs;
 use Shopware\Bundle\StoreFrontBundle\Struct\Shop;
 
 /**
- * Class ShopIndex
- * @package SwAlgolia\Structs
+ * Class ShopIndex.
  */
 class ShopIndex
 {
@@ -16,13 +15,13 @@ class ShopIndex
     private $name;
 
     /**
-     * @var Shop $shop
+     * @var Shop
      */
     private $shop;
 
     /**
      * @param string $name
-     * @param Shop $shop
+     * @param Shop   $shop
      */
     public function __construct($name, Shop $shop)
     {

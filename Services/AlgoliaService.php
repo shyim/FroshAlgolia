@@ -8,8 +8,7 @@ use Shopware\Components;
 use Shopware\Models\Shop\Shop;
 
 /**
- * Class AlgoliaService
- * @package SwAlgolia\Services
+ * Class AlgoliaService.
  */
 class AlgoliaService
 {

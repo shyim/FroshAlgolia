@@ -6,8 +6,7 @@ use SwAlgolia\Structs\Backlog;
 use SwAlgolia\Structs\ShopIndex;
 
 /**
- * Interface SynchronizerInterface
- * @package SwAlgolia\Services
+ * Interface SynchronizerInterface.
  */
 interface SynchronizerInterface
 {

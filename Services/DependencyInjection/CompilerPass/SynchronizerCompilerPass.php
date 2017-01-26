@@ -7,8 +7,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 
 /**
- * Class SynchronizerCompilerPass
- * @package SwAlgolia\Services\DependencyInjection\CompilerPass
+ * Class SynchronizerCompilerPass.
  */
 class SynchronizerCompilerPass implements CompilerPassInterface
 {

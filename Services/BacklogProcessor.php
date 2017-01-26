@@ -7,8 +7,7 @@ use SwAlgolia\Structs\Backlog;
 use SwAlgolia\Structs\ShopIndex;
 
 /**
- * Class BacklogProcessorService
- * @package SwAlgolia\Services
+ * Class BacklogProcessorService.
  */
 class BacklogProcessor implements BacklogProcessorInterface
 {
@@ -33,10 +32,10 @@ class BacklogProcessor implements BacklogProcessorInterface
     private $identifierSelector;
 
     /**
-     * @param Connection $connection
+     * @param Connection            $connection
      * @param SynchronizerInterface $synchronizer
      * @param IndexFactoryInterface $indexFactory
-     * @param IdentifierSelector $identifierSelector
+     * @param IdentifierSelector    $identifierSelector
      */
     public function __construct(
         Connection $connection,
@@ -75,16 +74,16 @@ class BacklogProcessor implements BacklogProcessorInterface
      */
     private function writeBacklog(array $backlogs)
     {
-        $statement = $this->connection->prepare("
+        $statement = $this->connection->prepare('
             INSERT IGNORE INTO swalgolia_backlog (`event`, `payload`, `time`)
             VALUES (:event, :payload, :time);
-        ");
+        ');
 
         foreach ($backlogs as $backlog) {
             $statement->execute([
-                ':event'   => $backlog->getEvent(),
+                ':event' => $backlog->getEvent(),
                 ':payload' => json_encode($backlog->getPayload()),
-                ':time'    => $backlog->getTime()->format('Y-m-d H:i:s')
+                ':time' => $backlog->getTime()->format('Y-m-d H:i:s'),
             ]);
         }
     }

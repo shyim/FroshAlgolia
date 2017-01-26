@@ -7,8 +7,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 
 /**
- * Class DataIndexerCompilerPass
- * @package SwAlgolia\Services\DependencyInjection\CompilerPass
+ * Class DataIndexerCompilerPass.
  */
 class DataIndexerCompilerPass implements CompilerPassInterface
 {

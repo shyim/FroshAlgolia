@@ -7,8 +7,7 @@ use SwAlgolia\Services\MappingInterface;
 use Shopware\Bundle\StoreFrontBundle\Struct\Shop;
 
 /**
- * Class PropertyMapping
- * @package SwAlgolia\Services\Property
+ * Class PropertyMapping.
  */
 class PropertyMapping implements MappingInterface
 {
@@ -48,10 +47,10 @@ class PropertyMapping implements MappingInterface
                 'options' => [
                     'properties' => [
                         'id' => ['type' => 'long'],
-                        'name' => $this->fieldMapping->getLanguageField($shop)
-                    ]
-                ]
-            ]
+                        'name' => $this->fieldMapping->getLanguageField($shop),
+                    ],
+                ],
+            ],
         ];
     }
 }

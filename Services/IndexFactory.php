@@ -7,8 +7,7 @@ use SwAlgolia\Structs\ShopIndex;
 use Shopware\Bundle\StoreFrontBundle\Struct\Shop;
 
 /**
- * Class IndexFactory
- * @package SwAlgolia\Services
+ * Class IndexFactory.
  */
 class IndexFactory implements IndexFactoryInterface
 {
@@ -28,7 +27,7 @@ class IndexFactory implements IndexFactoryInterface
     private $numberOfReplicas;
 
     /**
-     * @param string $prefix
+     * @param string   $prefix
      * @param int|null $numberOfShards
      * @param int|null $numberOfReplicas
      */
@@ -41,12 +40,13 @@ class IndexFactory implements IndexFactoryInterface
 
     /**
      * @param Shop $shop
+     *
      * @return IndexConfiguration
      */
     public function createIndexConfiguration(Shop $shop)
     {
         return new IndexConfiguration(
-            $this->getIndexName($shop) . '_' . $this->getTimestamp(),
+            $this->getIndexName($shop).'_'.$this->getTimestamp(),
             $this->getIndexName($shop),
             $this->numberOfShards,
             $this->numberOfReplicas
@@ -55,6 +55,7 @@ class IndexFactory implements IndexFactoryInterface
 
     /**
      * @param Shop $shop
+     *
      * @return ShopIndex
      */
     public function createShopIndex(Shop $shop)
@@ -75,16 +76,18 @@ class IndexFactory implements IndexFactoryInterface
      */
     private function getTimestamp()
     {
-        $date  = new \DateTime();
+        $date = new \DateTime();
+
         return $date->format('YmdHis');
     }
 
     /**
      * @param Shop $shop
+     *
      * @return string
      */
     private function getIndexName(Shop $shop)
     {
-        return $this->getPrefix() . $shop->getId();
+        return $this->getPrefix().$shop->getId();
     }
 }

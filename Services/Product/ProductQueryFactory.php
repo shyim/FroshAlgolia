@@ -6,8 +6,7 @@ use Doctrine\DBAL\Connection;
 use SwAlgolia\Services\LastIdQuery;
 
 /**
- * Class ProductQueryFactory
- * @package SwAlgolia\Services\Product
+ * Class ProductQueryFactory.
  */
 class ProductQueryFactory implements ProductQueryFactoryInterface
 {
@@ -26,6 +25,7 @@ class ProductQueryFactory implements ProductQueryFactoryInterface
 
     /**
      * @param null|int $limit
+     *
      * @return \Doctrine\DBAL\Query\QueryBuilder
      */
     private function createQuery($limit = null)
@@ -43,11 +43,12 @@ class ProductQueryFactory implements ProductQueryFactoryInterface
         if ($limit !== null) {
             $query->setMaxResults($limit);
         }
+
         return $query;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function createCategoryQuery($categoryId, $limit = null)
     {
@@ -63,11 +64,12 @@ class ProductQueryFactory implements ProductQueryFactoryInterface
         if ($limit !== null) {
             $query->setMaxResults($limit);
         }
+
         return new LastIdQuery($query);
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function createPriceIdQuery($priceIds, $limit = null)
     {
@@ -81,7 +83,7 @@ class ProductQueryFactory implements ProductQueryFactoryInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function createUnitIdQuery($unitIds, $limit = null)
     {
@@ -93,7 +95,7 @@ class ProductQueryFactory implements ProductQueryFactoryInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function createVoteIdQuery($voteIds, $limit = null)
     {
@@ -106,7 +108,7 @@ class ProductQueryFactory implements ProductQueryFactoryInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function createProductIdQuery($productIds, $limit = null)
     {
@@ -118,7 +120,7 @@ class ProductQueryFactory implements ProductQueryFactoryInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function createVariantIdQuery($variantIds, $limit = null)
     {
@@ -131,7 +133,7 @@ class ProductQueryFactory implements ProductQueryFactoryInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function createTaxQuery($taxIds, $limit = null)
     {
@@ -143,7 +145,7 @@ class ProductQueryFactory implements ProductQueryFactoryInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function createManufacturerQuery($manufacturerIds, $limit = null)
     {
@@ -155,7 +157,7 @@ class ProductQueryFactory implements ProductQueryFactoryInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function createProductCategoryQuery($categoryIds, $limit = null)
     {
@@ -168,7 +170,7 @@ class ProductQueryFactory implements ProductQueryFactoryInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function createPropertyGroupQuery($groupIds, $limit = null)
     {
@@ -182,7 +184,7 @@ class ProductQueryFactory implements ProductQueryFactoryInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function createPropertyOptionQuery($optionIds, $limit = null)
     {

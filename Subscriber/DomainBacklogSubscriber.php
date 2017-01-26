@@ -8,12 +8,10 @@ use Shopware\Components\DependencyInjection\Container;
 use SwAlgolia\Structs\Backlog;
 
 /**
- * Class DomainBacklogSubscriber
- * @package SwAlgolia\Subscriber
+ * Class DomainBacklogSubscriber.
  */
 class DomainBacklogSubscriber implements SubscriberInterface
 {
-
     /**
      * @var Container
      */
@@ -33,7 +31,7 @@ class DomainBacklogSubscriber implements SubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            'product_stock_was_changed' => 'onProductStockWasChanged'
+            'product_stock_was_changed' => 'onProductStockWasChanged',
         ];
     }
 
@@ -45,5 +43,4 @@ class DomainBacklogSubscriber implements SubscriberInterface
         $backlog = new Backlog(ORMBacklogSubscriber::EVENT_VARIANT_UPDATED, ['number' => $eventArgs->get('number')]);
         $this->container->get('sw_algolia.backlog_processor')->add([$backlog]);
     }
-
 }

@@ -6,8 +6,7 @@ use Doctrine\DBAL\Connection;
 use SwAlgolia\Services\LastIdQuery;
 
 /**
- * Class PropertyQueryFactory
- * @package SwAlgolia\Services\Property
+ * Class PropertyQueryFactory.
  */
 class PropertyQueryFactory
 {
@@ -42,6 +41,7 @@ class PropertyQueryFactory
             ->from('s_filter_options', 'propertyGroups')
             ->where('propertyGroups.id > :lastId')
             ->setParameter(':lastId', 0);
+
         return $query;
     }
 }

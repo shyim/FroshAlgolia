@@ -5,12 +5,10 @@ namespace SwAlgolia\Services;
 use AlgoliaSearch\Client;
 
 /**
- * Class ClientFactory
- * @package SwAlgolia\Services
+ * Class ClientFactory.
  */
 class ClientFactory
 {
-
     /**
      * @return Client
      */
@@ -18,6 +16,7 @@ class ClientFactory
     {
         $pluginConfig = Shopware()->Container()->get('shopware.plugin.cached_config_reader')->getByPluginName('SwAlgolia');
         $client = new Client($pluginConfig['algolia-application-id'], $pluginConfig['algolia-admin-api-key']);
+
         return $client;
     }
 }
