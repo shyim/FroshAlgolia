@@ -28,7 +28,7 @@
         <element type="text" required="true">
             <name>index-searchable-attributes</name>
             <label>Searchable attributes (ordered by importance)</label>
-            <value>number,name,manufacturerName,ean,description,categories</value>
+            <value>number,name,manufacturerName,ean,properties,description,categories</value>
             <description>List of all attributes that should be searchable.</description>
         </element>
         <element type="text" required="true">

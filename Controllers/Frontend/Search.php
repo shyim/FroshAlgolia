@@ -22,6 +22,7 @@ class Shopware_Controllers_Frontend_Search extends Enlight_Controller_Action
      */
     public function defaultSearchAction()
     {
+
         // Get the sSearch term
         $term = $this->getSearchTerm();
 
