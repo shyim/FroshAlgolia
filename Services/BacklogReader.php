@@ -32,7 +32,7 @@ class BacklogReader implements BacklogReaderInterface
             ->select('value')
             ->from('s_core_config_elements', 'elements')
             ->where('elements.name = :name')
-            ->setParameter(':name', 'lastSwalgoliaBacklogId')
+            ->setParameter(':name', 'lastSwAlgoliaBacklogId')
             ->setMaxResults(1)
             ->execute()
             ->fetch(\PDO::FETCH_COLUMN);
@@ -46,7 +46,7 @@ class BacklogReader implements BacklogReaderInterface
     public function setLastBacklogId($lastId)
     {
         $this->connection->executeUpdate(
-            "UPDATE s_core_config_elements SET value = :value WHERE name = 'lastSwalgoliaBacklogId'",
+            "UPDATE s_core_config_elements SET value = :value WHERE name = 'lastSwAlgoliaBacklogId'",
             [':value' => serialize($lastId)]
         );
     }

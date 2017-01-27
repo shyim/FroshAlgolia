@@ -60,11 +60,13 @@
             <tag name="shopware.event_subscriber"/>
         </service>
 
+        <!-- Consumes events fired by ORM -->
         <service id="sw_algolia.orm_backlog_subscriber" class="SwAlgolia\Subscriber\ORMBacklogSubscriber" public="false">
             <argument type="service" id="service_container" />
             <tag name="doctrine.event_subscriber" />
         </service>
 
+        <!-- Consumes events fired by Shopware -->
         <service id="sw_algolia.domain_backlog_subscriber" class="SwAlgolia\Subscriber\DomainBacklogSubscriber">
             <argument type="service" id="service_container" />
             <tag name="shopware.event_subscriber" />
