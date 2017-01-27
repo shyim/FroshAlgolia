@@ -8,12 +8,16 @@
             <a link="{{link}}" title="{{name}}" class="product--image">
                 <span class="image--element">
                     <span class="image--media">
-                        <img sourceset="{{#helpers.image}}{{image}}{{/helpers.image}}">
+                        {{#image}}
+                            <img sourceset="{{#helpers.image}}{{image}}{{/helpers.image}}" alt="{{{_highlightResult.name.value}}}" title="{{{_highlightResult.name.value}}}" />
+                        {{/image}}
+                        {{^image}}
+                           <img src="{/literal}{link file='frontend/_public/src/img/no-picture.jpg'}{literal}" alt="{{{_highlightResult.name.value}}}" title="{{{_highlightResult.name.value}}}" />
+                        {{/image}}
                     </span>
                 </span>
             </a>
             <!-- /Product image -->
-
 
             <!-- Customer rating for the product -->
             <div class="product--rating-container">

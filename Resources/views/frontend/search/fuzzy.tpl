@@ -56,7 +56,7 @@
     {include file='frontend/instant_search/serp/stat.tpl'}
 
     {* Defining the structure of instant search container *}
-    <div class="content listing--content" data-algolia="true"
+    <div class="content listing--content ais--listing-content" data-algolia="true"
          data-appId="{$algoliaApplicationId}"
          data-apiKey="{$algoliaSearchOnlyApiKey}"
          data-indexName="{$indexName}"
@@ -85,9 +85,7 @@
 
             <!-- Hit listing -->
             <div class="listing--container">
-                <div id="hits" class="listing">
-
-                </div>
+                <div id="hits" class="listing"></div>
             </div>
             <div class="listing--bottom-paging">
                 <div class="listing--paging panel--paging">
