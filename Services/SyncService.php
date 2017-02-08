@@ -4,10 +4,12 @@ namespace SwAlgolia\Services;
 
 use Doctrine\ORM\EntityManager;
 use Shopware\Bundle\StoreFrontBundle\Service\Core;
+use Shopware\Bundle\StoreFrontBundle\Service\Core\ContextService;
 use Shopware\Bundle\StoreFrontBundle\Service\Core\ProductService;
 use Shopware\Bundle\StoreFrontBundle\Struct\Media;
 use Shopware\Bundle\StoreFrontBundle\Struct\Product;
 use Shopware\Components;
+use Shopware\Components\Logger;
 use Shopware\Models\Shop\Shop;
 use SwAlgolia\Structs\Article as ArticleStruct;
 use SwAlgolia\Structs\Struct;
@@ -20,19 +22,14 @@ use SwAlgolia\Structs\Struct;
 class SyncService
 {
     /**
-     * @var Components\Logger
+     * @var Logger
      */
     private $logger;
 
     /**
-     * @var Core\ContextService
+     * @var ProductIndexer
      */
-    private $context;
-
-    /**
-     * @var ProductService
-     */
-    private $productService;
+    private $productIndexer;
 
     /**
      * @var AlgoliaService
@@ -67,22 +64,19 @@ class SyncService
     /**
      * SyncService constructor.
      *
-     * @param Components\Logger   $logger
-     * @param Core\ContextService $context
-     * @param ProductService      $productService
-     * @param AlgoliaService      $algoliaService
-     * @param SyncHelperService   $syncHelperService
+     * @param Logger $logger
+     * @param ProductIndexer $productIndexer
+     * @param AlgoliaService $algoliaService
+     * @param SyncHelperService $syncHelperService
      */
     public function __construct(
-        Components\Logger $logger,
-        Core\ContextService $context,
-        ProductService $productService,
+        Logger $logger,
+        ProductIndexer $productIndexer,
         AlgoliaService $algoliaService,
         SyncHelperService $syncHelperService
     ){
         $this->logger = $logger;
-        $this->context = $context;
-        $this->productService = $productService;
+        $this->productIndexer = $productIndexer;
         $this->algoliaService = $algoliaService;
         $this->syncHelperService = $syncHelperService;
         $this->em = Shopware()->Container()->get('models');
@@ -112,94 +106,14 @@ class SyncService
         foreach ($shops as $shop) {
             $this->shopConfig = $this->configReader->read($shop);
 
-            // Construct the context
             $shop->registerResources();
-
-            // Clear the Algolia index for this shop
             $this->deleteIndex($shop);
-
-            // Create the Algolia index for this shop
             $this->createIndices($shop);
 
-            // Limit articles if required
-            $limit = '';
+            $productChunks = $this->productIndexer->index($shop, $this->pluginConfig['sync-batch-size']);
 
-            if ($this->pluginConfig['limit-indexed-products-for-test'] > 0) {
-                $limit = ' LIMIT 0,'.$this->pluginConfig['limit-indexed-products-for-test'];
-            }
-
-            // Get all articles
-            $articles = Shopware()->Db()->fetchCol('SELECT s_articles_details.ordernumber FROM s_articles_details INNER JOIN s_articles_categories_ro ON(s_articles_categories_ro.articleID = s_articles_details.articleID AND s_articles_categories_ro.categoryID = ?) WHERE kind = 1 and active = 1'.$limit, [
-                $shop->getCategory()->getId(),
-            ]);
-
-            $router = Shopware()->Container()->get('router');
-            $data = [];
-            $i = 0;
-
-            // Iterate over all found articles
-            foreach ($articles as $article) {
-                ++$i;
-
-                // Get product object
-                /** @var Product $product */
-                if ($product = $this->productService->get($article, $this->context->getShopContext())) {
-                    // Get the SEO URL
-                    // @TODO Fix wrong link when the shop uses a virtual path (e.g. /de or /en)
-                    $assembleParams = [
-                        'module' => 'frontend',
-                        'sViewport' => 'detail',
-                        'sArticle' => $product->getId(),
-                    ];
-                    $link = $router->assemble($assembleParams);
-
-                    // Get the media
-                    $media = $product->getMedia();
-                    $image = null;
-
-                    if (!empty($media)) {
-                        /** @var Media $mediaObject */
-                        $mediaObject = current($media);
-                        $image = $mediaObject->getThumbnail(0)->getSource();
-                    }
-
-                    // Get the votes
-                    $voteAvgPoints = 0;
-                    $votes = $product->getVoteAverage();
-                    if ($votes) {
-                        $voteAvgPoints = (int) $votes->getPointCount()[0]['points'];
-                    }
-
-                    // Buid the article struct
-                    $articleStruct = new ArticleStruct();
-                    $articleStruct->setObjectID($product->getNumber());
-                    $articleStruct->setArticleId($product->getId());
-                    $articleStruct->setName($product->getName());
-                    $articleStruct->setNumber($product->getNumber());
-                    $articleStruct->setManufacturerName($product->getManufacturer()->getName());
-                    $articleStruct->setCurrencySymbol($shop->getCurrency()->getSymbol());
-                    $articleStruct->setPrice(round($product->getCheapestPrice()->getCalculatedPrice(), 2));
-                    $articleStruct->setLink($link);
-                    $articleStruct->setDescription(strip_tags($product->getShortDescription()));
-                    $articleStruct->setEan($product->getEan());
-                    $articleStruct->setImage($image);
-                    $articleStruct->setCategories($this->getCategories($product)['categoryNames']);
-                    $articleStruct->setAttributes($this->getAttributes($product));
-                    $articleStruct->setProperties($this->getProperties($product));
-                    $articleStruct->setSales($product->getSales());
-                    $articleStruct->setVotes($votes);
-                    $articleStruct->setVoteAvgPoints($voteAvgPoints);
-                    $data[] = $articleStruct->toArray();
-                } else {
-                    $this->logger->addWarning('Could not generate product struct for article {number} for export. Product not exported.', ['number' => $article]);
-                }
-
-                // Push data to Algolia if sync-batch size is reached
-                if (count($data) % $this->pluginConfig['sync-batch-size'] == 0 || $i === count($articles)) {
-                    // Push data to Algolia
-                    $this->algoliaService->push($shop, $data, $this->syncHelperService->buildIndexName($shop));
-                    $data = [];
-                }
+            foreach ($productChunks as $productChunk) {
+                $this->algoliaService->push($shop, $productChunk, $this->syncHelperService->buildIndexName($shop));
             }
         }
 
@@ -299,93 +213,6 @@ class SyncService
 
         // Delete main index
         $this->algoliaService->deleteIndex($indexName);
-    }
-
-    /**
-     * Get all product attributes.
-     *
-     * @param Product $product
-     *
-     * @return array
-     */
-    private function getAttributes(Product $product)
-    {
-        $data = [];
-
-        if (!isset($product->getAttributes()['core'])) {
-            return [];
-        }
-
-        $attributes = $product->getAttributes()['core']->toArray();
-
-        $blockedAttributes = array_column($this->shopConfig['blockedAttributes'], 'name');
-
-        foreach ($attributes as $key => $value) {
-            // Skip this attribute if it´s on the list of blocked attributes
-            if (false != array_search($key, $blockedAttributes, true)) {
-                continue;
-            }
-
-            // Skip this attribute if its value is null or ''
-            if (!$value || $value == '') {
-                continue;
-            }
-
-            // Map value to data array
-            $data[$key] = $value;
-        }
-
-        return $data;
-    }
-
-    /**
-     * Prepare categories for data article.
-     *
-     * @param Product $product
-     *
-     * @return array
-     */
-    private function getCategories(Product $product)
-    {
-        $categories = $product->getCategories();
-        $data = [];
-
-        // Remove main category (German)
-        if (isset($categories[0])) {
-            unset($categories[0]);
-        }
-
-        foreach ($categories as $category) {
-            $data['categoryNames'][] = $category->getName();
-        }
-
-        return $data;
-    }
-
-    /**
-     * Fetches all product properties as an array.
-     *
-     * @param Product $product
-     *
-     * @return array
-     */
-    private function getProperties(Product $product)
-    {
-        $properties = [];
-
-        if ($set = $product->getPropertySet()) {
-            $groups = $set->getGroups();
-
-            foreach ($groups as $group) {
-                $options = $group->getOptions();
-
-                foreach ($options as $option) {
-                    $properties[$group->getName()] = $option->getName();
-                }
-            }
-        }
-
-        return $properties;
     }
 
     /**

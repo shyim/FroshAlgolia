@@ -5,7 +5,7 @@ namespace SwAlgolia\Structs;
 /**
  * Class Struct.
  */
-abstract class Struct
+abstract class Struct implements StructInterface
 {
     /**
      * Converts the given struct to a multidimensional array.
