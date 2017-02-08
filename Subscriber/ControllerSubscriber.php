@@ -6,9 +6,7 @@ use Enlight\Event\SubscriberInterface;
 use Enlight_Event_EventArgs;
 
 /**
- * Class ControllerSubscriber
- *
- * @package SwAlgolia\Subscriber
+ * Class ControllerSubscriber.
  */
 class ControllerSubscriber implements SubscriberInterface
 {
@@ -29,18 +27,19 @@ class ControllerSubscriber implements SubscriberInterface
     {
         return [
             'Enlight_Controller_Dispatcher_ControllerPath_Frontend_Search' => 'getController',
-            'Enlight_Controller_Dispatcher_ControllerPath_Backend_Algolia' => 'getController'
+            'Enlight_Controller_Dispatcher_ControllerPath_Backend_Algolia' => 'getController',
         ];
     }
 
     /**
      * @param Enlight_Event_EventArgs $args
+     *
      * @return string
      */
     public function getController(Enlight_Event_EventArgs $args)
     {
         list($module, $controller) = explode('_', str_replace('Enlight_Controller_Dispatcher_ControllerPath_', '', $args->getName()));
 
-        return $this->pluginDir . '/Controllers/' . $module . '/' . $controller . '.php';
+        return $this->pluginDir.'/Controllers/'.$module.'/'.$controller.'.php';
     }
 }
