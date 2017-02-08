@@ -3,6 +3,7 @@
 namespace SwAlgolia\Bootstrap;
 
 use Shopware\Models\Config\Element;
+use Shopware\Models\Config\Form;
 
 /**
  * This class is responsible for data creation and manipulation on plugin installation.
@@ -25,7 +26,7 @@ class Data
         $em = Shopware()->Container()->get('models');
 
         // Add "waiting_for_prescription" state
-        if (!$em->getRepository('\Shopware\Models\Config\Element')->findOneBy(array('name' => 'lastSwAlgoliaBacklogId'))):
+        if (!$em->getRepository(Element::class)->findOneBy(['name' => 'lastSwAlgoliaBacklogId'])):
 
             $opts = [
                 'label' => 'Last processed Algolia Backlog ID',
@@ -36,10 +37,10 @@ class Data
             ];
 
         $config = new Element('number', 'lastSwAlgoliaBacklogId', $opts);
-        $config->setForm($em->getRepository('\Shopware\Models\Config\Form')->findOneBy(array(
+        $config->setForm($em->getRepository(Form::class)->findOneBy([
                 'name' => 'Base',
                 'label' => 'Shopeinstellungen',
-            )));
+        ]));
         $em->persist($config);
         $em->flush();
 
