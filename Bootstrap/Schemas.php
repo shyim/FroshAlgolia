@@ -34,7 +34,7 @@ class Schemas
         $tool = new SchemaTool(Shopware()->Container()->get('models'));
         $classes = [
             Shopware()->Container()->get('models')->getClassMetadata(Backlog::class),
-            Shopware()->Container()->get('models')->getClassMetadata(Config::class)
+            Shopware()->Container()->get('models')->getClassMetadata(Config::class),
         ];
         $tool->dropSchema($classes);
     }

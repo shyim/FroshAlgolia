@@ -2,8 +2,8 @@
 
 use SwAlgolia\Models\Config;
 
-class Shopware_Controllers_Backend_Algolia extends Shopware_Controllers_Backend_ExtJs {
-
+class Shopware_Controllers_Backend_Algolia extends Shopware_Controllers_Backend_ExtJs
+{
     public function preDispatch()
     {
         $this->View()->addTemplateDir($this->container->getParameter('sw_algolia.view_dir'));

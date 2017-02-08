@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Config
 {
     /**
-     * @var integer
+     * @var int
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
@@ -38,11 +38,13 @@ class Config
 
     /**
      * @param int $id
+     *
      * @return Config
      */
     public function setId($id)
     {
         $this->id = $id;
+
         return $this;
     }
 
@@ -56,11 +58,13 @@ class Config
 
     /**
      * @param int $shop
+     *
      * @return Config
      */
     public function setShop($shop)
     {
         $this->shop = $shop;
+
         return $this;
     }
 
@@ -74,11 +78,13 @@ class Config
 
     /**
      * @param array $config
+     *
      * @return Config
      */
     public function setConfig($config)
     {
         $this->config = $config;
+
         return $this;
     }
 }
