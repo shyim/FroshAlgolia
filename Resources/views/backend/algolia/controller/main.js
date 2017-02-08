@@ -14,11 +14,17 @@ Ext.define('Shopware.apps.Algolia.controller.Main', {
     },
 
     saveForm: function (me) {
+        var values = me.getForm().getValues();
+
+        me.query('[xtype="algolia-element-grid"]').forEach(function (grid) {
+            values[grid.name] = grid.getValue();
+        });
+
         Ext.Ajax.request({
             url: '{url action=saveConfig}',
             params: {
                 shopId: me.record.get('id'),
-                data: Ext.JSON.encode(me.getForm().getValues())
+                data: Ext.JSON.encode(values)
             },
             success: function(){
                 Shopware.Notification.createGrowlMessage("Algolia", "Configuration has been saved")

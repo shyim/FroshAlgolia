@@ -82,5 +82,16 @@ Ext.define('Shopware.apps.Algolia.view.element.Grid', {
                 me.store.add(item);
             });
         }
+    },
+
+    getValue: function () {
+        var me = this,
+            values = [];
+
+        me.store.each(function (record) {
+            values.push(record.data);
+        });
+
+        return values;
     }
 });
