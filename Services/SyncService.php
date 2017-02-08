@@ -73,8 +73,13 @@ class SyncService
      * @param AlgoliaService      $algoliaService
      * @param SyncHelperService   $syncHelperService
      */
-    public function __construct(Components\Logger $logger, Core\ContextService $context, ProductService $productService, AlgoliaService $algoliaService, SyncHelperService $syncHelperService)
-    {
+    public function __construct(
+        Components\Logger $logger,
+        Core\ContextService $context,
+        ProductService $productService,
+        AlgoliaService $algoliaService,
+        SyncHelperService $syncHelperService
+    ){
         $this->logger = $logger;
         $this->context = $context;
         $this->productService = $productService;
