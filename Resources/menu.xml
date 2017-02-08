@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../engine/Shopware/Components/Plugin/schema/menu.xsd">
+    <entries>
+        <entry>
+            <name>Algolia</name>
+            <label lang="en">Algolia</label>
+            <controller>Algolia</controller>
+            <action>index</action>
+            <parent identifiedBy="controller">ConfigurationMenu</parent>
+        </entry>
+    </entries>
+</menu>
