@@ -21,7 +21,7 @@ class Shopware_Controllers_Backend_Algolia extends Shopware_Controllers_Backend_
         if ($config) {
             $this->View()->data = $config->getConfig();
         } else {
-            $this->View()->data = [];
+            $this->View()->data = include($this->container->getParameter('sw_algolia.plugin_dir') . '/Bootstrap/DefaultConfig.php');
         }
     }
 

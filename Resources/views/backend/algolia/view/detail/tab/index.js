@@ -44,7 +44,7 @@ Ext.define('Shopware.apps.Algolia.view.detail.tab.Index', {
             {
                 xtype: 'algolia-element-grid',
                 title: 'Custom ranking attributes for main index (ordered by importance)',
-                name: 'rankingAttributes',
+                name: 'rankingIndexAttributes',
                 height: 200,
                 columns: [
                     {
@@ -75,15 +75,15 @@ Ext.define('Shopware.apps.Algolia.view.detail.tab.Index', {
             },
             {
                 xtype: 'textfield',
-                name: 'rankingAttributes',
-                fieldLabel: 'Configuration for the facet filter widgets on the instant search page',
-                value: '{"categories":{"widgetType":"refinementList","match":"or"},"manufacturerName":{"widgetType":"refinementList","match":"or"},"price":{"widgetType":"rangeSlider"},"properties.Flaschengröße":{"widgetType":"rangeSlider"},"properties.Farbe":{"widgetType":"refinementList","match":"or"},"properties.Alkoholgehalt":{"widgetType":"numericRefinementList"},"properties.Geschmack":{"widgetType":"refinementList","match":"or"},"properties.Trinktemperatur":{"widgetType":"refinementList","match":"or"}}'
+                name: 'facetFilterWidget',
+                fieldLabel: 'Configuration for the facet filter widgets on the instant search page'
             },
             {
                 xtype: 'algolia-element-grid',
-                title: 'Attributes for faceting',
+                title: 'Facets',
                 name: 'facetAttributes',
                 height: 200,
+                addText: 'Add new facet',
                 columns: [
                     {
                         header: 'Field',
@@ -100,10 +100,24 @@ Ext.define('Shopware.apps.Algolia.view.detail.tab.Index', {
                 ]
             },
             {
-                xtype: 'textfield',
+                xtype: 'algolia-element-grid',
+                title: 'Blocked article attributes',
                 name: 'blockedAttributes',
-                fieldLabel: 'Blocked article attributes',
-                value: 'id,articleID,articledetailsID'
+                height: 200,
+                columns: [
+                    {
+                        header: 'Field',
+                        dataIndex: 'name',
+                        flex: 1,
+                        editor: {
+                            xtype: 'combo',
+                            displayField: 'name',
+                            valueField: 'name',
+                            store: Ext.create('Shopware.apps.Algolia.store.Attributes'),
+                            queryMode: 'local'
+                        }
+                    }
+                ]
             }
         ];
 

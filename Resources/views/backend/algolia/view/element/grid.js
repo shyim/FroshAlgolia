@@ -8,6 +8,8 @@ Ext.define('Shopware.apps.Algolia.view.element.Grid', {
         }
     },
 
+    addText: 'Add new field',
+
     initComponent: function () {
         var me = this;
 
@@ -45,7 +47,7 @@ Ext.define('Shopware.apps.Algolia.view.element.Grid', {
                 {
                     xtype: 'button',
                     iconCls: 'sprite-plus-circle-frame',
-                    text: 'Add new field',
+                    text: me.addText,
                     handler: function () {
                         me.store.add({});
                     }
@@ -76,8 +78,6 @@ Ext.define('Shopware.apps.Algolia.view.element.Grid', {
         var me = this;
 
         if (typeof value.forEach != 'undefined') {
-            me.store.clear();
-
             value.forEach(function (item) {
                 me.store.add(item);
             });
