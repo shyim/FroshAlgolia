@@ -62,6 +62,7 @@
 
         <service id="sw_algolia.subscriber.controller_subscriber" class="SwAlgolia\Subscriber\ControllerSubscriber">
             <argument>%sw_algolia.plugin_dir%</argument>
+            <tag name="shopware.event_subscriber"/>
         </service>
 
         <!-- Consumes events fired by ORM -->
