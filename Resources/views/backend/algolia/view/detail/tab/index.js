@@ -24,7 +24,7 @@ Ext.define('Shopware.apps.Algolia.view.detail.tab.Index', {
             {
                 xtype: 'algolia-element-grid',
                 title: 'Searchable attributes (ordered by importance)',
-                name: 'sortableAttributes',
+                name: 'searchAttributes',
                 height: 200,
                 columns: [
                     {

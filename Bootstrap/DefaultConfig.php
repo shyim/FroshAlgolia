@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'sortableAttributes' => [
+    'searchAttributes' => [
         [
             'name' => 'number'
         ],
