@@ -26,18 +26,6 @@
             <value>0</value>
         </element>
         <element type="text" required="true">
-            <name>index-searchable-attributes</name>
-            <label>Searchable attributes (ordered by importance)</label>
-            <value>number,name,manufacturerName,ean,properties,description,categories</value>
-            <description>List of all attributes that should be searchable.</description>
-        </element>
-        <element type="text" required="true">
-            <name>index-custom-ranking-attributes</name>
-            <label>Custom ranking attributes for main index (ordered by importance)</label>
-            <value>desc(sales),asc(price)</value>
-            <description>Define the ordering for the main indices here.</description>
-        </element>
-        <element type="text" required="true">
             <name>index-replicas-custom-ranking-attributes</name>
             <label>Custom ranking attributes for replica / slave indices (ordered by importance)</label>
             <!-- @TODO find a more elegant (BE) solution for naming the additional replica indices (multi-language) -->
@@ -50,16 +38,6 @@
             <!-- @TODO find a more elegant (BE) solution for customizing the facet filter widgets -->
             <value><![CDATA[{"properties.Farbe":{"widgetType":"refinementList","match":"or"},"properties.Flaschengröße":{"widgetType":"rangeSlider"},"properties.Geschmack":{"widgetType":"refinementList","match":"or"},"properties.Trinktemperatur":{"widgetType":"refinementList","match":"or"},"properties.Alkoholgehalt":{"widgetType":"numericRefinementList","options":[{"name":"< 10%","start":"0","end":"10"},{"name":"10% - 20%","start":"10","end":"20"},{"name":"> 20%","start":"20"}]},"manufacturerName":{"widgetType":"refinementList","match":"or"},"categories":{"widgetType":"refinementList","match":"or"},"price":{"widgetType":"rangeSlider"}}]]></value>
             <description>Define which facet widgets should be shown in which order and with which options on the SERP page.</description>
-        </element>
-        <element type="text" required="true">
-            <name>index-faceting-attributes</name>
-            <label>Attributes for faceting</label>
-            <value>categories,manufacturerName,price,properties</value>
-        </element>
-        <element type="text" required="true">
-            <name>blocked-article-attributes</name>
-            <label>Blocked article attributes</label>
-            <value>id,articleID,articledetailsID</value>
         </element>
         <element type="number" required="true">
             <name>sync-batch-size</name>

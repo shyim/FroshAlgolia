@@ -14,6 +14,8 @@ use SwAlgolia\Structs\Struct;
 
 /**
  * Class SyncService.
+ *
+ * Todo: CLEANUPPPP
  */
 class SyncService
 {
@@ -48,9 +50,19 @@ class SyncService
     private $em;
 
     /**
+     * @var ConfigReader
+     */
+    private $configReader;
+
+    /**
      * @var array
      */
     private $pluginConfig;
+
+    /**
+     * @var array
+     */
+    private $shopConfig = [];
 
     /**
      * SyncService constructor.
@@ -70,6 +82,8 @@ class SyncService
         $this->syncHelperService = $syncHelperService;
         $this->em = Shopware()->Container()->get('models');
 
+
+        $this->configReader = Shopware()->Container()->get('sw_algolia.config_reader');
         // Grab the plugin config
         $this->pluginConfig = Shopware()->Container()->get('shopware.plugin.cached_config_reader')->getByPluginName('SwAlgolia');
     }
@@ -91,6 +105,8 @@ class SyncService
         // Iterate over all shops
         /** @var Shop $shop */
         foreach ($shops as $shop) {
+            $this->shopConfig = $this->configReader->read($shop);
+
             // Construct the context
             $shop->registerResources();
 
@@ -206,12 +222,13 @@ class SyncService
         // Create main index
         $indexName = $this->syncHelperService->buildIndexName($shop);
         $index = $this->algoliaService->initIndex($indexName);
-        $attributesForFaceting = explode(',', $this->pluginConfig['index-faceting-attributes']);
+
+        $attributesForFaceting = array_column($this->shopConfig['facetAttributes'], 'name');
 
         // Create indices, replica indices and define settings
         $indexSettings = [
-            'attributesToIndex' => explode(',', $this->pluginConfig['index-searchable-attributes']),
-            'customRanking' => explode(',', $this->pluginConfig['index-custom-ranking-attributes']),
+            'attributesToIndex' => array_column($this->shopConfig['searchAttributes'], 'name'),
+            'customRanking' => $this->configReader->convertToAlgoliaRanking($this->shopConfig['rankingIndexAttributes']),
             'attributesForFaceting' => $attributesForFaceting,
             'replicas' => $this->getReplicaNames($indexName),
         ];
@@ -296,7 +313,7 @@ class SyncService
 
         $attributes = $product->getAttributes()['core']->toArray();
 
-        $blockedAttributes = explode(',', $this->pluginConfig['blocked-article-attributes']);
+        $blockedAttributes = array_column($this->shopConfig['blockedAttributes'], 'name');
 
         foreach ($attributes as $key => $value) {
             // Skip this attribute if it´s on the list of blocked attributes

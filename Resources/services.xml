@@ -227,6 +227,11 @@
         <!-- /Define the services           -->
         <!-- =============================  -->
 
+        <service id="sw_algolia.config_reader" class="SwAlgolia\Services\ConfigReader">
+            <argument type="service" id="models"/>
+            <argument>%sw_algolia.plugin_dir%</argument>
+        </service>
+
         <!-- =============================  -->
         <!-- Commands                       -->
         <!-- =============================  -->
