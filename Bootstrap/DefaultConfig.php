@@ -45,5 +45,19 @@ return [
         [
             'name' => 'articledetailsID'
         ]
+    ],
+    'facetAttributes' => [
+        [
+            'name' => 'categories'
+        ],
+        [
+            'name' => 'manufacturerName'
+        ],
+        [
+            'name' => 'price'
+        ],
+        [
+            'name' => 'properties'
+        ]
     ]
 ];

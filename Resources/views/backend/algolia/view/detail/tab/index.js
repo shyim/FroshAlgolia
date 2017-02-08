@@ -93,7 +93,7 @@ Ext.define('Shopware.apps.Algolia.view.detail.tab.Index', {
                             xtype: 'combo',
                             displayField: 'name',
                             valueField: 'name',
-                            store: Ext.create('Shopware.apps.Algolia.store.Attributes'),
+                            store: Ext.create('Shopware.apps.Algolia.store.Facets'),
                             queryMode: 'local'
                         }
                     }

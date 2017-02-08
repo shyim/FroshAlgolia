@@ -16,7 +16,7 @@ Ext.define('Shopware.apps.Algolia', {
     ],
 
     models: [],
-    stores: ['Attributes', 'Sort'],
+    stores: ['Attributes', 'Sort', 'Facets'],
 
     launch: function() {
         return this.getController('Main').mainWindow;
