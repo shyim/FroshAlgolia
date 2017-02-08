@@ -243,6 +243,12 @@
             <argument type="service" id="sw_algolia.logger" />
             <argument type="service" id="sw_algolia.sync_service" />
         </service>
+
+        <service
+                id="sw_algolia.commands.list_index"
+                class="SwAlgolia\Commands\ListIndexCommand">
+            <tag name="console.command"/>
+        </service>
         <!-- =============================  -->
         <!-- /Commands                      -->
         <!-- =============================  -->
