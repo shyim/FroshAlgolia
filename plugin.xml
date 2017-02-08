@@ -17,5 +17,5 @@
         <changes>Added live backlog sync.</changes>
     </changelog>
 
-    <compatibility minVersion="5.2.6" />
+    <compatibility minVersion="5.2.0" />
 </plugin>
