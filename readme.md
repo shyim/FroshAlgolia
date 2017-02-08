@@ -15,7 +15,7 @@ Blazing fast as-you-type auto-suggestion with keyboard navigation:
 
 Requirements
 -----
-* Shopware >= 5.2.5
+* Shopware >= 5.2.0
 
 Pushing article data to Algolia index
 ====

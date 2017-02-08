@@ -60,6 +60,10 @@
             <tag name="shopware.event_subscriber"/>
         </service>
 
+        <service id="sw_algolia.subscriber.controller_subscriber" class="SwAlgolia\Subscriber\ControllerSubscriber">
+            <argument>%sw_algolia.plugin_dir%</argument>
+        </service>
+
         <!-- Consumes events fired by ORM -->
         <service id="sw_algolia.orm_backlog_subscriber" class="SwAlgolia\Subscriber\ORMBacklogSubscriber" public="false">
             <argument type="service" id="service_container" />
