@@ -9,7 +9,7 @@ use SwAlgolia\Structs\ShopIndex;
 /**
  * Class BacklogProcessorService.
  */
-class BacklogProcessor implements BacklogProcessorInterface
+class BacklogProcessor
 {
     /**
      * @var Connection
@@ -17,36 +17,12 @@ class BacklogProcessor implements BacklogProcessorInterface
     private $connection;
 
     /**
-     * @var SynchronizerInterface
-     */
-    private $synchronizer;
-
-    /**
-     * @var IndexFactoryInterface
-     */
-    private $indexFactory;
-
-    /**
-     * @var IdentifierSelector
-     */
-    private $identifierSelector;
-
-    /**
-     * @param Connection            $connection
-     * @param SynchronizerInterface $synchronizer
-     * @param IndexFactoryInterface $indexFactory
-     * @param IdentifierSelector    $identifierSelector
+     * @param Connection $connection
      */
     public function __construct(
-        Connection $connection,
-        SynchronizerInterface $synchronizer,
-        IndexFactoryInterface $indexFactory,
-        IdentifierSelector $identifierSelector
+        Connection $connection
     ) {
         $this->connection = $connection;
-        $this->synchronizer = $synchronizer;
-        $this->indexFactory = $indexFactory;
-        $this->identifierSelector = $identifierSelector;
     }
 
     /**
@@ -59,14 +35,6 @@ class BacklogProcessor implements BacklogProcessorInterface
         }
 
         $this->writeBacklog($backlogs);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function process(ShopIndex $shopIndex, $backlogs)
-    {
-        $this->synchronizer->synchronize($shopIndex, $backlogs);
     }
 
     /**

@@ -7,6 +7,7 @@ use Shopware\Components\Plugin\Context\InstallContext;
 use Shopware\Components\Plugin\Context\UninstallContext;
 use SwAlgolia\Bootstrap\Schemas;
 use SwAlgolia\Bootstrap\Data;
+use SwAlgolia\Services\DependencyInjection\CompilerPass\ProductProcessorCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Shopware\Components\Plugin\Context\ActivateContext;
 use Shopware\Components\Plugin\Context\DeactivateContext;
@@ -68,5 +69,6 @@ class SwAlgolia extends Plugin
     {
         parent::build($container);
         $container->setParameter('sw_algolia.plugin_dir', $this->getPath());
+        $container->addCompilerPass(new ProductProcessorCompilerPass());
     }
 }

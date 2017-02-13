@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Class Article.
  */
-class Article extends Struct implements StructInterface
+class Article extends Struct
 {
     /**
      * @var null|int
