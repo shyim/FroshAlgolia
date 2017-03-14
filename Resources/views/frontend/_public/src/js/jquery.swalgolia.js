@@ -22,7 +22,10 @@ $.plugin('swAlgolia', {
         searchInputContainerSelector: '#search-input',
         hitsPerPageContainerSelector: '#hits-per-page',
         sortByContainerSelector: '#sort-by',
-        facetWidgetsConfig: ''
+        facetWidgetsConfig: '',
+        pages: '12|24',
+        pagesSnippet: '',
+        defaultPages: 12
     },
 
     // Init jQuery plugin for instant search
@@ -99,7 +102,7 @@ $.plugin('swAlgolia', {
         me.search.addWidget(
             instantsearch.widgets.hits({
                 container: me.opts.hitsContainerSelector,
-                hitsPerPage: 20,
+                hitsPerPage: parseInt(me.opts.defaultPages),
                 templates: {
                     item: me.getTemplate(me.opts.hitTemplate),
                     empty: me.getTemplate(me.opts.noResultTemplate)
@@ -145,15 +148,19 @@ $.plugin('swAlgolia', {
             })
         );
 
+
+        var pages = me.opts.pages.split('|');
+        var options = [];
+
+        pages.forEach(function(page) {
+            options.push({value: parseInt(page), label: me.opts.pagesSnippet + ' ' + page});
+        });
+
         // Hits per page select field
         me.search.addWidget(
             instantsearch.widgets.hitsPerPageSelector({
                 container: me.opts.hitsPerPageContainerSelector,
-                options: [
-                    {value: 20, label: '20 per page'},
-                    {value: 50, label: '50 per page'},
-                    {value: 100, label: '100 per page'}
-                ]
+                options: options
             })
         );
 

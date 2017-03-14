@@ -65,6 +65,9 @@
          data-sortOrderIndex="{$sortOrderIndex}"
          data-compare-ajax="true"
          data-ajax-wishlist="true"
+         data-pages="{config name="numberarticlestoshow"}"
+         data-pagesSnippet="{s name="ListingLabelItemsPerPage" namespace="frontend/search/paging"}{/s}"
+         data-defaultPages="{config name="articlesperpage"}"
          data-facetWidgetsConfig='{$facetFilterWidgetConfigJson}'>
 
         <div class="listing--wrapper">
