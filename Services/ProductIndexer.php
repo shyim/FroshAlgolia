@@ -65,9 +65,10 @@ class ProductIndexer
     /**
      * @param Shop $shop
      * @param $chunkSize
+     * @param $shopConfig
      * @return array
      */
-    public function index(Shop $shop, $chunkSize)
+    public function index(Shop $shop, $chunkSize, array $shopConfig)
     {
         $context = $this->context->createShopContext($shop->getId());
         $data = [];
@@ -90,7 +91,7 @@ class ProductIndexer
                 $article->setLink($link);
 
                 foreach ($this->processor as $processor) {
-                    $processor->process($product, $article);
+                    $processor->process($product, $article, $shopConfig);
                 }
 
                 $data[$chunkKey][] = $article->toArray();

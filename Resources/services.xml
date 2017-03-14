@@ -114,6 +114,7 @@
             <argument type="service" id="shopware_storefront.context_service" />
             <argument type="service" id="shopware_storefront.product_service" />
             <argument type="service" id="router" />
+            <argument type="service" id="dbal_connection"/>
             <argument type="collection"/>
         </service>
 

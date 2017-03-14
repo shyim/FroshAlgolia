@@ -11,9 +11,10 @@ class DefaultProcessor implements ProcessorInterface
     /**
      * @param Product $product Shopware Product
      * @param Article $article Algolia Product
+     * @param array   $shopConfig Shop Configuration
      * @return void
      */
-    public function process(Product $product, Article $article)
+    public function process(Product $product, Article $article, array $shopConfig)
     {
         // Get the media
         $media = $product->getMedia();
@@ -43,7 +44,7 @@ class DefaultProcessor implements ProcessorInterface
         $article->setEan($product->getEan());
         $article->setImage($image);
         $article->setCategories($this->getCategories($product)['categoryNames']);
-        $article->setAttributes($this->getAttributes($product));
+        $article->setAttributes($this->getAttributes($product, $shopConfig));
         $article->setProperties($this->getProperties($product));
         $article->setSales($product->getSales());
         $article->setVotes($votes);
@@ -57,7 +58,7 @@ class DefaultProcessor implements ProcessorInterface
      *
      * @return array
      */
-    private function getAttributes(Product $product)
+    private function getAttributes(Product $product, $shopConfig)
     {
         $data = [];
 
@@ -66,23 +67,17 @@ class DefaultProcessor implements ProcessorInterface
         }
 
         $attributes = $product->getAttributes()['core']->toArray();
+        $blockedAttributes = array_column($shopConfig['blockedAttributes'], 'name');
 
-//        $blockedAttributes = array_column($this->shopConfig['blockedAttributes'], 'name');
-//
-//        foreach ($attributes as $key => $value) {
-//            // Skip this attribute if it´s on the list of blocked attributes
-//            if (false != array_search($key, $blockedAttributes, true)) {
-//                continue;
-//            }
-//
-//            // Skip this attribute if its value is null or ''
-//            if (!$value || $value == '') {
-//                continue;
-//            }
-//
-//            // Map value to data array
-//            $data[$key] = $value;
-//        }
+        foreach ($attributes as $key => $value) {
+            // Skip this attribute if it´s on the list of blocked attributes
+            if (in_array($key, $blockedAttributes) || empty($value)) {
+                continue;
+            }
+
+            // Map value to data array
+            $data[$key] = $value;
+        }
 
         return $data;
     }

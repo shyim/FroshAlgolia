@@ -13,7 +13,8 @@ interface ProcessorInterface
     /**
      * @param Product $product Shopware Product
      * @param Article $article Algolia Product
+     * @param array   $shopConfig Shop Configuration
      * @return void
      */
-    public function process(Product $product, Article $article);
+    public function process(Product $product, Article $article, array $shopConfig);
 }

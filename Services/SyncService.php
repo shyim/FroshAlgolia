@@ -110,7 +110,7 @@ class SyncService
             $this->deleteIndex($shop);
             $this->createIndices($shop);
 
-            $productChunks = $this->productIndexer->index($shop, $this->pluginConfig['sync-batch-size']);
+            $productChunks = $this->productIndexer->index($shop, $this->pluginConfig['sync-batch-size'], $this->shopConfig);
 
             foreach ($productChunks as $productChunk) {
                 $this->algoliaService->push($shop, $productChunk, $this->syncHelperService->buildIndexName($shop));
