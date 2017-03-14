@@ -60,45 +60,11 @@ class AlgoliaSearchSubscriber implements SubscriberInterface
     {
         $pluginConfig = $this->container->get('shopware.plugin.cached_config_reader')->getByPluginName('SwAlgolia');
         $syncHelperService = $this->container->get('sw_algolia.sync_helper_service');
-
-        // Get the shop instance
-        $shopId = $this->container->get('router')->getContext()->getShopId();
-        $shop = Shopware()->Container()->get('models')->getRepository(Shop::class)->getActiveById($shopId);
+        $shop = Shopware()->Shop();
 
         /** @var Enlight_Controller_Action $controller */
         $controller = $args->get('subject');
         $view = $controller->View();
-
-        /** @var $em EntityManager */
-        $em = $this->container->get('models');
-        $filterOptions = $em->getRepository(Option::class)->findAll();
-
-        /**
-         * Build the JS index for sort order based on replica configuration. First element in this
-         * index is the main Algolia index.
-         */
-        $sortOrderArray = [
-            [
-                'name' => $syncHelperService->buildIndexName($shop), // The index which is used for this sort order
-                'label' => Shopware()->Snippets()->getNamespace('bundle/translation')->get('sort_order_default'), // The name which should be shown to the customer
-            ],
-        ];
-        $replicaIndices = explode('|', $pluginConfig['index-replicas-custom-ranking-attributes']);
-
-        foreach ($replicaIndices as $replicaIndex) {
-            $replicaIndexSettings = explode(',', $replicaIndex);
-
-            // Build the key / name for the replica index
-            $nameElements = explode('(', $replicaIndexSettings[0]);
-            $replicaIndexName = $syncHelperService->buildIndexName($shop).'_'.rtrim($nameElements[1], ')').'_'.$nameElements[0];
-
-            $sortOrderArray[] = [
-                    'name' => $replicaIndexName, // The index which is used for this sort order
-                    'label' => Shopware()->Snippets()->getNamespace('bundle/translation')->get('sort_order_'.rtrim($nameElements[1], ')').'_'.$nameElements[0]), // The name which should be shown to the customer
-            ];
-        }
-
-        $sortOrderIndex = htmlspecialchars(json_encode($sortOrderArray, JSON_HEX_APOS));
 
         // Assign data to view
         $view->addTemplateDir($this->viewDir);
@@ -107,9 +73,5 @@ class AlgoliaSearchSubscriber implements SubscriberInterface
         $view->assign('indexName', $syncHelperService->buildIndexName($shop));
         $view->assign('showAlgoliaLogo', $pluginConfig['show-algolia-logo']);
         $view->assign('showAutocompletePrice', $pluginConfig['show-autocomplete-price']);
-        $view->assign('facetFilterWidgetConfig', json_decode($pluginConfig['facet-filter-widget-config']));
-        $view->assign('facetFilterWidgetConfigJson', $pluginConfig['facet-filter-widget-config']);
-        $view->assign('filterOptions', $filterOptions);
-        $view->assign('sortOrderIndex', $sortOrderIndex);
     }
 }

@@ -44,7 +44,10 @@ class ConfigReader
     {
         $customConfig = $this->models->getRepository(Config::class)->findOneBy(['shop' => $shop->getId()]);
 
-        return array_merge($this->defaultConfig, $customConfig ? $customConfig->getConfig() : []);
+        $data = array_merge($this->defaultConfig, $customConfig ? $customConfig->getConfig() : []);
+        $data['facetFilterWidgetArray'] = json_decode($data['facetFilterWidget'], true);
+
+        return $data;
     }
 
     /**

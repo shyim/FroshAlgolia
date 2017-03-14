@@ -37,7 +37,7 @@
         <div class="shop-sites--container is--rounded">
 
             <!-- Dynamically add the container for the facet widgets -->
-            {foreach $facetFilterWidgetConfig as $facetName => $facetConfig}
+            {foreach $algoliaConfig.facetFilterWidgetArray as $facetName => $facetConfig}
                 <div id="{$facetName|replace:'.':'_'|lower}" class="facet"></div>
             {/foreach}
 
