@@ -31,6 +31,7 @@ class Shopware_Controllers_Frontend_Search extends Enlight_Controller_Action
         }
 
         $this->View()->loadTemplate('frontend/search/fuzzy.tpl');
+        $this->View()->algoliaConfig = $this->container->get('sw_algolia.config_reader')->read(Shopware()->Shop());
     }
 
     /**

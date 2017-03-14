@@ -49,7 +49,6 @@
 
 {* Main content *}
 {block name='frontend_index_content'}
-
     {* Include hogan.js template files *}
     {include file='frontend/instant_search/serp/hit.tpl'}
     {include file='frontend/instant_search/serp/no-result.tpl'}
@@ -68,7 +67,7 @@
          data-pages="{config name="numberarticlestoshow"}"
          data-pagesSnippet="{s name="ListingLabelItemsPerPage" namespace="frontend/search/paging"}{/s}"
          data-defaultPages="{config name="articlesperpage"}"
-         data-facetWidgetsConfig='{$facetFilterWidgetConfigJson}'>
+         data-facetWidgetsConfig='{$algoliaConfig.facetFilterWidget}'>
 
         <div class="listing--wrapper">
 

@@ -222,7 +222,7 @@ $.plugin('swAlgolia', {
                 container: '#' + widgetName.replace('.', '_').toLowerCase(),
                 attributeName: widgetName,
                 templates: {
-                    header: '<div class="shop-sites--headline navigation--headline">' + widgetName + '</div>'
+                    header: '<div class="shop-sites--headline navigation--headline">' + (typeof widgetConfig.header === 'undefined' ? widgetName : widgetConfig.header) + '</div>'
                 }
             }
         ;

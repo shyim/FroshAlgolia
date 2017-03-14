@@ -32,13 +32,6 @@
             <value>desc(sales),asc(price)|asc(price),desc(sales)|desc(price),desc(sales)</value>
             <description>Define the ordering options that should be available on the SERP page.</description>
         </element>
-        <element type="text" required="true">
-            <name>facet-filter-widget-config</name>
-            <label>Configuration for the facet filter widgets on the instant search page</label>
-            <!-- @TODO find a more elegant (BE) solution for customizing the facet filter widgets -->
-            <value><![CDATA[{"properties.Farbe":{"widgetType":"refinementList","match":"or"},"properties.Flaschengröße":{"widgetType":"rangeSlider"},"properties.Geschmack":{"widgetType":"refinementList","match":"or"},"properties.Trinktemperatur":{"widgetType":"refinementList","match":"or"},"properties.Alkoholgehalt":{"widgetType":"numericRefinementList","options":[{"name":"< 10%","start":"0","end":"10"},{"name":"10% - 20%","start":"10","end":"20"},{"name":"> 20%","start":"20"}]},"manufacturerName":{"widgetType":"refinementList","match":"or"},"categories":{"widgetType":"refinementList","match":"or"},"price":{"widgetType":"rangeSlider"}}]]></value>
-            <description>Define which facet widgets should be shown in which order and with which options on the SERP page.</description>
-        </element>
         <element type="number" required="true">
             <name>sync-batch-size</name>
             <label>Sync batch size</label>
