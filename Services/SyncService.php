@@ -3,15 +3,8 @@
 namespace SwAlgolia\Services;
 
 use Doctrine\ORM\EntityManager;
-use Shopware\Bundle\StoreFrontBundle\Service\Core;
-use Shopware\Bundle\StoreFrontBundle\Service\Core\ContextService;
-use Shopware\Bundle\StoreFrontBundle\Service\Core\ProductService;
-use Shopware\Bundle\StoreFrontBundle\Struct\Media;
-use Shopware\Bundle\StoreFrontBundle\Struct\Product;
-use Shopware\Components;
 use Shopware\Components\Logger;
 use Shopware\Models\Shop\Shop;
-use SwAlgolia\Structs\Article as ArticleStruct;
 use SwAlgolia\Structs\Struct;
 
 /**
@@ -64,9 +57,9 @@ class SyncService
     /**
      * SyncService constructor.
      *
-     * @param Logger $logger
-     * @param ProductIndexer $productIndexer
-     * @param AlgoliaService $algoliaService
+     * @param Logger            $logger
+     * @param ProductIndexer    $productIndexer
+     * @param AlgoliaService    $algoliaService
      * @param SyncHelperService $syncHelperService
      */
     public function __construct(
@@ -74,13 +67,12 @@ class SyncService
         ProductIndexer $productIndexer,
         AlgoliaService $algoliaService,
         SyncHelperService $syncHelperService
-    ){
+    ) {
         $this->logger = $logger;
         $this->productIndexer = $productIndexer;
         $this->algoliaService = $algoliaService;
         $this->syncHelperService = $syncHelperService;
         $this->em = Shopware()->Container()->get('models');
-
 
         $this->configReader = Shopware()->Container()->get('sw_algolia.config_reader');
         // Grab the plugin config

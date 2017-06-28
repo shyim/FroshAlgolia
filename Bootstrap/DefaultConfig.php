@@ -3,61 +3,61 @@
 return [
     'searchAttributes' => [
         [
-            'name' => 'number'
+            'name' => 'number',
         ],
         [
-            'name' => 'name'
+            'name' => 'name',
         ],
         [
-            'name' => 'manufacturerName'
+            'name' => 'manufacturerName',
         ],
         [
-            'name' => 'ean'
+            'name' => 'ean',
         ],
         [
-            'name' => 'properties'
+            'name' => 'properties',
         ],
         [
-            'name' => 'description'
+            'name' => 'description',
         ],
         [
-            'name' => 'categories'
-        ]
+            'name' => 'categories',
+        ],
     ],
     'rankingIndexAttributes' => [
         [
             'name' => 'sales',
-            'sort' => 'desc'
+            'sort' => 'desc',
         ],
         [
             'name' => 'price',
-            'sort' => 'asc'
-        ]
+            'sort' => 'asc',
+        ],
     ],
     'facetFilterWidget' => '{   "properties.Farbe": {     "widgetType": "refinementList",     "match": "or",     "header": "Farbe"   },   "properties.Flaschengröße": {     "widgetType": "rangeSlider",     "header": "Flaschengröße"   },   "properties.Geschmack": {     "widgetType": "refinementList",     "match": "or",     "header": "Geschmack"   },   "properties.Trinktemperatur": {     "widgetType": "refinementList",     "match": "or",     "header": "Trinktemperatur"   },   "properties.Alkoholgehalt": {     "widgetType": "numericRefinementList",     "options": [       {         "name": "< 10%",         "start": "0",         "end": "10"       },       {         "name": "10% - 20%",         "start": "10",         "end": "20"       },       {         "name": "> 20%",         "start": "20"       }     ],     "header": "Alkoholgehalt"   },   "manufacturerName": {     "widgetType": "refinementList",     "match": "or",     "header": "Hersteller"    },   "categories": {     "widgetType": "refinementList",     "match": "or",     "header": "Kategorien"   },   "price": {     "widgetType": "rangeSlider",     "header": "Preis"   } }',
     'blockedAttributes' => [
         [
-            'name' => 'id'
+            'name' => 'id',
         ],
         [
-            'name' => 'articleID'
+            'name' => 'articleID',
         ],
         [
-            'name' => 'articledetailsID'
-        ]
+            'name' => 'articledetailsID',
+        ],
     ],
     'facetAttributes' => [
         [
-            'name' => 'categories'
+            'name' => 'categories',
         ],
         [
-            'name' => 'manufacturerName'
+            'name' => 'manufacturerName',
         ],
         [
-            'name' => 'price'
+            'name' => 'price',
         ],
         [
-            'name' => 'properties'
-        ]
-    ]
+            'name' => 'properties',
+        ],
+    ],
 ];
