@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class ListIndexCommand
+ * Class ListIndexCommand.
  */
 class ListIndexCommand extends ShopwareCommand
 {
@@ -20,10 +20,8 @@ class ListIndexCommand extends ShopwareCommand
     }
 
     /**
-     * @param InputInterface $input
+     * @param InputInterface  $input
      * @param OutputInterface $output
-     *
-     * @return void
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -32,7 +30,7 @@ class ListIndexCommand extends ShopwareCommand
             'Name',
             'Created at',
             'Updated at',
-            'Entries'
+            'Entries',
         ]);
 
         foreach ($this->container->get('algolia_client')->listIndexes()['items'] as $listIndex) {

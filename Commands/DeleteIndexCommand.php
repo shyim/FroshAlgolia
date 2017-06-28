@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class DeleteIndexCommand
+ * Class DeleteIndexCommand.
  */
 class DeleteIndexCommand extends ShopwareCommand
 {
@@ -20,10 +20,8 @@ class DeleteIndexCommand extends ShopwareCommand
     }
 
     /**
-     * @param InputInterface $input
+     * @param InputInterface  $input
      * @param OutputInterface $output
-     *
-     * @return void
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {

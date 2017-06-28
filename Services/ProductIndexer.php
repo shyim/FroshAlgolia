@@ -41,12 +41,11 @@ class ProductIndexer
     /**
      * ProductIndexer constructor.
      *
-     * @param ContextServiceInterface $contextService
-     * @param ProductService $productService
+     * @param ContextServiceInterface   $contextService
+     * @param ProductService            $productService
      * @param Enlight_Controller_Router $router
-     * @param Connection $connection
-     *
-     * @param array $processor
+     * @param Connection                $connection
+     * @param array                     $processor
      */
     public function __construct(
         ContextServiceInterface $contextService,
@@ -54,7 +53,7 @@ class ProductIndexer
         Enlight_Controller_Router $router,
         Connection $connection,
         array $processor
-    ){
+    ) {
         $this->context = $contextService;
         $this->productService = $productService;
         $this->router = $router;
@@ -66,6 +65,7 @@ class ProductIndexer
      * @param Shop $shop
      * @param $chunkSize
      * @param $shopConfig
+     *
      * @return array
      */
     public function index(Shop $shop, $chunkSize, array $shopConfig)
@@ -104,12 +104,13 @@ class ProductIndexer
     /**
      * @param Shop $shop
      * @param $chunkSize
+     *
      * @return array
      */
     private function getProducts(Shop $shop, $chunkSize)
     {
         $products = $this->connection->executeQuery('SELECT DISTINCT s_articles_details.ordernumber FROM s_articles_details INNER JOIN s_articles_categories_ro ON(s_articles_categories_ro.articleID = s_articles_details.articleID AND s_articles_categories_ro.categoryID = ?) WHERE kind = 1 AND active = 1', [
-            $shop->getCategory()->getId()
+            $shop->getCategory()->getId(),
         ])->fetchAll(\PDO::FETCH_COLUMN);
 
         return array_chunk($products, $chunkSize);

@@ -7,7 +7,7 @@ use Shopware\Models\Shop\Shop;
 use SwAlgolia\Models\Config;
 
 /**
- * Class ConfigReader
+ * Class ConfigReader.
  */
 class ConfigReader
 {
@@ -30,9 +30,9 @@ class ConfigReader
     public function __construct(
         ModelManager $modelManager,
         $pluginDir
-    ){
+    ) {
         $this->models = $modelManager;
-        $this->defaultConfig = include($pluginDir . '/Bootstrap/DefaultConfig.php');
+        $this->defaultConfig = include $pluginDir.'/Bootstrap/DefaultConfig.php';
     }
 
     /**
@@ -51,9 +51,10 @@ class ConfigReader
     }
 
     /**
-     * Converts a array of name and sort to algolia schema
+     * Converts a array of name and sort to algolia schema.
      *
      * @param array $value
+     *
      * @return string
      */
     public function convertToAlgoliaRanking(array $value)

@@ -6,12 +6,13 @@ use AlgoliaSearch\Client;
 use Shopware\Components\Plugin\CachedConfigReader;
 
 /**
- * Class AlgoliaFactory
+ * Class AlgoliaFactory.
  */
 class AlgoliaFactory
 {
     /**
      * @param CachedConfigReader $configReader
+     *
      * @return Client
      */
     public static function factory(CachedConfigReader $configReader)

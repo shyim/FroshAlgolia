@@ -2,12 +2,9 @@
 
 namespace SwAlgolia\Subscriber;
 
-use Doctrine\ORM\EntityManager;
 use Enlight\Event\SubscriberInterface;
 use Enlight_Controller_Action;
 use Enlight_Event_EventArgs;
-use Shopware\Models\Property\Option;
-use Shopware\Models\Shop\Shop;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**

@@ -4,7 +4,6 @@ namespace SwAlgolia\Services;
 
 use Doctrine\DBAL\Connection;
 use SwAlgolia\Structs\Backlog;
-use SwAlgolia\Structs\ShopIndex;
 
 /**
  * Class BacklogProcessorService.
@@ -25,9 +24,6 @@ class BacklogProcessor
         $this->connection = $connection;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function add($backlogs)
     {
         if (empty($backlogs)) {

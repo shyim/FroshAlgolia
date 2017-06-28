@@ -32,7 +32,7 @@ class AlgoliaService
     public function __construct(
         Client $client,
         Logger $logger
-    ){
+    ) {
         $this->logger = $logger;
         $this->algoliaClient = $client;
     }
@@ -90,7 +90,7 @@ class AlgoliaService
      *
      * @param array      $settings
      * @param Index|null $index
-     * @param string       $indexName
+     * @param string     $indexName
      *
      * @throws Exception
      *
