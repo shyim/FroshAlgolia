@@ -4,6 +4,7 @@ namespace SwAlgolia\Tests\Unit\Services;
 
 use Doctrine\ORM\EntityManager;
 use PHPUnit\Framework\TestCase;
+use Shopware\Models\Shop\Repository;
 use Shopware\Models\Shop\Shop;
 
 /**
@@ -28,6 +29,8 @@ class BaseTest extends TestCase
     {
         parent::setUp();
         $this->em = Shopware()->Models();
+
+        /** @var Repository $repository */
         $repository = Shopware()->Container()->get('models')->getRepository(Shop::class);
         $this->shop = $repository->getActiveById(1);
     }
