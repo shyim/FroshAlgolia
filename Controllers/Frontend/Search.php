@@ -30,6 +30,7 @@ class Shopware_Controllers_Frontend_Search extends Enlight_Controller_Action
             $this->redirect('search?q='.$term);
         }
 
+
         $this->View()->loadTemplate('frontend/search/fuzzy.tpl');
         $this->assignTemplateVars();
     }
