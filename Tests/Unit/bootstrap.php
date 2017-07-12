@@ -37,7 +37,7 @@ class TestKernel extends \Shopware\Kernel
      */
     public static function start()
     {
-        $kernel = new self('testing', true);
+        $kernel = new self('production', true);
         $kernel->boot();
 
         $container = $kernel->getContainer();
