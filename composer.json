@@ -15,8 +15,5 @@
         "psr-4": {
             "SwAlgolia\\": ""
         }
-    },
-    "scripts": {
-        "test": "phpunit -c Tests"
     }
 }
