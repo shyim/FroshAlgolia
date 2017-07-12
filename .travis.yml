@@ -39,8 +39,8 @@ before_script:
   - cd ${PLUGIN_DIRECTORY}/${PLUGIN_NAME}
 
 script:
-  - composer test
   - phpunit ${UNIT_TEST_DIRECTORY}
+  - phpdoc -t ${HOME}/Documentation/phpUnit
 
 matrix:
   allow_failures:
