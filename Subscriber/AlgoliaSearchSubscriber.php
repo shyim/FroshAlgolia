@@ -8,19 +8,23 @@ use Enlight_Event_EventArgs;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class AlgoliaSearchSubscriber.
+ * Class AlgoliaSearchSubscriber
+ * @package SwAlgolia\Subscriber
  */
 class AlgoliaSearchSubscriber implements SubscriberInterface
 {
-    /**
-     * @var string
-     */
+
+    /** @var  string */
+    private $pluginName;
+
+    /** @var string */
     private $viewDir;
 
-    /**
-     * @var ContainerInterface
-     */
+    /** @var ContainerInterface */
     private $container;
+
+    /** @var  array */
+    private $pluginConfig;
 
     /**
      * AlgoliaSearchSubscriber constructor.
@@ -29,11 +33,14 @@ class AlgoliaSearchSubscriber implements SubscriberInterface
      * @param ContainerInterface $container
      */
     public function __construct(
+        $pluginName,
         $viewDir,
         ContainerInterface $container
     ) {
+        $this->pluginName = $pluginName;
         $this->viewDir = $viewDir;
         $this->container = $container;
+        $this->pluginConfig = $this->container->get('shopware.plugin.cached_config_reader')->getByPluginName('SwAlgolia');
     }
 
     /**
@@ -55,7 +62,6 @@ class AlgoliaSearchSubscriber implements SubscriberInterface
      */
     public function initAlgoliaSearch(Enlight_Event_EventArgs $args)
     {
-        $pluginConfig = $this->container->get('shopware.plugin.cached_config_reader')->getByPluginName('SwAlgolia');
         $syncHelperService = $this->container->get('sw_algolia.sync_helper_service');
         $shop = Shopware()->Shop();
 
@@ -65,10 +71,10 @@ class AlgoliaSearchSubscriber implements SubscriberInterface
 
         // Assign data to view
         $view->addTemplateDir($this->viewDir);
-        $view->assign('algoliaApplicationId', $pluginConfig['algolia-application-id']);
-        $view->assign('algoliaSearchOnlyApiKey', $pluginConfig['algolia-search-only-api-key']);
+        $view->assign('algoliaApplicationId', $this->pluginConfig['algolia-application-id']);
+        $view->assign('algoliaSearchOnlyApiKey', $this->pluginConfig['algolia-search-only-api-key']);
         $view->assign('indexName', $syncHelperService->buildIndexName($shop));
-        $view->assign('showAlgoliaLogo', $pluginConfig['show-algolia-logo']);
-        $view->assign('showAutocompletePrice', $pluginConfig['show-autocomplete-price']);
+        $view->assign('showAlgoliaLogo', $this->pluginConfig['show-algolia-logo']);
+        $view->assign('showAutocompletePrice', $this->pluginConfig['show-autocomplete-price']);
     }
 }

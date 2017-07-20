@@ -21,7 +21,7 @@ Pushing article data to Algolia index
 ====
 To push your article data to the algolia index, run the following command:
 
-* Full index update: `php bin/console swalgoliasync full`
+* Full index update: `php bin/console algolia:sync full`
 
 Multiple shops / Multilanguage shops
 =====

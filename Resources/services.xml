@@ -6,6 +6,7 @@
 
     <parameters>
         <parameter key="sw_algolia.view_dir">%sw_algolia.plugin_dir%/Resources/views</parameter>
+        <parameter key="sw_algolia.plugin_name">SwAlgolia</parameter>
     </parameters>
 
     <services>
@@ -50,6 +51,7 @@
         <!-- Event subscriber               -->
         <!-- =============================  -->
         <service id="sw_algolia.subscriber.algolia_search_subscriber" class="SwAlgolia\Subscriber\AlgoliaSearchSubscriber">
+            <argument type="string">%sw_algolia.plugin_name%</argument>
             <argument type="string">%sw_algolia.view_dir%</argument>
             <argument type="service" id="service_container"/>
             <tag name="shopware.event_subscriber"/>
