@@ -31,7 +31,7 @@ class Shopware_Controllers_Frontend_Search extends Enlight_Controller_Action
         }
 
         $this->View()->addTemplateDir(__DIR__ . '/../../Resources/views/');
-        $this->View()->loadTemplate('frontend/test.tpl');
+//        $this->View()->loadTemplate('frontend/test.tpl');
 
         $this->assignTemplateVars();
     }
