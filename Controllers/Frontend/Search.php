@@ -17,6 +17,12 @@ class Shopware_Controllers_Frontend_Search extends Enlight_Controller_Action
         return null;
     }
 
+    public function preDispatch()
+    {
+        parent::preDispatch();
+        $this->View()->loadTemplate('frontend/search/fuzzy.tpl');
+    }
+
     /**
      * Default search.
      */

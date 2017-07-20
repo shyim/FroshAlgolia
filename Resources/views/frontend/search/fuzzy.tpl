@@ -1,4 +1,3 @@
-{*extends file="parent:frontend/search/fuzzy.tpl"*}
 {extends file="parent:frontend/index/index.tpl"}
 
 {* Breadcrumb *}
