@@ -14,24 +14,20 @@
 input[type="search"] {
 
   &.aa-input-search {
-    padding: .5625rem 2.375rem .5625rem .5625rem;
-    background: white;
-    height: 2.5rem;
+
+    .unitize-padding(9, 38, 9, 9);
+    .unitize-height(40, 16);
+    background: @input-bg;
     vertical-align: middle;
     width: 100%;
-    border: none;
-    .box-shadow(inset 1px 1px 4px rgba(0,0,0,0.2));
-
-    &::-webkit-search-decoration, &::-webkit-search-cancel-button, &::-webkit-search-results-button, &::-webkit-search-results-decoration {
-      display: none;
-    }
+    position: relative;
 
     &:focus {
       outline: 0;
+      box-shadow: none;
       background: white;
-      -webkit-box-shadow: none; /* Firefox */
-      -moz-box-shadow: none; /* WebKit */
-      box-shadow: none; /* Standard */
+      border: 1px solid @brand-primary;
+
     }
 
   }
