@@ -8,13 +8,11 @@ use Enlight_Event_EventArgs;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class AlgoliaSearchSubscriber
- * @package SwAlgolia\Subscriber
+ * Class AlgoliaSearchSubscriber.
  */
 class AlgoliaSearchSubscriber implements SubscriberInterface
 {
-
-    /** @var  string */
+    /** @var string */
     private $pluginName;
 
     /** @var string */
@@ -23,7 +21,7 @@ class AlgoliaSearchSubscriber implements SubscriberInterface
     /** @var ContainerInterface */
     private $container;
 
-    /** @var  array */
+    /** @var array */
     private $pluginConfig;
 
     /**
