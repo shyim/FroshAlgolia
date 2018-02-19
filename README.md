@@ -1,7 +1,4 @@
-[![Build Status](https://travis-ci.org/synonymous1984/SwAlgolia.svg?branch=master)](https://travis-ci.org/synonymous1984/SwAlgolia)
-[![StyleCI](https://styleci.io/repos/72530399/shield?branch=master)](https://styleci.io/repos/72530399)
-
-SwAlgolia - Algolia plugin for Shopware
+Algolia plugin for Shopware
 =====
 This plugin integrates the high-performance search cluster [Algolia](https://www.algolia.com/) in your [Shopware](https://www.shopware.de) system.
 
@@ -15,17 +12,18 @@ Blazing fast as-you-type auto-suggestion with keyboard navigation:
 
 Requirements
 -----
-* Shopware >= 5.2.0
+* Shopware >= 5.4.0
+* PHP >= 7.0
 
 Pushing article data to Algolia index
 ====
 To push your article data to the algolia index, run the following command:
 
-* Full index update: `php bin/console algolia:sync full`
+* Full index update: `php bin/console algolia:sync`
 
 Multiple shops / Multilanguage shops
 =====
-The SwAlgolia plugin creates one Algolia index for each of your active shops. So if you have two shops (e.g. German and English), 
+The Plugin creates one Algolia index for each of your active shops. So if you have two shops (e.g. German and English), 
 those shops would generate two indices following this naming convention:
 
 `<prefix>-<shopId>`. 
