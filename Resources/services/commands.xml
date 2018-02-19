@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="sw_algolia.commands.sync_command"
+                class="SwAlgolia\Commands\SyncCommand">
+            <tag name="console.command"/>
+            <argument type="service" id="sw_algolia.sync_service"/>
+        </service>
+
+        <service id="sw_algolia.commands.list_index"
+                class="SwAlgolia\Commands\ListIndexCommand">
+            <tag name="console.command"/>
+        </service>
+
+        <service id="sw_algolia.commands.delete_index"
+                 class="SwAlgolia\Commands\DeleteIndexCommand">
+            <tag name="console.command"/>
+        </service>
+    </services>
+</container>

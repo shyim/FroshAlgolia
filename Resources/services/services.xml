@@ -1,0 +1,51 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="algolia_client" class="AlgoliaSearch\Client">
+            <factory class="SwAlgolia\Services\DependencyInjection\Factory\AlgoliaFactory" method="factory"/>
+            <argument type="service" id="shopware.plugin.cached_config_reader"/>
+        </service>
+
+        <service id="sw_algolia.sync_helper_service"
+                 class="SwAlgolia\Services\SyncHelperService"
+                 public="true">
+            <argument type="service" id="sw_algolia.logger" />
+        </service>
+
+        <service id="sw_algolia.sync_service" class="SwAlgolia\Services\SyncService">
+            <argument type="service" id="sw_algolia.logger" />
+            <argument type="service" id="sw_algolia.product.indexer" />
+            <argument type="service" id="sw_algolia.algolia_service" />
+            <argument type="service" id="sw_algolia.sync_helper_service" />
+        </service>
+
+        <service id="sw_algolia.algolia_service" class="SwAlgolia\Services\AlgoliaService" public="true">
+            <argument type="service" id="algolia_client" />
+            <argument type="service" id="sw_algolia.logger" />
+        </service>
+
+        <service id="sw_algolia.backlog_processor" class="SwAlgolia\Services\BacklogProcessor">
+            <argument type="service" id="dbal_connection" />
+        </service>
+
+        <service id="sw_algolia.product.indexer" class="SwAlgolia\Services\ProductIndexer">
+            <argument type="service" id="shopware_storefront.context_service" />
+            <argument type="service" id="shopware_storefront.product_service" />
+            <argument type="service" id="router" />
+            <argument type="service" id="dbal_connection"/>
+            <argument type="collection"/>
+        </service>
+
+        <service id="sw_algolia.product_processor.default" class="SwAlgolia\Services\ProductProcessor\DefaultProcessor">
+            <tag name="algolia.product_processor"/>
+        </service>
+
+        <service id="sw_algolia.config_reader" class="SwAlgolia\Services\ConfigReader">
+            <argument type="service" id="models"/>
+            <argument>%sw_algolia.plugin_dir%</argument>
+        </service>
+    </services>
+</container>

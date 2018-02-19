@@ -15,26 +15,16 @@ use Symfony\Component\Console\Output\OutputInterface;
 class SyncCommand extends ShopwareCommand
 {
     /**
-     * @var Logger
-     */
-    private $logger;
-
-    /**
      * @var SyncService
      */
     private $syncService;
 
     /**
-     * DiscountPriceCalculationService constructor.
-     *
-     * @param Logger      $logger
      * @param SyncService $syncService
      */
     public function __construct(
-        Logger $logger,
         SyncService $syncService
     ) {
-        $this->logger = $logger;
         $this->syncService = $syncService;
 
         parent::__construct();
@@ -47,30 +37,15 @@ class SyncCommand extends ShopwareCommand
     {
         $this
             ->setName('algolia:sync')
-            ->setDescription('Used to perform operations on the Algolia index.')
-            ->addArgument(
-                'operation',
-                InputArgument::REQUIRED,
-                'The action that should be performed on the Algolia index.'
-            )
-            ->setHelp(<<<'EOF'
-Allowed arguments full,fullsync
-EOF
-            );
+            ->setDescription('Used to perform operations on the Algolia index.');
     }
 
     /**
      * {@inheritdoc}
+     * @throws \Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        // Fetch input data
-        $operation = $input->getArgument('operation');
-
-        switch ($operation) {
-            case 'fullsync':
-            case 'full':
-                $this->syncService->fullSync();
-        }
+        $this->syncService->fullSync();
     }
 }

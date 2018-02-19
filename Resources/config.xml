@@ -2,15 +2,15 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="../../../../engine/Shopware/Components/Plugin/schema/config.xsd">
     <elements>
-        <element type="text" required="true">
+        <element required="true">
             <name>algolia-application-id</name>
             <label>Application ID</label>
         </element>
-        <element type="text" required="true">
+        <element required="true">
             <name>algolia-search-only-api-key</name>
             <label>Search-Only API Key</label>
         </element>
-        <element type="text" required="true">
+        <element required="true">
             <name>algolia-admin-api-key</name>
             <label>Admin API Key</label>
         </element>
@@ -25,7 +25,7 @@
             <label>Limit number of indexed products for test purposes (0 = no limitation)</label>
             <value>0</value>
         </element>
-        <element type="text" required="true">
+        <element required="true">
             <name>index-replicas-custom-ranking-attributes</name>
             <label>Custom ranking attributes for replica / slave indices (ordered by importance)</label>
             <!-- @TODO find a more elegant (BE) solution for naming the additional replica indices (multi-language) -->
@@ -51,6 +51,13 @@
             <name>show-autocomplete-price</name>
             <label>Show the article price in autocomplete results?</label>
             <value>false</value>
+        </element>
+        <element type="number">
+            <name>lastSwAlgoliaBacklogId</name>
+            <label>Last Processed Algolia BacklogID</label>
+            <options>
+                <hidden>true</hidden>
+            </options>
         </element>
     </elements>
 </config>

@@ -15,6 +15,7 @@ class Schemas
 {
     /**
      * Creates the schemas for the additional models.
+     * @throws \Doctrine\ORM\Tools\ToolsException
      */
     public static function createSchemas()
     {

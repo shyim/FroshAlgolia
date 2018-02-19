@@ -13,7 +13,7 @@ use Shopware\Components\Plugin\Context\ActivateContext;
 use Shopware\Components\Plugin\Context\DeactivateContext;
 
 // Composer autoload
-require_once __DIR__.'/vendor/autoload.php';
+include_once __DIR__.'/vendor/autoload.php';
 
 /**
  * Class SwAlgolia.
@@ -24,11 +24,11 @@ class SwAlgolia extends Plugin
 {
     /**
      * @param InstallContext $context
+     * @throws \Doctrine\ORM\Tools\ToolsException
      */
     public function install(InstallContext $context)
     {
         Schemas::createSchemas();
-        Data::manipulate();
 
         parent::install($context);
     }
@@ -68,7 +68,6 @@ class SwAlgolia extends Plugin
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
-        $container->setParameter('sw_algolia.plugin_dir', $this->getPath());
         $container->addCompilerPass(new ProductProcessorCompilerPass());
     }
 }
