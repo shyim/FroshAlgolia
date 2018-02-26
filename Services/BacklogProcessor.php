@@ -24,6 +24,10 @@ class BacklogProcessor
         $this->connection = $connection;
     }
 
+    /**
+     * @param $backlogs
+     * @throws \Doctrine\DBAL\DBALException
+     */
     public function add($backlogs)
     {
         if (empty($backlogs)) {
@@ -35,6 +39,7 @@ class BacklogProcessor
 
     /**
      * @param Backlog[] $backlogs
+     * @throws \Doctrine\DBAL\DBALException
      */
     private function writeBacklog(array $backlogs)
     {

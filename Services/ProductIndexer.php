@@ -26,7 +26,7 @@ class ProductIndexer
     /**
      * @var ProcessorInterface[]
      */
-    private $processor = [];
+    private $processor;
 
     /**
      * @var Enlight_Controller_Router
@@ -67,6 +67,7 @@ class ProductIndexer
      * @param $shopConfig
      *
      * @return array
+     * @throws \Doctrine\DBAL\DBALException
      */
     public function index(Shop $shop, $chunkSize, array $shopConfig)
     {
@@ -103,11 +104,12 @@ class ProductIndexer
 
     /**
      * @param Shop $shop
-     * @param $chunkSize
+     * @param int $chunkSize
      *
      * @return array
+     * @throws \Doctrine\DBAL\DBALException
      */
-    private function getProducts(Shop $shop, $chunkSize)
+    private function getProducts(Shop $shop, int $chunkSize)
     {
         $products = $this->connection->executeQuery('SELECT DISTINCT s_articles_details.ordernumber FROM s_articles_details INNER JOIN s_articles_categories_ro ON(s_articles_categories_ro.articleID = s_articles_details.articleID AND s_articles_categories_ro.categoryID = ?) WHERE kind = 1 AND active = 1', [
             $shop->getCategory()->getId(),

@@ -40,11 +40,12 @@ class AlgoliaService
     /**
      * Push a data array to an Algolia index.
      *
-     * @param Shop  $shop
+     * @param Shop $shop
      * @param array $data
      * @param $indexName
      *
      * @return bool
+     * @throws \AlgoliaSearch\AlgoliaException
      */
     public function push(Shop $shop, array $data, $indexName)
     {

@@ -55,7 +55,7 @@ class ConfigReader
      *
      * @param array $value
      *
-     * @return string
+     * @return array
      */
     public function convertToAlgoliaRanking(array $value)
     {

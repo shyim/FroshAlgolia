@@ -14,6 +14,8 @@ class AlgoliaFactory
      * @param CachedConfigReader $configReader
      *
      * @return Client
+     * @throws \AlgoliaSearch\AlgoliaException
+     * @throws \Exception
      */
     public static function factory(CachedConfigReader $configReader)
     {
