@@ -31,18 +31,20 @@ class Shopware_Controllers_Frontend_Search extends Enlight_Controller_Action
         // Get the sSearch term
         $term = $this->getSearchTerm();
 
-        // If the "q" param for instantsearch is not set, redirect the user to the url with q param
         if (!$this->Request()->getParam('q') && $term && $term != '') {
             $this->redirect('search?q='.$term);
         }
 
         $this->View()->addTemplateDir(__DIR__.'/../../Resources/views/');
 
+
         $this->assignTemplateVars();
+        $this->assignDefaultShopwareVariables($term);
     }
 
     /**
      * @return string
+     * @throws Exception
      */
     private function getSearchTerm()
     {
@@ -54,6 +56,31 @@ class Shopware_Controllers_Frontend_Search extends Enlight_Controller_Action
         $processor = $this->get('shopware_search.search_term_pre_processor');
 
         return $processor->process($term);
+    }
+
+    private function assignDefaultShopwareVariables($term)
+    {
+        $request = $this->Request()->getParams();
+        $request['sSearchOrginal'] = $term;
+
+        $pageCounts = $this->get('config')->get('fuzzySearchSelectPerPage');
+
+        $this->View()->assign([
+            'term' => $term,
+            'sPage' => $this->Request()->getParam('sPage', 1),
+            'sSort' => $this->Request()->getParam('sSort', 7),
+            'sTemplate' => $this->Request()->getParam('sTemplate'),
+            'sPerPage' => array_values(explode('|', $pageCounts)),
+            'sRequests' => $request,
+            'pageSizes' => array_values(explode('|', $pageCounts)),
+            'ajaxCountUrlParams' => [],
+            'sSearchResults' => [
+                'sArticles' => [],
+                'sArticlesCount' => null,
+            ],
+            'productBoxLayout' => $this->get('config')->get('searchProductBoxLayout'),
+        ]);
+
     }
 
     private function assignTemplateVars()

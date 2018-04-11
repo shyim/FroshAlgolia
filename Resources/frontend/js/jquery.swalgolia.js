@@ -56,7 +56,6 @@ $.plugin('FroshAlgolia', {
         me.addFacets();
 
         me.search.on('render', function () {
-            window.StateManager.updatePlugin('select:not([data-no-fancy-select="true"])', 'swSelectboxReplacement');
             window.StateManager.destroyPlugin('*[data-compare-ajax="true"]', 'swProductCompareAdd');
             window.StateManager.destroyPlugin('*[data-ajax-wishlist="true"]', 'swAjaxWishlist');
             window.StateManager.removePlugin('*[data-compare-ajax="true"]', 'swProductCompareAdd');
@@ -86,8 +85,7 @@ $.plugin('FroshAlgolia', {
         return instantsearch({
             appId: me.opts.appId,
             apiKey: me.opts.apiKey,
-            indexName: me.opts.indexName,
-            urlSync: true
+            indexName: me.opts.indexName
         });
     },
 
@@ -134,7 +132,13 @@ $.plugin('FroshAlgolia', {
         // Pagination widget
         me.search.addWidget(
             instantsearch.widgets.pagination({
-                container: me.opts.paginationContainerSelector
+                container: me.opts.paginationContainerSelector,
+                cssClasses: {
+                    link: 'paging--link',
+                    active: 'is--active',
+                    previous: 'paging--previous',
+                    next: 'paging--next',
+                }
             })
         );
 
@@ -151,16 +155,22 @@ $.plugin('FroshAlgolia', {
 
         var pages = me.opts.pages.split('|');
         var options = [];
+        var first = true;
 
         pages.forEach(function(page) {
-            options.push({value: parseInt(page), label: me.opts.pagesSnippet + ' ' + page});
+            options.push({value: parseInt(page), label: page, default: first});
+            first = false;
         });
 
         // Hits per page select field
         me.search.addWidget(
             instantsearch.widgets.hitsPerPageSelector({
                 container: me.opts.hitsPerPageContainerSelector,
-                options: options
+                items: options,
+                cssClasses: {
+                    root: 'per-page--select select-field',
+                    select: 'per-page--field action--field'
+                }
             })
         );
 
@@ -170,10 +180,10 @@ $.plugin('FroshAlgolia', {
                 container: me.opts.sortByContainerSelector,
                 autoHideContainer: true,
                 indices: me.opts.sortOrderIndex,
-                cssClasses: [{
-                    root: 'sort--field action--field',
-                    item: ''
-                }]
+                cssClasses: {
+                    root: 'sort--select select-field',
+                    select: 'sort--field action--field'
+                }
             })
         );
 

@@ -1,7 +1,14 @@
 {extends file="parent:frontend/index/index.tpl"}
 
 {* Breadcrumb *}
-{block name='frontend_index_start'}{/block}
+{block name='frontend_index_start'}
+    {if $sRequests.sSearchOrginal}
+        {$sBreadcrumb = [['name' => "{s name="SearchResultsFor"}{/s}"]]}
+    {else}
+        {$sBreadcrumb = [['name' => "{s name="SearchResultsEmpty"}{/s}"]]}
+    {/if}
+    {$smarty.block.parent}
+{/block}
 
 {* Shop navigation *}
 {block name='frontend_index_search'}
@@ -70,8 +77,7 @@
 
         <div class="listing--wrapper">
 
-            <!-- Listing action -->
-            <div class="listing--actions is--rounded">
+            <div data-listing-actions="true" class="listing--actions is--rounded without-pagination">
                 <div class="action--filter-btn">
                     <div id="stats"></div>
                 </div>
@@ -91,7 +97,10 @@
             <div class="listing--bottom-paging">
                 <div class="listing--paging panel--paging">
                     <div id="pagination"></div>
-                    <div id="hits-per-page"></div>
+                    <div class="action--per-page action--content block">
+                        <label for="n" class="per-page--label action--label">Artikel pro Seite:</label>
+                        <div id="hits-per-page"></div>
+                    </div>
                 </div>
             </div>
         </div>
