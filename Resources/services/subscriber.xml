@@ -12,11 +12,6 @@
             <tag name="shopware.event_subscriber"/>
         </service>
 
-        <service id="frosh_algolia.subscriber.assets_subscriber" class="FroshAlgolia\Subscriber\AssetsSubscriber">
-            <argument type="string">%frosh_algolia.view_dir%</argument>
-            <tag name="shopware.event_subscriber"/>
-        </service>
-
         <service id="frosh_algolia.subscriber.controller_subscriber" class="FroshAlgolia\Subscriber\ControllerSubscriber">
             <argument>%frosh_algolia.plugin_dir%</argument>
             <tag name="shopware.event_subscriber"/>
