@@ -14,7 +14,7 @@ env:
   matrix:
     - SHOPWARE_VERSION="5.3"
   global:
-    - PLUGIN_NAME=SwAlgolia
+    - PLUGIN_NAME=FroshAlgolia
     - SHOPWARE_DIRECTORY=${HOME}/shopware
     - PLUGIN_DIRECTORY=${SHOPWARE_DIRECTORY}/custom/plugins
     - UNIT_TEST_DIRECTORY=${PLUGIN_DIRECTORY}/${PLUGIN_NAME}/Tests
@@ -46,4 +46,4 @@ matrix:
     - php: nightly
 
 notifications:
-  slack: swalgolia:khIrAeVIs925HdujhG7S19rX
+  slack: FroshAlgolia:khIrAeVIs925HdujhG7S19rX

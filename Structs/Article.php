@@ -1,6 +1,6 @@
 <?php
 
-namespace SwAlgolia\Structs;
+namespace FroshAlgolia\Structs;
 
 use Shopware\Bundle\StoreFrontBundle\Struct\Product\VoteAverage;
 use Symfony\Component\Validator\Constraints as Assert;

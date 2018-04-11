@@ -1,6 +1,6 @@
 <?php
 
-namespace SwAlgolia\Services\DependencyInjection\Factory;
+namespace FroshAlgolia\Services\DependencyInjection\Factory;
 
 use AlgoliaSearch\Client;
 use Shopware\Components\Plugin\CachedConfigReader;
@@ -19,7 +19,7 @@ class AlgoliaFactory
      */
     public static function factory(CachedConfigReader $configReader)
     {
-        $config = $configReader->getByPluginName('SwAlgolia');
+        $config = $configReader->getByPluginName('FroshAlgolia');
 
         $client = new Client($config['algolia-application-id'], $config['algolia-admin-api-key']);
         $client->setConnectTimeout($config['algolia-connection-timeout']);

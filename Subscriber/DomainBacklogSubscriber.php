@@ -1,11 +1,11 @@
 <?php
 
-namespace SwAlgolia\Subscriber;
+namespace FroshAlgolia\Subscriber;
 
 use Enlight\Event\SubscriberInterface;
 use Enlight_Event_EventArgs as EventArgs;
 use Shopware\Components\DependencyInjection\Container;
-use SwAlgolia\Structs\Backlog;
+use FroshAlgolia\Structs\Backlog;
 
 /**
  * Class DomainBacklogSubscriber.
@@ -41,6 +41,6 @@ class DomainBacklogSubscriber implements SubscriberInterface
     public function onProductStockWasChanged(EventArgs $eventArgs)
     {
         $backlog = new Backlog(ORMBacklogSubscriber::EVENT_VARIANT_UPDATED, ['number' => $eventArgs->get('number')]);
-        $this->container->get('sw_algolia.backlog_processor')->add([$backlog]);
+        $this->container->get('frosh_algolia.backlog_processor')->add([$backlog]);
     }
 }

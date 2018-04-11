@@ -1,6 +1,6 @@
 <?php
 
-namespace SwAlgolia\Services;
+namespace FroshAlgolia\Services;
 
 use Shopware\Components;
 use Shopware\Models\Shop\Shop;
@@ -30,7 +30,7 @@ class SyncHelperService
         $this->logger = $logger;
 
         // Grab the plugin config
-        $this->pluginConfig = Shopware()->Container()->get('shopware.plugin.cached_config_reader')->getByPluginName('SwAlgolia');
+        $this->pluginConfig = Shopware()->Container()->get('shopware.plugin.cached_config_reader')->getByPluginName('FroshAlgolia');
     }
 
     /**

@@ -12,6 +12,6 @@
     </imports>
 
     <parameters>
-        <parameter key="sw_algolia.view_dir">%sw_algolia.plugin_dir%/Resources/views</parameter>
+        <parameter key="frosh_algolia.view_dir">%frosh_algolia.plugin_dir%/Resources/views</parameter>
     </parameters>
 </container>

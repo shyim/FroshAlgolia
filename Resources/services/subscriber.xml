@@ -5,31 +5,31 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="sw_algolia.subscriber.algolia_search_subscriber" class="SwAlgolia\Subscriber\AlgoliaSearchSubscriber">
-            <argument type="string">%sw_algolia.plugin_name%</argument>
-            <argument type="string">%sw_algolia.view_dir%</argument>
+        <service id="frosh_algolia.subscriber.algolia_search_subscriber" class="FroshAlgolia\Subscriber\AlgoliaSearchSubscriber">
+            <argument type="string">%frosh_algolia.plugin_name%</argument>
+            <argument type="string">%frosh_algolia.view_dir%</argument>
             <argument type="service" id="service_container"/>
             <tag name="shopware.event_subscriber"/>
         </service>
 
-        <service id="sw_algolia.subscriber.assets_subscriber" class="SwAlgolia\Subscriber\AssetsSubscriber">
-            <argument type="string">%sw_algolia.view_dir%</argument>
+        <service id="frosh_algolia.subscriber.assets_subscriber" class="FroshAlgolia\Subscriber\AssetsSubscriber">
+            <argument type="string">%frosh_algolia.view_dir%</argument>
             <tag name="shopware.event_subscriber"/>
         </service>
 
-        <service id="sw_algolia.subscriber.controller_subscriber" class="SwAlgolia\Subscriber\ControllerSubscriber">
-            <argument>%sw_algolia.plugin_dir%</argument>
+        <service id="frosh_algolia.subscriber.controller_subscriber" class="FroshAlgolia\Subscriber\ControllerSubscriber">
+            <argument>%frosh_algolia.plugin_dir%</argument>
             <tag name="shopware.event_subscriber"/>
         </service>
 
         <!-- Consumes events fired by ORM -->
-        <service id="sw_algolia.orm_backlog_subscriber" class="SwAlgolia\Subscriber\ORMBacklogSubscriber" public="false">
+        <service id="frosh_algolia.orm_backlog_subscriber" class="FroshAlgolia\Subscriber\ORMBacklogSubscriber" public="false">
             <argument type="service" id="service_container" />
             <tag name="doctrine.event_subscriber" />
         </service>
 
         <!-- Consumes events fired by Shopware -->
-        <service id="sw_algolia.domain_backlog_subscriber" class="SwAlgolia\Subscriber\DomainBacklogSubscriber">
+        <service id="frosh_algolia.domain_backlog_subscriber" class="FroshAlgolia\Subscriber\DomainBacklogSubscriber">
             <argument type="service" id="service_container" />
             <tag name="shopware.event_subscriber" />
         </service>

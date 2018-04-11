@@ -1,12 +1,12 @@
 <?php
 
-namespace SwAlgolia\Subscriber;
+namespace FroshAlgolia\Subscriber;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Event\PostFlushEventArgs;
 use Doctrine\ORM\Events;
-use SwAlgolia\Structs\Backlog;
+use FroshAlgolia\Structs\Backlog;
 use Shopware\Components\DependencyInjection\Container;
 use Shopware\Components\Model\ModelManager;
 use Shopware\Models\Article\Detail as VariantModel;
@@ -158,7 +158,7 @@ class ORMBacklogSubscriber implements EventSubscriber
         if (empty($this->queue)) {
             return;
         }
-        $this->container->get('sw_algolia.backlog_processor')->add($this->queue);
+        $this->container->get('frosh_algolia.backlog_processor')->add($this->queue);
         $this->queue = [];
     }
 

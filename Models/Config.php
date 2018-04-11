@@ -1,12 +1,12 @@
 <?php
 
-namespace SwAlgolia\Models;
+namespace FroshAlgolia\Models;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="swalgolia_config")
+ * @ORM\Table(name="FroshAlgolia_config")
  */
 class Config
 {

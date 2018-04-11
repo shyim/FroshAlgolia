@@ -1,13 +1,13 @@
 {
-    "name": "synonymous1984/SwAlgolia",
+    "name": "frosh/FroshAlgolia",
     "license": "MIT",
-    "type": "project",
+    "type": "shopware-plugin",
     "description": "Algolia Shopware Plugin",
     "keywords": [
         "shopware",
         "Algolia"
     ],
-    "homepage": "https://github.com/synonymous1984/SwAlgolia",
+    "homepage": "https://github.com/FriendsOfShopware/FroshAlgolia",
     "require": {
         "algolia/algoliasearch-client-php": "^1.11"
     }

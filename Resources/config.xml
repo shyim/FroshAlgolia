@@ -17,7 +17,7 @@
         <element type="text" required="true">
             <name>index-prefix-name</name>
             <label>Index prefix name</label>
-            <value>swalgolia</value>
+            <value>FroshAlgolia</value>
             <description>This prefix is used as prefix for your Algolia indidex for this shop. If you have multiple shops on one Algolia account, please set at unique prefix for each shop system.</description>
         </element>
         <element type="number" required="false">
@@ -53,7 +53,7 @@
             <value>false</value>
         </element>
         <element type="number">
-            <name>lastSwAlgoliaBacklogId</name>
+            <name>lastFroshAlgoliaBacklogId</name>
             <label>Last Processed Algolia BacklogID</label>
             <options>
                 <hidden>true</hidden>

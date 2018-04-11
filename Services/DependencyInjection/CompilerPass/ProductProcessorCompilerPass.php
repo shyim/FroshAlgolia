@@ -1,6 +1,6 @@
 <?php
 
-namespace SwAlgolia\Services\DependencyInjection\CompilerPass;
+namespace FroshAlgolia\Services\DependencyInjection\CompilerPass;
 
 use Shopware\Components\DependencyInjection\Compiler\TagReplaceTrait;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -12,6 +12,6 @@ class ProductProcessorCompilerPass implements CompilerPassInterface
 
     public function process(ContainerBuilder $container)
     {
-        $this->replaceArgumentWithTaggedServices($container, 'sw_algolia.product.indexer', 'algolia.product_processor', 4);
+        $this->replaceArgumentWithTaggedServices($container, 'frosh_algolia.product.indexer', 'algolia.product_processor', 4);
     }
 }

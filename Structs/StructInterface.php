@@ -1,6 +1,6 @@
 <?php
 
-namespace SwAlgolia\Structs;
+namespace FroshAlgolia\Structs;
 
 /**
  * Interface StructInterface.

@@ -1,13 +1,13 @@
 <?php
 
-namespace SwAlgolia\Models;
+namespace FroshAlgolia\Models;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="swalgolia_backlog")
+ * @ORM\Table(name="FroshAlgolia_backlog")
  */
 class Backlog
 {

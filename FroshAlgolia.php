@@ -1,13 +1,13 @@
 <?php
 
-namespace SwAlgolia;
+namespace FroshAlgolia;
 
 use Shopware\Components\Plugin;
 use Shopware\Components\Plugin\Context\InstallContext;
 use Shopware\Components\Plugin\Context\UninstallContext;
-use SwAlgolia\Bootstrap\Schemas;
-use SwAlgolia\Bootstrap\Data;
-use SwAlgolia\Services\DependencyInjection\CompilerPass\ProductProcessorCompilerPass;
+use FroshAlgolia\Bootstrap\Schemas;
+use FroshAlgolia\Bootstrap\Data;
+use FroshAlgolia\Services\DependencyInjection\CompilerPass\ProductProcessorCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Shopware\Components\Plugin\Context\ActivateContext;
 use Shopware\Components\Plugin\Context\DeactivateContext;
@@ -16,11 +16,11 @@ use Shopware\Components\Plugin\Context\DeactivateContext;
 include_once __DIR__.'/vendor/autoload.php';
 
 /**
- * Class SwAlgolia.
+ * Class FroshAlgolia.
  *
- * Plugin main class for SwAlgolia Algolia (https://www.algolia.com) search plugin
+ * Plugin main class for FroshAlgolia Algolia (https://www.algolia.com) search plugin
  */
-class SwAlgolia extends Plugin
+class FroshAlgolia extends Plugin
 {
     /**
      * @param InstallContext $context

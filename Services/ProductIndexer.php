@@ -1,6 +1,6 @@
 <?php
 
-namespace SwAlgolia\Services;
+namespace FroshAlgolia\Services;
 
 use Doctrine\DBAL\Connection;
 use Enlight_Controller_Router;
@@ -8,8 +8,8 @@ use Shopware\Bundle\StoreFrontBundle\Service\ContextServiceInterface;
 use Shopware\Bundle\StoreFrontBundle\Service\Core\ProductService;
 use Shopware\Bundle\StoreFrontBundle\Struct\Product;
 use Shopware\Models\Shop\Shop;
-use SwAlgolia\Services\ProductProcessor\ProcessorInterface;
-use SwAlgolia\Structs\Article;
+use FroshAlgolia\Services\ProductProcessor\ProcessorInterface;
+use FroshAlgolia\Structs\Article;
 
 class ProductIndexer
 {

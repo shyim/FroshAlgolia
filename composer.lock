@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "5c59fc4cbe88a8f55d07dc9b0911bb93",
+    "content-hash": "423b07bf780f1b56b684ef2b1e7f30df",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
-            "version": "1.25.0",
+            "version": "1.25.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/algolia/algoliasearch-client-php.git",
-                "reference": "0fd6eabe909c3f860ac3ff38f595a735e74ff6da"
+                "reference": "805021ea52630756d2da01d482309a2fdc47d3c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/algolia/algoliasearch-client-php/zipball/0fd6eabe909c3f860ac3ff38f595a735e74ff6da",
-                "reference": "0fd6eabe909c3f860ac3ff38f595a735e74ff6da",
+                "url": "https://api.github.com/repos/algolia/algoliasearch-client-php/zipball/805021ea52630756d2da01d482309a2fdc47d3c0",
+                "reference": "805021ea52630756d2da01d482309a2fdc47d3c0",
                 "shasum": ""
             },
             "require": {
@@ -54,7 +54,7 @@
             ],
             "description": "Algolia Search API Client for PHP",
             "homepage": "https://github.com/algolia/algoliasearch-client-php",
-            "time": "2017-12-28T08:10:23+00:00"
+            "time": "2018-03-02T13:24:10+00:00"
         }
     ],
     "packages-dev": [],

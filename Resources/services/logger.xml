@@ -6,33 +6,33 @@
 
 
     <services>
-        <service id="sw_algolia.logger.handler" class="Monolog\Handler\RotatingFileHandler" public="false">
-            <argument>%kernel.logs_dir%/plugin_sw_algolia_%kernel.environment%.log</argument>
+        <service id="frosh_algolia.logger.handler" class="Monolog\Handler\RotatingFileHandler" public="false">
+            <argument>%kernel.logs_dir%/plugin_frosh_algolia_%kernel.environment%.log</argument>
             <argument>14</argument>
             <call method="pushProcessor">
                 <argument type="service" id="monolog.processor.uid" />
             </call>
         </service>
 
-        <service id="sw_algolia.logger.stream_handler" class="Monolog\Handler\StreamHandler" public="false">
+        <service id="frosh_algolia.logger.stream_handler" class="Monolog\Handler\StreamHandler" public="false">
             <argument>php://stdout</argument>
             <call method="pushProcessor">
                 <argument type="service" id="monolog.processor.uid" />
             </call>
         </service>
 
-        <service id="sw_algolia.logger.psr3processor" class="Monolog\Processor\PsrLogMessageProcessor" public="false" />
+        <service id="frosh_algolia.logger.psr3processor" class="Monolog\Processor\PsrLogMessageProcessor" public="false" />
 
-        <service id="sw_algolia.logger" class="Shopware\Components\Logger">
-            <argument>sw_algolia</argument>
+        <service id="frosh_algolia.logger" class="Shopware\Components\Logger">
+            <argument>frosh_algolia</argument>
             <call method="pushHandler">
-                <argument type="service" id="sw_algolia.logger.handler" />
+                <argument type="service" id="frosh_algolia.logger.handler" />
             </call>
             <call method="pushHandler">
-                <argument type="service" id="sw_algolia.logger.stream_handler" />
+                <argument type="service" id="frosh_algolia.logger.stream_handler" />
             </call>
             <call method="pushProcessor">
-                <argument type="service" id="sw_algolia.logger.psr3processor" />
+                <argument type="service" id="frosh_algolia.logger.psr3processor" />
             </call>
         </service>
     </services>

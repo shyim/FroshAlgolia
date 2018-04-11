@@ -58,9 +58,9 @@ class Shopware_Controllers_Frontend_Search extends Enlight_Controller_Action
 
     private function assignTemplateVars()
     {
-        $pluginConfig = $this->container->get('shopware.plugin.cached_config_reader')->getByPluginName('SwAlgolia');
-        $syncHelperService = $this->container->get('sw_algolia.sync_helper_service');
-        $this->View()->algoliaConfig = $this->container->get('sw_algolia.config_reader')->read(Shopware()->Shop());
+        $pluginConfig = $this->container->get('shopware.plugin.cached_config_reader')->getByPluginName('FroshAlgolia');
+        $syncHelperService = $this->container->get('frosh_algolia.sync_helper_service');
+        $this->View()->algoliaConfig = $this->container->get('frosh_algolia.config_reader')->read(Shopware()->Shop());
 
         /**
          * Build the JS index for sort order based on replica configuration. First element in this

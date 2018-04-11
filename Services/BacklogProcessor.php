@@ -1,9 +1,9 @@
 <?php
 
-namespace SwAlgolia\Services;
+namespace FroshAlgolia\Services;
 
 use Doctrine\DBAL\Connection;
-use SwAlgolia\Structs\Backlog;
+use FroshAlgolia\Structs\Backlog;
 
 /**
  * Class BacklogProcessorService.
@@ -44,7 +44,7 @@ class BacklogProcessor
     private function writeBacklog(array $backlogs)
     {
         $statement = $this->connection->prepare('
-            INSERT IGNORE INTO swalgolia_backlog (`event`, `payload`, `time`)
+            INSERT IGNORE INTO FroshAlgolia_backlog (`event`, `payload`, `time`)
             VALUES (:event, :payload, :time);
         ');
 

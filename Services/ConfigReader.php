@@ -1,10 +1,10 @@
 <?php
 
-namespace SwAlgolia\Services;
+namespace FroshAlgolia\Services;
 
 use Shopware\Components\Model\ModelManager;
 use Shopware\Models\Shop\Shop;
-use SwAlgolia\Models\Config;
+use FroshAlgolia\Models\Config;
 
 /**
  * Class ConfigReader.

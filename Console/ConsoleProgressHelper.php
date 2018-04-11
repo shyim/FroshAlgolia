@@ -1,6 +1,6 @@
 <?php
 
-namespace SwAlgolia\Console;
+namespace FroshAlgolia\Console;
 
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\OutputInterface;

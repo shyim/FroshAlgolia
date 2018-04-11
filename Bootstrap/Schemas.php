@@ -1,10 +1,10 @@
 <?php
 
-namespace SwAlgolia\Bootstrap;
+namespace FroshAlgolia\Bootstrap;
 
 use Doctrine\ORM\Tools\SchemaTool;
-use SwAlgolia\Models\Backlog;
-use SwAlgolia\Models\Config;
+use FroshAlgolia\Models\Backlog;
+use FroshAlgolia\Models\Config;
 
 /**
  * This class is responsible for creating schemas based on plugin models during plugin installation.

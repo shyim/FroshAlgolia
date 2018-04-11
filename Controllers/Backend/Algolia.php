@@ -1,12 +1,12 @@
 <?php
 
-use SwAlgolia\Models\Config;
+use FroshAlgolia\Models\Config;
 
 class Shopware_Controllers_Backend_Algolia extends Shopware_Controllers_Backend_ExtJs
 {
     public function preDispatch()
     {
-        $this->View()->addTemplateDir($this->container->getParameter('sw_algolia.view_dir'));
+        $this->View()->addTemplateDir($this->container->getParameter('frosh_algolia.view_dir'));
         parent::preDispatch();
     }
 
@@ -21,7 +21,7 @@ class Shopware_Controllers_Backend_Algolia extends Shopware_Controllers_Backend_
         if ($config) {
             $this->View()->data = $config->getConfig();
         } else {
-            $this->View()->data = include $this->container->getParameter('sw_algolia.plugin_dir').'/Bootstrap/DefaultConfig.php';
+            $this->View()->data = include $this->container->getParameter('frosh_algolia.plugin_dir').'/Bootstrap/DefaultConfig.php';
         }
     }
 

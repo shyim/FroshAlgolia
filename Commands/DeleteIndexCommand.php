@@ -1,6 +1,6 @@
 <?php
 
-namespace SwAlgolia\Commands;
+namespace FroshAlgolia\Commands;
 
 use Shopware\Commands\ShopwareCommand;
 use Symfony\Component\Console\Input\InputArgument;

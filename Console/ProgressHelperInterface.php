@@ -1,6 +1,6 @@
 <?php
 
-namespace SwAlgolia\Console;
+namespace FroshAlgolia\Console;
 
 /**
  * Interface ProgressHelperInterface.

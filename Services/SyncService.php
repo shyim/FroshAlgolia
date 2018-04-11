@@ -1,11 +1,11 @@
 <?php
 
-namespace SwAlgolia\Services;
+namespace FroshAlgolia\Services;
 
 use Doctrine\ORM\EntityManager;
 use Shopware\Components\Logger;
 use Shopware\Models\Shop\Shop;
-use SwAlgolia\Structs\Struct;
+use FroshAlgolia\Structs\Struct;
 
 /**
  * Class SyncService.
@@ -74,9 +74,9 @@ class SyncService
         $this->syncHelperService = $syncHelperService;
         $this->em = Shopware()->Container()->get('models');
 
-        $this->configReader = Shopware()->Container()->get('sw_algolia.config_reader');
+        $this->configReader = Shopware()->Container()->get('frosh_algolia.config_reader');
         // Grab the plugin config
-        $this->pluginConfig = Shopware()->Container()->get('shopware.plugin.cached_config_reader')->getByPluginName('SwAlgolia');
+        $this->pluginConfig = Shopware()->Container()->get('shopware.plugin.cached_config_reader')->getByPluginName('FroshAlgolia');
     }
 
     /**

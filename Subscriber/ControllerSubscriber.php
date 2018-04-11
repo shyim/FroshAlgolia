@@ -1,6 +1,6 @@
 <?php
 
-namespace SwAlgolia\Subscriber;
+namespace FroshAlgolia\Subscriber;
 
 use Enlight\Event\SubscriberInterface;
 use Enlight_Event_EventArgs;

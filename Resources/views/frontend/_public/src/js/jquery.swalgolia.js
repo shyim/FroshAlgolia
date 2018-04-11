@@ -1,9 +1,9 @@
 /**
- * The swAlgolia jQuery plugin is used to generate the output on every instant search
+ * The FroshAlgolia jQuery plugin is used to generate the output on every instant search
  * page. These are for example the SERP or the category listing which allows a typ-as-you-go
  * refinement of the list.
  */
-$.plugin('swAlgolia', {
+$.plugin('FroshAlgolia', {
     defaults: {
         appId: false,
         apiKey: false,
@@ -272,5 +272,5 @@ $.plugin('swAlgolia', {
  * Add the plugin to the StateManager
  */
 $(function () {
-    window.StateManager.addPlugin('*[data-algolia="true"]', 'swAlgolia');
+    window.StateManager.addPlugin('*[data-algolia="true"]', 'FroshAlgolia');
 });

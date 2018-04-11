@@ -5,33 +5,33 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
         <service id="algolia_client" class="AlgoliaSearch\Client">
-            <factory class="SwAlgolia\Services\DependencyInjection\Factory\AlgoliaFactory" method="factory"/>
+            <factory class="FroshAlgolia\Services\DependencyInjection\Factory\AlgoliaFactory" method="factory"/>
             <argument type="service" id="shopware.plugin.cached_config_reader"/>
         </service>
 
-        <service id="sw_algolia.sync_helper_service"
-                 class="SwAlgolia\Services\SyncHelperService"
+        <service id="frosh_algolia.sync_helper_service"
+                 class="FroshAlgolia\Services\SyncHelperService"
                  public="true">
-            <argument type="service" id="sw_algolia.logger" />
+            <argument type="service" id="frosh_algolia.logger" />
         </service>
 
-        <service id="sw_algolia.sync_service" class="SwAlgolia\Services\SyncService">
-            <argument type="service" id="sw_algolia.logger" />
-            <argument type="service" id="sw_algolia.product.indexer" />
-            <argument type="service" id="sw_algolia.algolia_service" />
-            <argument type="service" id="sw_algolia.sync_helper_service" />
+        <service id="frosh_algolia.sync_service" class="FroshAlgolia\Services\SyncService">
+            <argument type="service" id="frosh_algolia.logger" />
+            <argument type="service" id="frosh_algolia.product.indexer" />
+            <argument type="service" id="frosh_algolia.algolia_service" />
+            <argument type="service" id="frosh_algolia.sync_helper_service" />
         </service>
 
-        <service id="sw_algolia.algolia_service" class="SwAlgolia\Services\AlgoliaService" public="true">
+        <service id="frosh_algolia.algolia_service" class="FroshAlgolia\Services\AlgoliaService" public="true">
             <argument type="service" id="algolia_client" />
-            <argument type="service" id="sw_algolia.logger" />
+            <argument type="service" id="frosh_algolia.logger" />
         </service>
 
-        <service id="sw_algolia.backlog_processor" class="SwAlgolia\Services\BacklogProcessor">
+        <service id="frosh_algolia.backlog_processor" class="FroshAlgolia\Services\BacklogProcessor">
             <argument type="service" id="dbal_connection" />
         </service>
 
-        <service id="sw_algolia.product.indexer" class="SwAlgolia\Services\ProductIndexer">
+        <service id="frosh_algolia.product.indexer" class="FroshAlgolia\Services\ProductIndexer">
             <argument type="service" id="shopware_storefront.context_service" />
             <argument type="service" id="shopware_storefront.product_service" />
             <argument type="service" id="router" />
@@ -39,13 +39,13 @@
             <argument type="collection"/>
         </service>
 
-        <service id="sw_algolia.product_processor.default" class="SwAlgolia\Services\ProductProcessor\DefaultProcessor">
+        <service id="frosh_algolia.product_processor.default" class="FroshAlgolia\Services\ProductProcessor\DefaultProcessor">
             <tag name="algolia.product_processor"/>
         </service>
 
-        <service id="sw_algolia.config_reader" class="SwAlgolia\Services\ConfigReader">
+        <service id="frosh_algolia.config_reader" class="FroshAlgolia\Services\ConfigReader">
             <argument type="service" id="models"/>
-            <argument>%sw_algolia.plugin_dir%</argument>
+            <argument>%frosh_algolia.plugin_dir%</argument>
         </service>
     </services>
 </container>

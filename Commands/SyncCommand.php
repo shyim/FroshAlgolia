@@ -1,10 +1,10 @@
 <?php
 
-namespace SwAlgolia\Commands;
+namespace FroshAlgolia\Commands;
 
 use Shopware\Commands\ShopwareCommand;
 use Shopware\Components\Logger;
-use SwAlgolia\Services\SyncService;
+use FroshAlgolia\Services\SyncService;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

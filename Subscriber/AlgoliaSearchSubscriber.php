@@ -1,6 +1,6 @@
 <?php
 
-namespace SwAlgolia\Subscriber;
+namespace FroshAlgolia\Subscriber;
 
 use Enlight\Event\SubscriberInterface;
 use Enlight_Controller_Action;
@@ -38,7 +38,7 @@ class AlgoliaSearchSubscriber implements SubscriberInterface
         $this->pluginName = $pluginName;
         $this->viewDir = $viewDir;
         $this->container = $container;
-        $this->pluginConfig = $this->container->get('shopware.plugin.cached_config_reader')->getByPluginName('SwAlgolia');
+        $this->pluginConfig = $this->container->get('shopware.plugin.cached_config_reader')->getByPluginName('FroshAlgolia');
     }
 
     /**
@@ -60,7 +60,7 @@ class AlgoliaSearchSubscriber implements SubscriberInterface
      */
     public function initAlgoliaSearch(Enlight_Event_EventArgs $args)
     {
-        $syncHelperService = $this->container->get('sw_algolia.sync_helper_service');
+        $syncHelperService = $this->container->get('frosh_algolia.sync_helper_service');
         $shop = Shopware()->Shop();
 
         /** @var Enlight_Controller_Action $controller */

@@ -1,6 +1,6 @@
 <?php
 
-namespace SwAlgolia\Services;
+namespace FroshAlgolia\Services;
 
 use AlgoliaSearch\Client;
 use AlgoliaSearch\Index;

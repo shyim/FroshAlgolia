@@ -1,10 +1,10 @@
 <?php
 
-namespace SwAlgolia\Services\ProductProcessor;
+namespace FroshAlgolia\Services\ProductProcessor;
 
 use Shopware\Bundle\StoreFrontBundle\Struct\Product;
 use Shopware\Models\Media\Media;
-use SwAlgolia\Structs\Article;
+use FroshAlgolia\Structs\Article;
 
 class DefaultProcessor implements ProcessorInterface
 {

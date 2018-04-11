@@ -1,6 +1,6 @@
 <?php
 
-namespace SwAlgolia\Subscriber;
+namespace FroshAlgolia\Subscriber;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Enlight\Event\SubscriberInterface;
@@ -63,7 +63,7 @@ class AssetsSubscriber implements SubscriberInterface
     public function collectJavascriptFiles()
     {
         return new ArrayCollection([
-            $this->viewDir.'/frontend/_public/src/js/jquery.swalgolia.js',
+            $this->viewDir.'/frontend/_public/src/js/jquery.FroshAlgolia.js',
         ]);
     }
 }
