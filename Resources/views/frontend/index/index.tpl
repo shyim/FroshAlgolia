@@ -43,7 +43,7 @@
                 source: autocomplete.sources.hits(index, {hitsPerPage: 10}),
                 displayKey: 'name',
                 templates: {
-                    {/literal}{if $showAlgoliaLogo}footer: '<div class="branding"><span><a href="https://github.com/synonymous1984/FroshAlgolia" target="_blank">FroshAlgolia Plugin by FriendsOfShopware</a></span><span>Powered by <img src="https://www.algolia.com/assets/algolia128x40.png" /></span> </div>',{/if}{literal}
+                    {/literal}{if $showAlgoliaLogo}footer: '<div class="branding"><span><a href="https://github.com/shyim/FroshAlgolia" target="_blank">FroshAlgolia Plugin by FriendsOfShopware</a></span><span><img src="{link file='frontend/img/search-by-algolia-light-background.svg'}" /></span> </div>',{/if}{literal}
                     suggestion: function(suggestion) {
 
                         var name = suggestion._highlightResult.name.value;
