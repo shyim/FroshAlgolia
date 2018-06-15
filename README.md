@@ -8,7 +8,7 @@ See it in action
 -----
 Blazing fast as-you-type auto-suggestion with keyboard navigation:
 
-![FroshAlgolia auto suggestion](https://github.com/synonymous1984/FroshAlgolia/blob/master/Documentation/images/screencast_autosuggest.gif "FroshAlgolia auto-suggest as-you-type")
+![FroshAlgolia auto suggestion](https://github.com/shyim/FroshAlgolia/blob/master/Documentation/images/screencast_autosuggest.gif "FroshAlgolia auto-suggest as-you-type")
 
 Requirements
 -----

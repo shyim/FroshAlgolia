@@ -5,7 +5,7 @@
     <label>Algolia for Shopware</label>
     <version>0.3.0</version>
     <copyright>FriendsOfShopware</copyright>
-    <link>https://github.com/synonymous1984/FroshAlgolia</link>
+    <link>https://github.com/shyim/FroshAlgolia</link>
     <author>FriendsOfShopware</author>
     <description>This plugin integrates the high-performance search cluster Algolia in your Shopware system.</description>
 
