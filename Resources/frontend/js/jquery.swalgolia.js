@@ -82,10 +82,24 @@ $.plugin('FroshAlgolia', {
 
         var me = this;
 
+        var searchParameters = {};
+
+        // if (me.opts.currentCategory) {
+        //     searchParameters = {
+        //         hierarchicalFacetsRefinements: {
+        //             categories: [me.opts.currentCategory]
+        //         }
+        //     };
+        // }
+
         return instantsearch({
             appId: me.opts.appId,
             apiKey: me.opts.apiKey,
-            indexName: me.opts.indexName
+            indexName: me.opts.indexName,
+            urlSync: {
+                useHash: true
+            },
+            searchParameters: searchParameters
         });
     },
 
@@ -143,15 +157,16 @@ $.plugin('FroshAlgolia', {
         );
 
         // Search Input
-        me.search.addWidget(
-            instantsearch.widgets.searchBox({
-                container: me.opts.searchInputContainerSelector,
-                autofocus: true,
-                placeholder: me.opts.searchPlaceholder,
-                poweredBy: me.opts.showAlgoliaLogo
-            })
-        );
-
+        if (document.querySelector(me.opts.searchInputContainerSelector)) {
+            me.search.addWidget(
+                instantsearch.widgets.searchBox({
+                    container: me.opts.searchInputContainerSelector,
+                    autofocus: true,
+                    placeholder: me.opts.searchPlaceholder,
+                    poweredBy: me.opts.showAlgoliaLogo
+                })
+            );
+        }
 
         var pages = me.opts.pages.split('|');
         var options = [];
@@ -202,6 +217,20 @@ $.plugin('FroshAlgolia', {
             })
         );
 
+        // me.search.addWidget(
+        //     instantsearch.widgets.refinementList({
+        //         container: '#category',
+        //         attributeName: 'categories',
+        //         limit: 10,
+        //         sortBy: ['isRefined', 'count:desc', 'name:asc'],
+        //         operator: 'or',
+        //         templates: {
+        //             header: '<h5>Kategorie</h5>'
+        //         }
+        //     })
+        // );
+
+
     },
 
     /**
@@ -224,8 +253,6 @@ $.plugin('FroshAlgolia', {
      * @returns {*}
      */
     buildFacet: function(widgetName, widgetConfig) {
-
-
         // Build basic widget data
         var data =
             {

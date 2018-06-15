@@ -374,4 +374,13 @@ class Article extends Struct
     {
         $this->voteAvgPoints = $voteAvgPoints;
     }
+
+    public function toArray()
+    {
+        $result = parent::toArray();
+
+        $result['priceFormatted'] = Shopware()->Modules()->Articles()->sFormatPrice($this->price);
+
+        return $result;
+    }
 }

@@ -38,7 +38,6 @@ class Shopware_Controllers_Frontend_Search extends Enlight_Controller_Action
         $this->View()->addTemplateDir(__DIR__.'/../../Resources/views/');
 
 
-        $this->assignTemplateVars();
         $this->assignDefaultShopwareVariables($term);
     }
 
@@ -81,40 +80,5 @@ class Shopware_Controllers_Frontend_Search extends Enlight_Controller_Action
             'productBoxLayout' => $this->get('config')->get('searchProductBoxLayout'),
         ]);
 
-    }
-
-    private function assignTemplateVars()
-    {
-        $pluginConfig = $this->container->get('shopware.plugin.cached_config_reader')->getByPluginName('FroshAlgolia');
-        $syncHelperService = $this->container->get('frosh_algolia.sync_helper_service');
-        $this->View()->algoliaConfig = $this->container->get('frosh_algolia.config_reader')->read(Shopware()->Shop());
-
-        /**
-         * Build the JS index for sort order based on replica configuration. First element in this
-         * index is the main Algolia index.
-         */
-        $sortOrderArray = [
-            [
-                'name' => $syncHelperService->buildIndexName(Shopware()->Shop()), // The index which is used for this sort order
-                'label' => Shopware()->Snippets()->getNamespace('bundle/translation')->get('sort_order_default'), // The name which should be shown to the customer
-            ],
-        ];
-        $replicaIndices = explode('|', $pluginConfig['index-replicas-custom-ranking-attributes']);
-
-        foreach ($replicaIndices as $replicaIndex) {
-            $replicaIndexSettings = explode(',', $replicaIndex);
-
-            // Build the key / name for the replica index
-            $nameElements = explode('(', $replicaIndexSettings[0]);
-            $replicaIndexName = $syncHelperService->buildIndexName(Shopware()->Shop()).'_'.rtrim($nameElements[1], ')').'_'.$nameElements[0];
-
-            $sortOrderArray[] = [
-                'name' => $replicaIndexName, // The index which is used for this sort order
-                'label' => Shopware()->Snippets()->getNamespace('bundle/translation')->get('sort_order_'.rtrim($nameElements[1], ')').'_'.$nameElements[0]), // The name which should be shown to the customer
-            ];
-        }
-
-        $sortOrderIndex = htmlspecialchars(json_encode($sortOrderArray, JSON_HEX_APOS));
-        $this->View()->assign('sortOrderIndex', $sortOrderIndex);
     }
 }

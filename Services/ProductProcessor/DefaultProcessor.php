@@ -42,7 +42,7 @@ class DefaultProcessor implements ProcessorInterface
         $article->setDescription(strip_tags($product->getShortDescription()));
         $article->setEan($product->getEan());
         $article->setImage($image);
-        $article->setCategories($this->getCategories($product)['categoryNames']);
+        $article->setCategories($this->getCategories($product));
         $article->setAttributes($this->getAttributes($product, $shopConfig));
         $article->setProperties($this->getProperties($product));
         $article->setSales($product->getSales());
@@ -90,16 +90,41 @@ class DefaultProcessor implements ProcessorInterface
      */
     private function getCategories(Product $product)
     {
-        $categories = $product->getCategories();
-        $data = [];
+        $categoriesBad = $product->getCategories();
+        $categories = [];
 
-        // Remove main category (German)
-        if (isset($categories[0])) {
-            unset($categories[0]);
+        foreach ($categoriesBad as $item) {
+            $categories[$item->getId()] = $item;
         }
 
-        foreach ($categories as $category) {
-            $data['categoryNames'][] = $category->getName();
+        $cats = Shopware()->Db()->fetchAll('SELECT s_categories.id, path, description FROM s_articles_categories INNER JOIN s_categories ON(s_categories.id = s_articles_categories.categoryID) WHERE articleID = ?', [
+            $product->getId()
+        ]);
+
+        foreach ($cats as &$cat) {
+            $cat['path'] = array_filter(explode('|', $cat['path']));
+            foreach ($cat['path'] as &$item) {
+                $item = $categories[$item]->getName();
+            }
+            $cat['path'] = array_reverse($cat['path']);
+            $cat['path'][] = $cat['description'];
+            unset($cat['path'][0]);
+
+        }
+
+        $data = [];
+
+        foreach ($cats as $category) {
+//            $row = [
+//                'objectID' => $category['id'],
+//                'name' => $category['description'],
+//            ];
+
+            foreach ($category['path'] as $i => $lol) {
+                $row['lvl' . ($i -1)] = array_chunk($category['path'], $i)[0];
+            }
+
+            $data[] = $row;
         }
 
         return $data;
