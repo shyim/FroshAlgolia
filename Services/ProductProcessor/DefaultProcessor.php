@@ -3,15 +3,17 @@
 namespace FroshAlgolia\Services\ProductProcessor;
 
 use Shopware\Bundle\StoreFrontBundle\Struct\Product;
+use Shopware\Bundle\StoreFrontBundle\Struct\ShopContextInterface;
 use Shopware\Models\Media\Media;
 use FroshAlgolia\Structs\Article;
 
 class DefaultProcessor implements ProcessorInterface
 {
     /**
-     * @param Product $product    Shopware Product
-     * @param Article $article    Algolia Product
-     * @param array   $shopConfig Shop Configuration
+     * @param Product $product Shopware Product
+     * @param Article $article Algolia Product
+     * @param array $shopConfig Shop Configuration
+     * @param ShopContextInterface $shopContext
      */
     public function process(Product $product, Article $article, array $shopConfig)
     {
@@ -32,7 +34,7 @@ class DefaultProcessor implements ProcessorInterface
             $voteAvgPoints = (int) $votes->getPointCount()[0]['points'];
         }
 
-        // Buid the article struct
+        // Build the algolia product
         $article->setObjectID($product->getNumber());
         $article->setArticleId($product->getId());
         $article->setName($product->getName());
@@ -42,7 +44,7 @@ class DefaultProcessor implements ProcessorInterface
         $article->setDescription(strip_tags($product->getShortDescription()));
         $article->setEan($product->getEan());
         $article->setImage($image);
-        $article->setCategories($this->getCategories($product));
+        $article->setCategories($product->getAttribute('categories')->jsonSerialize());
         $article->setAttributes($this->getAttributes($product, $shopConfig));
         $article->setProperties($this->getProperties($product));
         $article->setSales($product->getSales());
@@ -76,50 +78,6 @@ class DefaultProcessor implements ProcessorInterface
 
             // Map value to data array
             $data[$key] = $value;
-        }
-
-        return $data;
-    }
-
-    /**
-     * Prepare categories for data article.
-     *
-     * @param Product $product
-     *
-     * @return array
-     */
-    private function getCategories(Product $product)
-    {
-        $categoriesBad = $product->getCategories();
-        $categories = [];
-
-        foreach ($categoriesBad as $item) {
-            $categories[$item->getId()] = $item;
-        }
-
-        $cats = Shopware()->Db()->fetchAll('SELECT s_categories.id, path, description FROM s_articles_categories INNER JOIN s_categories ON(s_categories.id = s_articles_categories.categoryID) WHERE articleID = ?', [
-            $product->getId()
-        ]);
-
-        foreach ($cats as &$cat) {
-            $cat['path'] = array_filter(explode('|', $cat['path']));
-            foreach ($cat['path'] as &$item) {
-                $item = $categories[$item]->getName();
-            }
-            $cat['path'] = array_reverse($cat['path']);
-            $cat['path'][] = $cat['description'];
-            unset($cat['path'][0]);
-
-        }
-
-        $data = [];
-
-        foreach ($cats as $category) {
-            foreach ($category['path'] as $i => $lol) {
-                $row['lvl' . ($i -1)] = implode(' > ',array_chunk($category['path'], $i)[0]);
-            }
-
-            $data[] = $row;
         }
 
         return $data;

@@ -4,8 +4,11 @@ namespace FroshAlgolia\Services;
 
 use Doctrine\DBAL\Connection;
 use Enlight_Controller_Router;
+use FroshAlgolia\Components\Service\CategoryService;
 use Shopware\Bundle\StoreFrontBundle\Service\ContextServiceInterface;
 use Shopware\Bundle\StoreFrontBundle\Service\Core\ProductService;
+use Shopware\Bundle\StoreFrontBundle\Struct\Attribute;
+use Shopware\Bundle\StoreFrontBundle\Struct\ListProduct;
 use Shopware\Bundle\StoreFrontBundle\Struct\Product;
 use Shopware\Models\Shop\Shop;
 use FroshAlgolia\Services\ProductProcessor\ProcessorInterface;
@@ -39,19 +42,26 @@ class ProductIndexer
     private $connection;
 
     /**
+     * @var CategoryService
+     */
+    private $categoryService;
+
+    /**
      * ProductIndexer constructor.
      *
-     * @param ContextServiceInterface   $contextService
-     * @param ProductService            $productService
+     * @param ContextServiceInterface $contextService
+     * @param ProductService $productService
      * @param Enlight_Controller_Router $router
-     * @param Connection                $connection
-     * @param array                     $processor
+     * @param Connection $connection
+     * @param CategoryService $categoryService
+     * @param array $processor
      */
     public function __construct(
         ContextServiceInterface $contextService,
         ProductService $productService,
         Enlight_Controller_Router $router,
         Connection $connection,
+        CategoryService $categoryService,
         array $processor
     ) {
         $this->context = $contextService;
@@ -59,6 +69,7 @@ class ProductIndexer
         $this->router = $router;
         $this->processor = $processor;
         $this->connection = $connection;
+        $this->categoryService = $categoryService;
     }
 
     /**
@@ -77,6 +88,8 @@ class ProductIndexer
 
         foreach ($chunk as $chunkKey => $products) {
             $products = $this->productService->getList($products, $context);
+            $categories = $this->categoryService->getCategories($products, $context);
+            $this->assignCategories($categories, $products);
 
             /** @var Product $product */
             foreach ($products as $product) {
@@ -116,5 +129,19 @@ class ProductIndexer
         ])->fetchAll(\PDO::FETCH_COLUMN);
 
         return array_chunk($products, $chunkSize);
+    }
+
+    /**
+     * @param array $categories
+     * @param ListProduct[] $products
+     * @throws \Exception
+     */
+    private function assignCategories($categories, $products)
+    {
+        foreach ($products as $product) {
+            if (isset($categories[$product->getId()])) {
+                $product->addAttribute('categories', new Attribute($categories[$product->getId()]));
+            }
+        }
     }
 }

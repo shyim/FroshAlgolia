@@ -12,6 +12,6 @@ class ProductProcessorCompilerPass implements CompilerPassInterface
 
     public function process(ContainerBuilder $container)
     {
-        $this->replaceArgumentWithTaggedServices($container, 'frosh_algolia.product.indexer', 'algolia.product_processor', 4);
+        $this->replaceArgumentWithTaggedServices($container, 'frosh_algolia.product.indexer', 'algolia.product_processor', 5);
     }
 }
