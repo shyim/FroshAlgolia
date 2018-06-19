@@ -115,13 +115,8 @@ class DefaultProcessor implements ProcessorInterface
         $data = [];
 
         foreach ($cats as $category) {
-//            $row = [
-//                'objectID' => $category['id'],
-//                'name' => $category['description'],
-//            ];
-
             foreach ($category['path'] as $i => $lol) {
-                $row['lvl' . ($i -1)] = array_chunk($category['path'], $i)[0];
+                $row['lvl' . ($i -1)] = implode(' > ',array_chunk($category['path'], $i)[0]);
             }
 
             $data[] = $row;

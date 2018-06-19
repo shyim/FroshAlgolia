@@ -96,9 +96,6 @@ $.plugin('FroshAlgolia', {
             appId: me.opts.appId,
             apiKey: me.opts.apiKey,
             indexName: me.opts.indexName,
-            urlSync: {
-                useHash: true
-            },
             searchParameters: searchParameters
         });
     },

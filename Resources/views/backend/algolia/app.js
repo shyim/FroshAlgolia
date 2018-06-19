@@ -11,7 +11,8 @@ Ext.define('Shopware.apps.Algolia', {
     views: [
         'detail.Window',
         'detail.Tab',
-        'detail.tab.Index',
+        'detail.tab.Basic',
+        'detail.tab.Facets',
         'element.Grid'
     ],
 

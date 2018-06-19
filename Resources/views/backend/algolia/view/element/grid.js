@@ -15,8 +15,9 @@ Ext.define('Shopware.apps.Algolia.view.element.Grid', {
 
         me.dockedItems = [me.getToolbar()];
         me.store = me.createBasicStore();
+        me.rowEditing = Ext.create('Ext.grid.plugin.RowEditing');
         me.plugins = [
-            Ext.create('Ext.grid.plugin.RowEditing')
+            me.rowEditing
         ];
 
         me.columns.push(Ext.create('Ext.grid.column.Action', {
@@ -50,6 +51,7 @@ Ext.define('Shopware.apps.Algolia.view.element.Grid', {
                     text: me.addText,
                     handler: function () {
                         me.store.add({});
+                        me.rowEditing.startEdit(me.store.getAt(me.store.getCount() -1), 0);
                     }
                 }
             ]

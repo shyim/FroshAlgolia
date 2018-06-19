@@ -6,9 +6,7 @@
 {block name="frontend_index_left_inner"}
     {$smarty.block.parent}
 
-    <div id="categories"></div>
-
-    {foreach $algoliaConfig.facetFilterWidgetArray as $facetName => $facetConfig}
+    {foreach $algoliaConfig.facetFilterWidget as $facetName => $facetConfig}
         <div id="{$facetName|replace:'.':'_'|lower}" class="facet"></div>
     {/foreach}
 {/block}
@@ -28,7 +26,7 @@
          data-noImage="{link file='frontend/_public/src/img/no-picture.jpg'}"
          data-currentCategory="{$sCategoryContent.name}"
          data-sortOrderIndex="{$sortOrderIndex}"
-         data-facetWidgetsConfig='{$algoliaConfig.facetFilterWidget}'>
+         data-facetWidgetsConfig='{$algoliaConfig.facetFilterWidget|@json_encode}'>
         <div class="listing--wrapper">
 
             <div data-listing-actions="true" class="listing--actions is--rounded without-pagination">

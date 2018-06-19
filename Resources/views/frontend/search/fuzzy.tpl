@@ -43,7 +43,7 @@
         <div class="shop-sites--container is--rounded">
 
             <!-- Dynamically add the container for the facet widgets -->
-            {foreach $algoliaConfig.facetFilterWidgetArray as $facetName => $facetConfig}
+            {foreach $algoliaConfig.facetFilterWidget as $facetName => $facetConfig}
                 <div id="{$facetName|replace:'.':'_'|lower}" class="facet"></div>
             {/foreach}
 
@@ -73,7 +73,7 @@
          data-pages="{config name="numberarticlestoshow"}"
          data-pagesSnippet="{s name="ListingLabelItemsPerPage" namespace="frontend/search/paging"}{/s}"
          data-defaultPages="{config name="articlesperpage"}"
-         data-facetWidgetsConfig='{$algoliaConfig.facetFilterWidget}'>
+         data-facetWidgetsConfig='{$algoliaConfig.facetFilterWidget|@json_decode}'>
 
         <div class="listing--wrapper">
 

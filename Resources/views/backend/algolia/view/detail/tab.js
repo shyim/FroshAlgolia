@@ -18,7 +18,8 @@ Ext.define('Shopware.apps.Algolia.view.detail.Tab', {
             {
                 xtype: 'tabpanel',
                 items: [
-                    Ext.create('Shopware.apps.Algolia.view.detail.tab.Index')
+                    Ext.create('Shopware.apps.Algolia.view.detail.tab.Basic'),
+                    Ext.create('Shopware.apps.Algolia.view.detail.tab.Facets'),
                 ]
             }
         ];
