@@ -1,19 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace FroshAlgolia;
 
-use Shopware\Components\Plugin;
-use Shopware\Components\Plugin\Context\InstallContext;
-use Shopware\Components\Plugin\Context\UninstallContext;
 use FroshAlgolia\Bootstrap\Schemas;
-use FroshAlgolia\Bootstrap\Data;
 use FroshAlgolia\Services\DependencyInjection\CompilerPass\ProductProcessorCompilerPass;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Shopware\Components\Plugin;
 use Shopware\Components\Plugin\Context\ActivateContext;
 use Shopware\Components\Plugin\Context\DeactivateContext;
+use Shopware\Components\Plugin\Context\InstallContext;
+use Shopware\Components\Plugin\Context\UninstallContext;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 // Composer autoload
-include_once __DIR__.'/vendor/autoload.php';
+include_once __DIR__ . '/vendor/autoload.php';
 
 /**
  * Class FroshAlgolia.
@@ -24,6 +23,7 @@ class FroshAlgolia extends Plugin
 {
     /**
      * @param InstallContext $context
+     *
      * @throws \Doctrine\ORM\Tools\ToolsException
      */
     public function install(InstallContext $context)

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace FroshAlgolia\Bootstrap;
 
@@ -15,6 +15,7 @@ class Schemas
 {
     /**
      * Creates the schemas for the additional models.
+     *
      * @throws \Doctrine\ORM\Tools\ToolsException
      */
     public static function createSchemas()

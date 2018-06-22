@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace FroshAlgolia\Components\Service;
 
@@ -22,7 +22,8 @@ class CategoryService
 
     /**
      * CategoryService constructor.
-     * @param Connection $connection
+     *
+     * @param Connection               $connection
      * @param CategoryServiceInterface $storeFrontCategoryService
      */
     public function __construct(Connection $connection, CategoryServiceInterface $storeFrontCategoryService)
@@ -32,8 +33,9 @@ class CategoryService
     }
 
     /**
-     * @param ListProduct[] $products
+     * @param ListProduct[]        $products
      * @param ShopContextInterface $shopContext
+     *
      * @return array
      */
     public function getCategories(array $products, ShopContextInterface $shopContext)
@@ -74,8 +76,47 @@ class CategoryService
     }
 
     /**
+     * @param array                $path
+     * @param ShopContextInterface $context
+     */
+    public function buildHierarchicalWithPath(array $path, ShopContextInterface $context)
+    {
+        $categorys = $this->storeFrontCategoryService->getList($path, $context);
+
+        $max = count($path);
+
+        for ($i = 1; $i <= $max; ++$i) {
+            $items = array_slice($path, 0, $i);
+
+            $items = array_map(function ($id) use ($categorys) {
+                return $categorys[$id]->getName();
+            }, $items);
+
+            $result['lvl' . ($i - 1)] = [implode(' > ', $items)];
+        }
+    }
+
+    /**
+     * @param array                $path
+     * @param ShopContextInterface $context
+     *
+     * @return string
+     */
+    public function buildPath(array $path, ShopContextInterface $context)
+    {
+        $categorys = $this->storeFrontCategoryService->getList($path, $context);
+
+        $items = array_map(function ($id) use ($categorys) {
+            return $categorys[$id]->getName();
+        }, $path);
+
+        return implode(' > ', $items);
+    }
+
+    /**
      * @param ListProduct $product
      * @param $categoryId
+     *
      * @return null|Category
      */
     private function getProductCategory(ListProduct $product, $categoryId)
@@ -90,8 +131,9 @@ class CategoryService
     }
 
     /**
-     * @param Category $category
+     * @param Category             $category
      * @param ShopContextInterface $shopContext
+     *
      * @return bool
      */
     private function isValidCategory(Category $category, ShopContextInterface $shopContext)
@@ -113,7 +155,8 @@ class CategoryService
 
     /**
      * @param ListProduct $product
-     * @param Category $category
+     * @param Category    $category
+     *
      * @return array
      */
     private function buildCategoryHierarchical($product, $category)
@@ -124,12 +167,12 @@ class CategoryService
         $path = array_slice($path, 1);
         $max = count($path);
 
-        for ($i = 1; $i <= $max; $i++) {
+        for ($i = 1; $i <= $max; ++$i) {
             $items = array_slice($path, 0, $i);
 
             $me = $this;
 
-            $items = array_map(function ($id) use($product, $me) {
+            $items = array_map(function ($id) use ($product, $me) {
                 return $me->getProductCategory($product, $id)->getName();
             }, $items);
 
@@ -152,42 +195,5 @@ class CategoryService
         }
 
         return $tree1;
-    }
-
-    /**
-     * @param array $path
-     * @param ShopContextInterface $context
-     */
-    public function buildHierarchicalWithPath(array $path, ShopContextInterface $context)
-    {
-        $categorys = $this->storeFrontCategoryService->getList($path, $context);
-
-        $max = count($path);
-
-        for ($i = 1; $i <= $max; $i++) {
-            $items = array_slice($path, 0, $i);
-
-            $items = array_map(function ($id) use($categorys) {
-                return $categorys[$id]->getName();
-            }, $items);
-
-            $result['lvl' . ($i - 1)] = [implode(' > ', $items)];
-        }
-    }
-
-    /**
-     * @param array $path
-     * @param ShopContextInterface $context
-     * @return string
-     */
-    public function buildPath(array $path, ShopContextInterface $context)
-    {
-        $categorys = $this->storeFrontCategoryService->getList($path, $context);
-
-        $items = array_map(function ($id) use($categorys) {
-            return $categorys[$id]->getName();
-        }, $path);
-
-        return implode(' > ', $items);
     }
 }

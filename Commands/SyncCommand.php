@@ -1,11 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace FroshAlgolia\Commands;
 
-use Shopware\Commands\ShopwareCommand;
-use Shopware\Components\Logger;
 use FroshAlgolia\Services\SyncService;
-use Symfony\Component\Console\Input\InputArgument;
+use Shopware\Commands\ShopwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -42,6 +40,7 @@ class SyncCommand extends ShopwareCommand
 
     /**
      * {@inheritdoc}
+     *
      * @throws \Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)

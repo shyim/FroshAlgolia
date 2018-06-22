@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace FroshAlgolia\Services\DependencyInjection\Factory;
 
@@ -13,9 +13,10 @@ class AlgoliaFactory
     /**
      * @param CachedConfigReader $configReader
      *
-     * @return Client
      * @throws \AlgoliaSearch\AlgoliaException
      * @throws \Exception
+     *
+     * @return Client
      */
     public static function factory(CachedConfigReader $configReader)
     {

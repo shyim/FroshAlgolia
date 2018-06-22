@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use Shopware\Bundle\SearchBundle\SearchTermPreProcessorInterface;
 
@@ -32,18 +32,18 @@ class Shopware_Controllers_Frontend_Search extends Enlight_Controller_Action
         $term = $this->getSearchTerm();
 
         if (!$this->Request()->getParam('q') && $term && $term != '') {
-            $this->redirect('search?q='.$term);
+            $this->redirect('search?q=' . $term);
         }
 
-        $this->View()->addTemplateDir(__DIR__.'/../../Resources/views/');
-
+        $this->View()->addTemplateDir(__DIR__ . '/../../Resources/views/');
 
         $this->assignDefaultShopwareVariables($term);
     }
 
     /**
-     * @return string
      * @throws Exception
+     *
+     * @return string
      */
     private function getSearchTerm()
     {
@@ -79,6 +79,5 @@ class Shopware_Controllers_Frontend_Search extends Enlight_Controller_Action
             ],
             'productBoxLayout' => $this->get('config')->get('searchProductBoxLayout'),
         ]);
-
     }
 }

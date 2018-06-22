@@ -1,4 +1,5 @@
-<?php /** @noinspection TransitiveDependenciesUsageInspection */
+<?php declare(strict_types=1);
+/** @noinspection TransitiveDependenciesUsageInspection */
 
 namespace FroshAlgolia\Subscriber;
 
@@ -8,7 +9,6 @@ use FroshAlgolia\Components\Service\CategoryService;
 
 /**
  * Class ListingSubscriber
- * @package FroshAlgolia\Subscriber
  */
 class ListingSubscriber implements SubscriberInterface
 {
@@ -19,6 +19,7 @@ class ListingSubscriber implements SubscriberInterface
 
     /**
      * ListingSubscriber constructor.
+     *
      * @param CategoryService $categoryService
      */
     public function __construct(CategoryService $categoryService)
@@ -32,7 +33,7 @@ class ListingSubscriber implements SubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            'Enlight_Controller_Action_PostDispatch_Frontend_Listing' => 'onPostDispatchListing'
+            'Enlight_Controller_Action_PostDispatch_Frontend_Listing' => 'onPostDispatchListing',
         ];
     }
 

@@ -1,18 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace FroshAlgolia\Services;
 
 use Doctrine\DBAL\Connection;
 use Enlight_Controller_Router;
 use FroshAlgolia\Components\Service\CategoryService;
+use FroshAlgolia\Services\ProductProcessor\ProcessorInterface;
+use FroshAlgolia\Structs\Article;
 use Shopware\Bundle\StoreFrontBundle\Service\ContextServiceInterface;
 use Shopware\Bundle\StoreFrontBundle\Service\Core\ProductService;
 use Shopware\Bundle\StoreFrontBundle\Struct\Attribute;
 use Shopware\Bundle\StoreFrontBundle\Struct\ListProduct;
 use Shopware\Bundle\StoreFrontBundle\Struct\Product;
 use Shopware\Models\Shop\Shop;
-use FroshAlgolia\Services\ProductProcessor\ProcessorInterface;
-use FroshAlgolia\Structs\Article;
 
 class ProductIndexer
 {
@@ -49,12 +49,12 @@ class ProductIndexer
     /**
      * ProductIndexer constructor.
      *
-     * @param ContextServiceInterface $contextService
-     * @param ProductService $productService
+     * @param ContextServiceInterface   $contextService
+     * @param ProductService            $productService
      * @param Enlight_Controller_Router $router
-     * @param Connection $connection
-     * @param CategoryService $categoryService
-     * @param array $processor
+     * @param Connection                $connection
+     * @param CategoryService           $categoryService
+     * @param array                     $processor
      */
     public function __construct(
         ContextServiceInterface $contextService,
@@ -77,8 +77,9 @@ class ProductIndexer
      * @param $chunkSize
      * @param $shopConfig
      *
-     * @return array
      * @throws \Doctrine\DBAL\DBALException
+     *
+     * @return array
      */
     public function index(Shop $shop, $chunkSize, array $shopConfig)
     {
@@ -117,10 +118,11 @@ class ProductIndexer
 
     /**
      * @param Shop $shop
-     * @param int $chunkSize
+     * @param int  $chunkSize
+     *
+     * @throws \Doctrine\DBAL\DBALException
      *
      * @return array
-     * @throws \Doctrine\DBAL\DBALException
      */
     private function getProducts(Shop $shop, int $chunkSize)
     {
@@ -132,8 +134,9 @@ class ProductIndexer
     }
 
     /**
-     * @param array $categories
+     * @param array         $categories
      * @param ListProduct[] $products
+     *
      * @throws \Exception
      */
     private function assignCategories($categories, $products)

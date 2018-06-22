@@ -1,11 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace FroshAlgolia\Subscriber;
 
 use Enlight\Event\SubscriberInterface;
 use Enlight_Event_EventArgs as EventArgs;
-use Shopware\Components\DependencyInjection\Container;
 use FroshAlgolia\Structs\Backlog;
+use Shopware\Components\DependencyInjection\Container;
 
 /**
  * Class DomainBacklogSubscriber.

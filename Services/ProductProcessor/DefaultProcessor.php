@@ -1,18 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace FroshAlgolia\Services\ProductProcessor;
 
+use FroshAlgolia\Structs\Article;
 use Shopware\Bundle\StoreFrontBundle\Struct\Product;
 use Shopware\Bundle\StoreFrontBundle\Struct\ShopContextInterface;
 use Shopware\Models\Media\Media;
-use FroshAlgolia\Structs\Article;
 
 class DefaultProcessor implements ProcessorInterface
 {
     /**
-     * @param Product $product Shopware Product
-     * @param Article $article Algolia Product
-     * @param array $shopConfig Shop Configuration
+     * @param Product              $product     Shopware Product
+     * @param Article              $article     Algolia Product
+     * @param array                $shopConfig  Shop Configuration
      * @param ShopContextInterface $shopContext
      */
     public function process(Product $product, Article $article, array $shopConfig)

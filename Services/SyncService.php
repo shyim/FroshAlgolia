@@ -1,12 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace FroshAlgolia\Services;
 
 use Doctrine\ORM\EntityManager;
+use FroshAlgolia\Structs\Struct;
 use Shopware\Components\Logger;
 use Shopware\Components\Model\ModelManager;
 use Shopware\Models\Shop\Shop;
-use FroshAlgolia\Structs\Struct;
 
 /**
  * Class SyncService.
@@ -57,11 +57,12 @@ class SyncService
 
     /**
      * SyncService constructor.
+     *
      * @param ProductIndexer $productIndexer
      * @param AlgoliaService $algoliaService
-     * @param ConfigReader $configReader
-     * @param ModelManager $modelManager
-     * @param array $pluginConfig
+     * @param ConfigReader   $configReader
+     * @param ModelManager   $modelManager
+     * @param array          $pluginConfig
      */
     public function __construct(
         ProductIndexer $productIndexer,
@@ -154,7 +155,7 @@ class SyncService
 
             // Build the key / name for the replica index
             $nameElements = explode('(', $replicaIndexSettings[0]);
-            $replicaIndexName = $indexName.'_'.rtrim($nameElements[1], ')').'_'.$nameElements[0];
+            $replicaIndexName = $indexName . '_' . rtrim($nameElements[1], ')') . '_' . $nameElements[0];
 
             $params = [
                 'ranking' => $replicaIndexSettings,
@@ -184,7 +185,7 @@ class SyncService
 
             // Build the key / name for the replica index
             $nameElements = explode('(', $replicaIndexElements[0]);
-            $replicaIndexName = $indexName.'_'.rtrim($nameElements[1], ')').'_'.$nameElements[0];
+            $replicaIndexName = $indexName . '_' . rtrim($nameElements[1], ')') . '_' . $nameElements[0];
 
             $names[] = $replicaIndexName;
         }
@@ -215,12 +216,13 @@ class SyncService
 
     /**
      * @param Shop $shop
+     *
      * @return string
      */
     private function buildIndexName(Shop $shop)
     {
-        $prefix = isset($this->pluginConfig['index-prefix-name']) && $this->pluginConfig['index-prefix-name'] != '' ? $this->pluginConfig['index-prefix-name'].'_' : false;
+        $prefix = isset($this->pluginConfig['index-prefix-name']) && $this->pluginConfig['index-prefix-name'] != '' ? $this->pluginConfig['index-prefix-name'] . '_' : false;
 
-        return $prefix.$shop->getId();
+        return $prefix . $shop->getId();
     }
 }

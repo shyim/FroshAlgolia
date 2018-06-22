@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace FroshAlgolia\Structs;
 
@@ -18,7 +18,7 @@ abstract class Struct implements StructInterface
         $methods = get_class_methods(get_class($this));
 
         foreach ($methods as $method) {
-            if (0 === strpos($method, 'get')) {
+            if (strpos($method, 'get') === 0) {
                 $propertyName = lcfirst(substr($method, 3));
                 $data[$propertyName] = $this->$method();
             }

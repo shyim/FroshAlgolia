@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace FroshAlgolia\Services;
 
@@ -40,12 +40,13 @@ class AlgoliaService
     /**
      * Push a data array to an Algolia index.
      *
-     * @param Shop $shop
+     * @param Shop  $shop
      * @param array $data
      * @param $indexName
      *
-     * @return bool
      * @throws \AlgoliaSearch\AlgoliaException
+     *
+     * @return bool
      */
     public function push(Shop $shop, array $data, $indexName)
     {

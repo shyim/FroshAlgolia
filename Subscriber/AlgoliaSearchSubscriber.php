@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace FroshAlgolia\Subscriber;
 
@@ -100,11 +100,11 @@ class AlgoliaSearchSubscriber implements SubscriberInterface
 
             // Build the key / name for the replica index
             $nameElements = explode('(', $replicaIndexSettings[0]);
-            $replicaIndexName = $syncHelperService->buildIndexName(Shopware()->Shop()).'_'.rtrim($nameElements[1], ')').'_'.$nameElements[0];
+            $replicaIndexName = $syncHelperService->buildIndexName(Shopware()->Shop()) . '_' . rtrim($nameElements[1], ')') . '_' . $nameElements[0];
 
             $sortOrderArray[] = [
                 'name' => $replicaIndexName, // The index which is used for this sort order
-                'label' => Shopware()->Snippets()->getNamespace('bundle/translation')->get('sort_order_'.rtrim($nameElements[1], ')').'_'.$nameElements[0]), // The name which should be shown to the customer
+                'label' => Shopware()->Snippets()->getNamespace('bundle/translation')->get('sort_order_' . rtrim($nameElements[1], ')') . '_' . $nameElements[0]), // The name which should be shown to the customer
             ];
         }
 

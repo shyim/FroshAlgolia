@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace FroshAlgolia\Services;
 
@@ -26,6 +26,7 @@ class BacklogProcessor
 
     /**
      * @param $backlogs
+     *
      * @throws \Doctrine\DBAL\DBALException
      */
     public function add($backlogs)
@@ -39,6 +40,7 @@ class BacklogProcessor
 
     /**
      * @param Backlog[] $backlogs
+     *
      * @throws \Doctrine\DBAL\DBALException
      */
     private function writeBacklog(array $backlogs)

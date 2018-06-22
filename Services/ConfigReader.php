@@ -1,10 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace FroshAlgolia\Services;
 
+use FroshAlgolia\Models\Config;
 use Shopware\Components\Model\ModelManager;
 use Shopware\Models\Shop\Shop;
-use FroshAlgolia\Models\Config;
 
 /**
  * Class ConfigReader.
@@ -32,7 +32,7 @@ class ConfigReader
         $pluginDir
     ) {
         $this->models = $modelManager;
-        $this->defaultConfig = include $pluginDir.'/Bootstrap/DefaultConfig.php';
+        $this->defaultConfig = include $pluginDir . '/Bootstrap/DefaultConfig.php';
     }
 
     /**

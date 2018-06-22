@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace FroshAlgolia\Subscriber;
 
@@ -9,15 +9,15 @@ use Doctrine\ORM\Events;
 use FroshAlgolia\Structs\Backlog;
 use Shopware\Components\DependencyInjection\Container;
 use Shopware\Components\Model\ModelManager;
-use Shopware\Models\Article\Detail as VariantModel;
 use Shopware\Models\Article\Article as ArticleModel;
+use Shopware\Models\Article\Detail as VariantModel;
 use Shopware\Models\Article\Price as PriceModel;
-use Shopware\Models\Article\Vote as VoteModel;
 use Shopware\Models\Article\Supplier as SupplierModel;
 use Shopware\Models\Article\Unit as UnitModel;
-use Shopware\Models\Tax\Tax as TaxModel;
+use Shopware\Models\Article\Vote as VoteModel;
 use Shopware\Models\Property\Option as PropertyGroupModel;
 use Shopware\Models\Property\Value as PropertyOptionModel;
+use Shopware\Models\Tax\Tax as TaxModel;
 
 /**
  * Class ORMBacklogSubscriber.
@@ -85,7 +85,7 @@ class ORMBacklogSubscriber implements EventSubscriber
      */
     public function getSubscribedEvents()
     {
-        return array(Events::onFlush, Events::postFlush);
+        return [Events::onFlush, Events::postFlush];
     }
 
     /**

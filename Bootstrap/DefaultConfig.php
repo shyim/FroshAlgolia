@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 return [
     'searchAttributes' => [
@@ -40,9 +40,9 @@ return [
         'properties.Flaschengröße' => ['widgetType' => 'rangeSlider', 'header' => 'Flaschengröße'],
         'properties.Geschmack' => ['widgetType' => 'refinementList', 'match' => 'or', 'header' => 'Geschmack'],
         'properties.Trinktemperatur' => ['widgetType' => 'refinementList', 'match' => 'or', 'header' => 'Trinktemperatur'],
-        'properties.Alkoholgehalt' => ['widgetType' => 'numericRefinementList', 'options' => [0 => ['name' => '< 10%', 'start' => '0', 'end' => '10',], 1 => ['name' => '10% - 20%', 'start' => '10', 'end' => '20',], 2 => ['name' => '> 20%', 'start' => '20',],], 'header' => 'Alkoholgehalt',],
+        'properties.Alkoholgehalt' => ['widgetType' => 'numericRefinementList', 'options' => [0 => ['name' => '< 10%', 'start' => '0', 'end' => '10'], 1 => ['name' => '10% - 20%', 'start' => '10', 'end' => '20'], 2 => ['name' => '> 20%', 'start' => '20']], 'header' => 'Alkoholgehalt'],
         'manufacturerName' => ['widgetType' => 'refinementList', 'match' => 'or', 'header' => 'Hersteller'],
-        'price' => ['widgetType' => 'rangeSlider', 'header' => 'Preis']
+        'price' => ['widgetType' => 'rangeSlider', 'header' => 'Preis'],
     ],
     'blockedAttributes' => [
         [

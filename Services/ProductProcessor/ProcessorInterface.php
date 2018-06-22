@@ -1,9 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace FroshAlgolia\Services\ProductProcessor;
 
-use Shopware\Bundle\StoreFrontBundle\Struct\Product;
 use FroshAlgolia\Structs\Article;
+use Shopware\Bundle\StoreFrontBundle\Struct\Product;
 
 /**
  * Interface ProcessorInterface.

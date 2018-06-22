@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use FroshAlgolia\Models\Config;
 
@@ -21,7 +21,7 @@ class Shopware_Controllers_Backend_Algolia extends Shopware_Controllers_Backend_
         if ($config) {
             $this->View()->data = $config->getConfig();
         } else {
-            $this->View()->data = include $this->container->getParameter('frosh_algolia.plugin_dir').'/Bootstrap/DefaultConfig.php';
+            $this->View()->data = include $this->container->getParameter('frosh_algolia.plugin_dir') . '/Bootstrap/DefaultConfig.php';
         }
     }
 
