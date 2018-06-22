@@ -12,9 +12,9 @@
             <tag name="shopware.event_subscriber"/>
         </service>
 
-        <service id="frosh_algolia.subscriber.controller_subscriber" class="FroshAlgolia\Subscriber\ControllerSubscriber">
-            <argument>%frosh_algolia.plugin_dir%</argument>
-            <tag name="shopware.event_subscriber"/>
+        <service id="frosh_algolia.subscriber.listing_subscriber" class="FroshAlgolia\Subscriber\ListingSubscriber">
+            <argument type="service" id="frosh_algolia.components.category_service" />
+            <tag name="shopware.event_subscriber" />
         </service>
 
         <!-- Consumes events fired by ORM -->

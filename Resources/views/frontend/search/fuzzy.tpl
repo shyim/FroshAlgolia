@@ -66,7 +66,6 @@
          data-apiKey="{$algoliaSearchOnlyApiKey}"
          data-indexName="{$indexName}"
          data-noImage="{link file='frontend/_public/src/img/no-picture.jpg'}"
-         data-currentCategory="{$sCategoryContent.name}"
          data-sortOrderIndex="{$sortOrderIndex}"
          data-compare-ajax="true"
          data-ajax-wishlist="true"

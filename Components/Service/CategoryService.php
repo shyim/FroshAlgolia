@@ -3,6 +3,7 @@
 namespace FroshAlgolia\Components\Service;
 
 use Doctrine\DBAL\Connection;
+use Shopware\Bundle\StoreFrontBundle\Service\CategoryServiceInterface;
 use Shopware\Bundle\StoreFrontBundle\Struct\Category;
 use Shopware\Bundle\StoreFrontBundle\Struct\ListProduct;
 use Shopware\Bundle\StoreFrontBundle\Struct\ShopContextInterface;
@@ -15,12 +16,19 @@ class CategoryService
     private $connection;
 
     /**
+     * @var CategoryServiceInterface
+     */
+    private $storeFrontCategoryService;
+
+    /**
      * CategoryService constructor.
      * @param Connection $connection
+     * @param CategoryServiceInterface $storeFrontCategoryService
      */
-    public function __construct(Connection $connection)
+    public function __construct(Connection $connection, CategoryServiceInterface $storeFrontCategoryService)
     {
         $this->connection = $connection;
+        $this->storeFrontCategoryService = $storeFrontCategoryService;
     }
 
     /**
@@ -144,5 +152,44 @@ class CategoryService
         }
 
         return $tree1;
+    }
+
+    /**
+     * @param array $path
+     * @param ShopContextInterface $context
+     */
+    public function buildHierarchicalWithPath(array $path, ShopContextInterface $context)
+    {
+        $categorys = $this->storeFrontCategoryService->getList($path, $context);
+
+        $max = count($path);
+
+        for ($i = 1; $i <= $max; $i++) {
+            $items = array_slice($path, 0, $i);
+
+            $me = $this;
+
+            $items = array_map(function ($id) use($categorys) {
+                return $categorys[$id]->getName();
+            }, $items);
+
+            $result['lvl' . ($i - 1)] = [implode(' > ', $items)];
+        }
+    }
+
+    /**
+     * @param array $path
+     * @param ShopContextInterface $context
+     * @return string
+     */
+    public function buildPath(array $path, ShopContextInterface $context)
+    {
+        $categorys = $this->storeFrontCategoryService->getList($path, $context);
+
+        $items = array_map(function ($id) use($categorys) {
+            return $categorys[$id]->getName();
+        }, $path);
+
+        return implode(' > ', $items);
     }
 }

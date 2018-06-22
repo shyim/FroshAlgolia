@@ -24,9 +24,9 @@
          data-apiKey="{$algoliaSearchOnlyApiKey}"
          data-indexName="{$indexName}"
          data-noImage="{link file='frontend/_public/src/img/no-picture.jpg'}"
-         data-currentCategory="{$sCategoryContent.name}"
+         data-currentCategory="{$algoliaCategory}"
          data-sortOrderIndex="{$sortOrderIndex}"
-         data-facetWidgetsConfig='{$algoliaConfig.facetFilterWidget|@json_encode}'>
+         data-facetWidgetsConfig='{$algoliaConfig.facetFilterWidget|@json_encode}'
         <div class="listing--wrapper">
 
             <div data-listing-actions="true" class="listing--actions is--rounded without-pagination">

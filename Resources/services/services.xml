@@ -51,6 +51,7 @@
 
         <service id="frosh_algolia.components.category_service" class="FroshAlgolia\Components\Service\CategoryService">
             <argument type="service" id="dbal_connection"/>
+            <argument type="service" id="shopware_storefront.category_service"/>
         </service>
     </services>
 </container>

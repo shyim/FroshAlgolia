@@ -84,13 +84,14 @@ $.plugin('FroshAlgolia', {
 
         var searchParameters = {};
 
-        // if (me.opts.currentCategory) {
-        //     searchParameters = {
-        //         hierarchicalFacetsRefinements: {
-        //             categories: [me.opts.currentCategory]
-        //         }
-        //     };
-        // }
+        if (me.opts.currentCategory) {
+            searchParameters = {
+                hierarchicalFacetsRefinements: {
+                }
+            };
+            searchParameters.hierarchicalFacetsRefinements['categories.lvl0'] = [me.opts.currentCategory];
+        }
+        console.log(searchParameters);
 
         return instantsearch({
             appId: me.opts.appId,
