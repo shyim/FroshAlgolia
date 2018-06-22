@@ -167,8 +167,6 @@ class CategoryService
         for ($i = 1; $i <= $max; $i++) {
             $items = array_slice($path, 0, $i);
 
-            $me = $this;
-
             $items = array_map(function ($id) use($categorys) {
                 return $categorys[$id]->getName();
             }, $items);
