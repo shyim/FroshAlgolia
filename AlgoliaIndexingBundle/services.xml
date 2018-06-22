@@ -1,0 +1,76 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <!-- Commands -->
+        <service id="algolia_indexing_bundle.commands.sync_command"
+                 class="FroshAlgolia\AlgoliaIndexingBundle\Commands\SyncCommand">
+            <tag name="console.command"/>
+            <argument type="service" id="algolia_indexing_bundle.service_core.sync_service"/>
+        </service>
+
+        <service id="algolia_indexing_bundle.commands.list_index"
+                 class="FroshAlgolia\AlgoliaIndexingBundle\Commands\ListIndexCommand">
+            <tag name="console.command"/>
+        </service>
+
+        <service id="algolia_indexing_bundle.commands.delete_index"
+                 class="FroshAlgolia\AlgoliaIndexingBundle\Commands\DeleteIndexCommand">
+            <tag name="console.command"/>
+        </service>
+
+        <!-- Services -->
+        <service id="algolia_client" class="AlgoliaSearch\Client">
+            <factory class="FroshAlgolia\AlgoliaIndexingBundle\DependencyInjection\Factory\AlgoliaFactory" method="factory"/>
+            <argument type="service" id="frosh_algolia.config"/>
+        </service>
+
+        <service id="algolia_indexing_bundle.service_core.algolia_service" class="FroshAlgolia\AlgoliaIndexingBundle\Service\Core\AlgoliaService">
+            <argument type="service" id="algolia_client" />
+            <argument type="service" id="frosh_algolia.logger" />
+        </service>
+
+        <service id="algolia_indexing_bundle.service_core.product_indexer" class="FroshAlgolia\AlgoliaIndexingBundle\Service\Core\ProductIndexer">
+            <argument type="service" id="shopware_storefront.context_service" />
+            <argument type="service" id="shopware_storefront.product_service" />
+            <argument type="service" id="router" />
+            <argument type="service" id="dbal_connection" />
+            <argument type="service" id="algolia_bundle.service_core.category" />
+            <argument type="tagged" tag="algolia.product_processor"/>
+        </service>
+
+        <service id="algolia_indexing_bundle.service_core.sync_service" class="FroshAlgolia\AlgoliaIndexingBundle\Service\Core\SyncService">
+            <argument type="service" id="algolia_indexing_bundle.service_core.product_indexer" />
+            <argument type="service" id="algolia_indexing_bundle.service_core.algolia_service" />
+            <argument type="service" id="algolia_bundle.service_core.config_reader" />
+            <argument type="service" id="algolia_bundle.service_core.index_name_builder" />
+            <argument type="service" id="frosh_algolia.config" />
+        </service>
+
+        <service id="algolia_indexing_bundle.product_processor.default" class="FroshAlgolia\AlgoliaIndexingBundle\ProductProcessor\DefaultProcessor">
+            <tag name="algolia.product_processor"/>
+        </service>
+
+        <service id="algolia_indexing_bundle.service_core.backlog_processor" class="FroshAlgolia\AlgoliaIndexingBundle\Service\Core\BacklogProcessor">
+            <argument type="service" id="dbal_connection" />
+        </service>
+
+        <!-- Subscriber -->
+
+        <!-- Consumes events fired by ORM -->
+        <!--<service id="frosh_algolia.orm_backlog_subscriber" class="FroshAlgolia\AlgoliaIndexingBundle\Subscriber\ORMBacklogSubscriber">-->
+            <!--<argument type="service" id="events" />-->
+            <!--<argument type="service" id="algolia_indexing_bundle.service_core.backlog_processor" />-->
+            <!--<tag name="doctrine.event_subscriber" />-->
+        <!--</service>-->
+
+        <!-- Consumes events fired by Shopware -->
+        <service id="frosh_algolia.domain_backlog_subscriber" class="FroshAlgolia\AlgoliaIndexingBundle\Subscriber\DomainBacklogSubscriber">
+            <argument type="service" id="algolia_indexing_bundle.service_core.backlog_processor" />
+            <tag name="shopware.event_subscriber" />
+        </service>
+    </services>
+</container>

@@ -3,13 +3,11 @@
 namespace FroshAlgolia;
 
 use FroshAlgolia\Bootstrap\Schemas;
-use FroshAlgolia\Services\DependencyInjection\CompilerPass\ProductProcessorCompilerPass;
 use Shopware\Components\Plugin;
 use Shopware\Components\Plugin\Context\ActivateContext;
 use Shopware\Components\Plugin\Context\DeactivateContext;
 use Shopware\Components\Plugin\Context\InstallContext;
 use Shopware\Components\Plugin\Context\UninstallContext;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 // Composer autoload
 include_once __DIR__ . '/vendor/autoload.php';
@@ -60,14 +58,5 @@ class FroshAlgolia extends Plugin
     {
         $context->scheduleClearCache(InstallContext::CACHE_LIST_ALL);
         parent::deactivate($context);
-    }
-
-    /**
-     * @param ContainerBuilder $container
-     */
-    public function build(ContainerBuilder $container)
-    {
-        parent::build($container);
-        $container->addCompilerPass(new ProductProcessorCompilerPass());
     }
 }

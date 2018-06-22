@@ -5,10 +5,9 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <imports>
+        <import resource="../AlgoliaBundle/services.xml"/>
+        <import resource="../AlgoliaIndexingBundle/services.xml"/>
         <import resource="services/logger.xml"/>
-        <import resource="services/services.xml"/>
-        <import resource="services/subscriber.xml"/>
-        <import resource="services/commands.xml"/>
     </imports>
 
     <parameters>
