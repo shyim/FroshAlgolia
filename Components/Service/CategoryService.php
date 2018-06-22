@@ -8,7 +8,7 @@ use Shopware\Bundle\StoreFrontBundle\Struct\Category;
 use Shopware\Bundle\StoreFrontBundle\Struct\ListProduct;
 use Shopware\Bundle\StoreFrontBundle\Struct\ShopContextInterface;
 
-class CategoryService
+class CategoryService implements \FroshAlgolia\Components\Service\CategoryServiceInterface
 {
     /**
      * @var Connection
@@ -33,10 +33,7 @@ class CategoryService
     }
 
     /**
-     * @param ListProduct[]        $products
-     * @param ShopContextInterface $shopContext
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getCategories(array $products, ShopContextInterface $shopContext)
     {
@@ -76,8 +73,7 @@ class CategoryService
     }
 
     /**
-     * @param array                $path
-     * @param ShopContextInterface $context
+     * {@inheritdoc}
      */
     public function buildHierarchicalWithPath(array $path, ShopContextInterface $context)
     {
@@ -97,12 +93,9 @@ class CategoryService
     }
 
     /**
-     * @param array                $path
-     * @param ShopContextInterface $context
-     *
-     * @return string
+     * {@inheritdoc}
      */
-    public function buildPath(array $path, ShopContextInterface $context)
+    public function buildPath(array $path, ShopContextInterface $context) : string
     {
         $categorys = $this->storeFrontCategoryService->getList($path, $context);
 
@@ -119,7 +112,7 @@ class CategoryService
      *
      * @return null|Category
      */
-    private function getProductCategory(ListProduct $product, $categoryId)
+    private function getProductCategory(ListProduct $product, $categoryId) : ?Category
     {
         foreach ($product->getCategories() as $category) {
             if ($category->getId() == $categoryId) {
@@ -138,15 +131,15 @@ class CategoryService
      */
     private function isValidCategory(Category $category, ShopContextInterface $shopContext)
     {
-        if (in_array($shopContext->getCurrentCustomerGroup()->getId(), $category->getBlockedCustomerGroupIds())) {
+        if (\in_array($shopContext->getCurrentCustomerGroup()->getId(), $category->getBlockedCustomerGroupIds())) {
             return false;
         }
 
-        if (in_array($shopContext->getFallbackCustomerGroup()->getId(), $category->getBlockedCustomerGroupIds())) {
+        if (\in_array($shopContext->getFallbackCustomerGroup()->getId(), $category->getBlockedCustomerGroupIds())) {
             return false;
         }
 
-        if (!in_array($shopContext->getShop()->getCategory()->getId(), $category->getPath())) {
+        if (!\in_array($shopContext->getShop()->getCategory()->getId(), $category->getPath())) {
             return false;
         }
 
