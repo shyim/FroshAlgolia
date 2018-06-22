@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace FroshAlgolia\AlgoliaIndexingBundle\Service;
 
@@ -19,7 +19,7 @@ interface AlgoliaServiceInterface
      *
      * @return bool
      */
-    public function push(Shop $shop, array $data, $indexName) : bool;
+    public function push(Shop $shop, array $data, $indexName): bool;
 
     /**
      * Initialize index.
@@ -28,7 +28,7 @@ interface AlgoliaServiceInterface
      *
      * @return Index|bool
      */
-    public function initIndex($indexName) : Index;
+    public function initIndex($indexName): Index;
 
     /**
      * Pushes the index settings from plugin configuration to the Algolia index.
@@ -41,7 +41,7 @@ interface AlgoliaServiceInterface
      *
      * @return bool
      */
-    public function pushIndexSettings(array $settings, Index $index = null, $indexName = null) : array;
+    public function pushIndexSettings(array $settings, Index $index = null, $indexName = null): array;
 
     /**
      * Deletes an Algolia index and it´s replica indices by name.
@@ -50,5 +50,5 @@ interface AlgoliaServiceInterface
      *
      * @return bool
      */
-    public function deleteIndex($indexName) : bool;
+    public function deleteIndex($indexName): bool;
 }

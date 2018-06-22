@@ -95,7 +95,7 @@ class CategoryService implements \FroshAlgolia\AlgoliaBundle\Service\CategorySer
     /**
      * {@inheritdoc}
      */
-    public function buildPath(array $path, ShopContextInterface $context) : string
+    public function buildPath(array $path, ShopContextInterface $context): string
     {
         $categorys = $this->storeFrontCategoryService->getList($path, $context);
 
@@ -112,7 +112,7 @@ class CategoryService implements \FroshAlgolia\AlgoliaBundle\Service\CategorySer
      *
      * @return null|Category
      */
-    private function getProductCategory(ListProduct $product, $categoryId) : ?Category
+    private function getProductCategory(ListProduct $product, $categoryId): ?Category
     {
         foreach ($product->getCategories() as $category) {
             if ($category->getId() == $categoryId) {

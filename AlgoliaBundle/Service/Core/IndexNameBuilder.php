@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace FroshAlgolia\AlgoliaBundle\Service\Core;
 
@@ -14,6 +14,7 @@ class IndexNameBuilder implements IndexNameBuilderInterface
 
     /**
      * IndexNameBuilder constructor.
+     *
      * @param array $pluginConfig
      */
     public function __construct(array $pluginConfig)
@@ -23,6 +24,7 @@ class IndexNameBuilder implements IndexNameBuilderInterface
 
     /**
      * @param Shop $shop
+     *
      * @return string
      */
     public function buildName(Shop $shop): string

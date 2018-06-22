@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace FroshAlgolia\AlgoliaIndexingBundle\Service;
 
@@ -9,5 +9,5 @@ interface BacklogProcessorInterface
      *
      * @throws \Doctrine\DBAL\DBALException
      */
-    public function add($backlogs) : void;
+    public function add($backlogs): void;
 }

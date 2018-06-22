@@ -28,7 +28,7 @@ class BacklogProcessor implements BacklogProcessorInterface
     /**
      * {@inheritdoc}
      */
-    public function add($backlogs) : void
+    public function add($backlogs): void
     {
         if (empty($backlogs)) {
             return;

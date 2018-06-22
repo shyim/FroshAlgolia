@@ -1,6 +1,5 @@
 <?php declare(strict_types=1);
 
-
 namespace FroshAlgolia\AlgoliaBundle\Subscriber;
 
 use Enlight\Event\SubscriberInterface;
@@ -27,7 +26,7 @@ class ListingSubscriber implements SubscriberInterface
      * ListingSubscriber constructor.
      *
      * @param CategoryServiceInterface $categoryService
-     * @param ContextServiceInterface $contextService
+     * @param ContextServiceInterface  $contextService
      */
     public function __construct(CategoryServiceInterface $categoryService, ContextServiceInterface $contextService)
     {

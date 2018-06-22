@@ -3,7 +3,6 @@
 namespace FroshAlgolia\AlgoliaIndexingBundle\DependencyInjection\Factory;
 
 use AlgoliaSearch\Client;
-use Shopware\Components\Plugin\CachedConfigReader;
 
 /**
  * Class AlgoliaFactory.
@@ -13,8 +12,9 @@ class AlgoliaFactory
     /**
      * @param array $pluginConfig
      *
-     * @return Client
      * @throws \AlgoliaSearch\AlgoliaException
+     *
+     * @return Client
      */
     public static function factory(array $pluginConfig)
     {

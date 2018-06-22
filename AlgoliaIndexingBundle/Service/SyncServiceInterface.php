@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace FroshAlgolia\AlgoliaIndexingBundle\Service;
 
@@ -8,10 +8,12 @@ interface SyncServiceInterface
      * Syncs complete article data to Angolia.
      *
      * @param array $shops
-     * @return bool
+     *
      * @throws \AlgoliaSearch\AlgoliaException
      * @throws \Doctrine\DBAL\DBALException
      * @throws \Exception
+     *
+     * @return bool
      */
     public function fullSync(array $shops): bool;
 

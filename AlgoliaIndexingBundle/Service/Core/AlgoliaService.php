@@ -41,7 +41,7 @@ class AlgoliaService implements AlgoliaServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function push(Shop $shop, array $data, $indexName) : bool
+    public function push(Shop $shop, array $data, $indexName): bool
     {
         // Init the index
         $index = $this->algoliaClient->initIndex($indexName);
@@ -62,7 +62,7 @@ class AlgoliaService implements AlgoliaServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function initIndex($indexName) : Index
+    public function initIndex($indexName): Index
     {
         $index = $this->algoliaClient->initIndex($indexName);
         $this->logger->addDebug('Successfully initialized index {indexName}.', ['indexName' => $indexName]);
@@ -73,7 +73,7 @@ class AlgoliaService implements AlgoliaServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function pushIndexSettings(array $settings, Index $index = null, $indexName = null) : array
+    public function pushIndexSettings(array $settings, Index $index = null, $indexName = null): array
     {
         // Get the index if only the index name is passed
         if (!$index) {
@@ -90,7 +90,7 @@ class AlgoliaService implements AlgoliaServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function deleteIndex($indexName) : bool
+    public function deleteIndex($indexName): bool
     {
         try {
             $this->algoliaClient->deleteIndex($indexName);

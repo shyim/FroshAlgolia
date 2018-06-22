@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace FroshAlgolia\AlgoliaBundle\Service;
 
@@ -8,6 +8,7 @@ interface ConfigReaderInterface
 {
     /**
      * @param Shop $shop
+     *
      * @return array
      */
     public function read(Shop $shop): array;

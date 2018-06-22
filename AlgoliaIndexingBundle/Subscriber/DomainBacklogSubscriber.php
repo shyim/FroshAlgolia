@@ -6,7 +6,6 @@ use Enlight\Event\SubscriberInterface;
 use Enlight_Event_EventArgs as EventArgs;
 use FroshAlgolia\AlgoliaIndexingBundle\Service\BacklogProcessorInterface;
 use FroshAlgolia\Structs\Backlog;
-use Shopware\Components\DependencyInjection\Container;
 
 /**
  * Class DomainBacklogSubscriber.
@@ -38,6 +37,7 @@ class DomainBacklogSubscriber implements SubscriberInterface
 
     /**
      * @param EventArgs $eventArgs
+     *
      * @throws \Doctrine\DBAL\DBALException
      */
     public function onProductStockWasChanged(EventArgs $eventArgs)

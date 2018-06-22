@@ -9,7 +9,6 @@ use Doctrine\ORM\Events;
 use FroshAlgolia\AlgoliaIndexingBundle\Service\BacklogProcessorInterface;
 use FroshAlgolia\Structs\Backlog;
 use Shopware\Components\ContainerAwareEventManager;
-use Shopware\Components\DependencyInjection\Container;
 use Shopware\Components\Model\ModelManager;
 use Shopware\Models\Article\Article as ArticleModel;
 use Shopware\Models\Article\Detail as VariantModel;
@@ -80,7 +79,7 @@ class ORMBacklogSubscriber implements EventSubscriber
 
     /**
      * @param ContainerAwareEventManager $eventsManager
-     * @param BacklogProcessorInterface $backlogProcessor
+     * @param BacklogProcessorInterface  $backlogProcessor
      */
     public function __construct(ContainerAwareEventManager $eventsManager, BacklogProcessorInterface $backlogProcessor)
     {

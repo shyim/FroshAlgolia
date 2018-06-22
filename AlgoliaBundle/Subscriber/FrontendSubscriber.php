@@ -31,21 +31,20 @@ class FrontendSubscriber implements SubscriberInterface
      * @var ConfigReaderInterface
      */
     private $configReader;
-    
+
     /**
      * @var Snippets
      */
     private $snippets;
 
-
     /**
      * AlgoliaSearchSubscriber constructor.
      *
-     * @param string $viewDir
+     * @param string                    $viewDir
      * @param IndexNameBuilderInterface $indexNameBuilder
-     * @param array $pluginConfig
-     * @param ConfigReaderInterface $configReader
-     * @param Snippets $snippets
+     * @param array                     $pluginConfig
+     * @param ConfigReaderInterface     $configReader
+     * @param Snippets                  $snippets
      */
     public function __construct(
         string $viewDir,

@@ -51,11 +51,11 @@ class ProductIndexer implements ProductIndexerInterface
      * ProductIndexer constructor.
      *
      * @param ContextServiceInterface   $contextService
-     * @param ProductServiceInterface            $productService
+     * @param ProductServiceInterface   $productService
      * @param Enlight_Controller_Router $router
      * @param Connection                $connection
-     * @param CategoryServiceInterface           $categoryService
-     * @param iterable                     $processor
+     * @param CategoryServiceInterface  $categoryService
+     * @param iterable                  $processor
      */
     public function __construct(
         ContextServiceInterface $contextService,
@@ -76,7 +76,7 @@ class ProductIndexer implements ProductIndexerInterface
     /**
      * {@inheritdoc}
      */
-    public function index(Shop $shop, $chunkSize, array $shopConfig) : array
+    public function index(Shop $shop, $chunkSize, array $shopConfig): array
     {
         $context = $this->context->createShopContext($shop->getId());
         $data = [];
