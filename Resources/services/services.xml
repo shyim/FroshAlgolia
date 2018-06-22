@@ -16,10 +16,11 @@
         </service>
 
         <service id="frosh_algolia.sync_service" class="FroshAlgolia\Services\SyncService">
-            <argument type="service" id="frosh_algolia.logger" />
             <argument type="service" id="frosh_algolia.product.indexer" />
             <argument type="service" id="frosh_algolia.algolia_service" />
-            <argument type="service" id="frosh_algolia.sync_helper_service" />
+            <argument type="service" id="frosh_algolia.config_reader" />
+            <argument type="service" id="models" />
+            <argument type="service" id="frosh_algolia.config" />
         </service>
 
         <service id="frosh_algolia.algolia_service" class="FroshAlgolia\Services\AlgoliaService" public="true">

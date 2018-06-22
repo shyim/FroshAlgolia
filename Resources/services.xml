@@ -14,4 +14,11 @@
     <parameters>
         <parameter key="frosh_algolia.view_dir">%frosh_algolia.plugin_dir%/Resources/views</parameter>
     </parameters>
+
+    <services>
+        <service id="frosh_algolia.config" class="Shopware\Components\Plugin\CachedConfigReader">
+            <factory service="shopware.plugin.cached_config_reader" method="getByPluginName"/>
+            <argument type="string">FroshAlgolia</argument>
+        </service>
+    </services>
 </container>

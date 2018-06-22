@@ -4,6 +4,7 @@ namespace FroshAlgolia\Services;
 
 use Doctrine\ORM\EntityManager;
 use Shopware\Components\Logger;
+use Shopware\Components\Model\ModelManager;
 use Shopware\Models\Shop\Shop;
 use FroshAlgolia\Structs\Struct;
 
@@ -56,27 +57,24 @@ class SyncService
 
     /**
      * SyncService constructor.
-     *
-     * @param Logger            $logger
-     * @param ProductIndexer    $productIndexer
-     * @param AlgoliaService    $algoliaService
-     * @param SyncHelperService $syncHelperService
+     * @param ProductIndexer $productIndexer
+     * @param AlgoliaService $algoliaService
+     * @param ConfigReader $configReader
+     * @param ModelManager $modelManager
+     * @param array $pluginConfig
      */
     public function __construct(
-        Logger $logger,
         ProductIndexer $productIndexer,
         AlgoliaService $algoliaService,
-        SyncHelperService $syncHelperService
+        ConfigReader $configReader,
+        ModelManager $modelManager,
+        array $pluginConfig
     ) {
-        $this->logger = $logger;
         $this->productIndexer = $productIndexer;
         $this->algoliaService = $algoliaService;
-        $this->syncHelperService = $syncHelperService;
-        $this->em = Shopware()->Container()->get('models');
-
-        $this->configReader = Shopware()->Container()->get('frosh_algolia.config_reader');
-        // Grab the plugin config
-        $this->pluginConfig = Shopware()->Container()->get('shopware.plugin.cached_config_reader')->getByPluginName('FroshAlgolia');
+        $this->em = $modelManager;
+        $this->configReader = $configReader;
+        $this->pluginConfig = $pluginConfig;
     }
 
     /**
@@ -105,7 +103,7 @@ class SyncService
             $productChunks = $this->productIndexer->index($shop, $this->pluginConfig['sync-batch-size'], $this->shopConfig);
 
             foreach ($productChunks as $productChunk) {
-                $this->algoliaService->push($shop, $productChunk, $this->syncHelperService->buildIndexName($shop));
+                $this->algoliaService->push($shop, $productChunk, $this->buildIndexName($shop));
             }
         }
 
@@ -131,7 +129,7 @@ class SyncService
     private function createIndices($shop)
     {
         // Create main index
-        $indexName = $this->syncHelperService->buildIndexName($shop);
+        $indexName = $this->buildIndexName($shop);
         $index = $this->algoliaService->initIndex($indexName);
 
         $attributesForFaceting = array_column($this->shopConfig['facetAttributes'], 'name');
@@ -201,7 +199,7 @@ class SyncService
      */
     private function deleteIndex(Shop $shop)
     {
-        $indexName = $this->syncHelperService->buildIndexName($shop);
+        $indexName = $this->buildIndexName($shop);
 
         // Delete main index
         $this->algoliaService->deleteIndex($indexName);
@@ -213,5 +211,16 @@ class SyncService
     private function getShops()
     {
         return $this->em->getRepository(Shop::class)->findBy(['active' => true]);
+    }
+
+    /**
+     * @param Shop $shop
+     * @return string
+     */
+    private function buildIndexName(Shop $shop)
+    {
+        $prefix = isset($this->pluginConfig['index-prefix-name']) && $this->pluginConfig['index-prefix-name'] != '' ? $this->pluginConfig['index-prefix-name'].'_' : false;
+
+        return $prefix.$shop->getId();
     }
 }
