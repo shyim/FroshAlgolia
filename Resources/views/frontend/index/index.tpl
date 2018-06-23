@@ -71,13 +71,11 @@
 
                         // show price
                         {/literal}
-                        {if $showAutocompletePrice}
                         if (price !== '') {
                             res += '<span class="price">';
                             res += stripTags(suggestion.priceFormatted) + ' ' +  currencySymbol;
                             res += '</span>';
                         }
-                        {/if}
                         {literal}
 
                         return res;

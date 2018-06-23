@@ -91,7 +91,6 @@ class FrontendSubscriber implements SubscriberInterface
         $view->assign('algoliaSearchOnlyApiKey', $this->pluginConfig['algolia-search-only-api-key']);
         $view->assign('indexName', $this->indexNameBuilder->buildName($shop));
         $view->assign('showAlgoliaLogo', $this->pluginConfig['show-algolia-logo']);
-        $view->assign('showAutocompletePrice', $this->pluginConfig['show-autocomplete-price']);
         $this->assignTemplateVars($view);
     }
 
