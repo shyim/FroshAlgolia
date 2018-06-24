@@ -11,10 +11,9 @@ use Shopware\Bundle\StoreFrontBundle\Struct\Product;
 interface ProcessorInterface
 {
     /**
-     * @param Product $product Shopware Product
+     * @param Product        $product        Shopware Product
      * @param AlgoliaProduct $algoliaProduct
-     * @param array $shopConfig Shop Configuration
-     * @return void
+     * @param array          $shopConfig     Shop Configuration
      */
-    public function process(Product $product, AlgoliaProduct $algoliaProduct, array $shopConfig) : void;
+    public function process(Product $product, AlgoliaProduct $algoliaProduct, array $shopConfig): void;
 }

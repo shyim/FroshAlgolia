@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace FroshAlgolia\AlgoliaIndexingBundle\Service\Core;
 
@@ -24,7 +24,8 @@ class BacklogSync implements BacklogSyncInterface
 
     /**
      * BacklogSync constructor.
-     * @param ModelManager $models
+     *
+     * @param ModelManager         $models
      * @param SyncServiceInterface $syncService
      */
     public function __construct(ModelManager $models, SyncServiceInterface $syncService)
@@ -36,7 +37,7 @@ class BacklogSync implements BacklogSyncInterface
     /**
      * {@inheritdoc}
      */
-    public function sync(int $limit = 100) : void
+    public function sync(int $limit = 100): void
     {
         $entries = $this->models->getConnection()->fetchAll('SELECT * FROM FroshAlgolia_backlog LIMIT ' . $limit);
 
@@ -55,8 +56,10 @@ class BacklogSync implements BacklogSyncInterface
 
     /**
      * @param array $entries
-     * @return array
+     *
      * @throws \Doctrine\DBAL\DBALException
+     *
+     * @return array
      */
     private function getProductNumbersFromEntries(array $entries)
     {
@@ -83,10 +86,9 @@ class BacklogSync implements BacklogSyncInterface
             switch ($entry['event']) {
                 case ORMBacklogSubscriber::EVENT_TAX_UPDATED:
                     $updateNumbers += $connection->executeQuery('SELECT ordernumber FROM s_articles_details WHERE articleID IN(SELECT id FROM s_articles WHERE taxId = ?)', [
-                        $entry['payload']['id']
+                        $entry['payload']['id'],
                     ])->fetchAll(PDO::FETCH_COLUMN);
                     continue;
-
             }
         }
 

@@ -47,11 +47,11 @@ class SyncService implements SyncServiceInterface
     /**
      * SyncService constructor.
      *
-     * @param ProductIndexerInterface $productIndexer
-     * @param AlgoliaServiceInterface $algoliaService
-     * @param ConfigReaderInterface $configReader
+     * @param ProductIndexerInterface   $productIndexer
+     * @param AlgoliaServiceInterface   $algoliaService
+     * @param ConfigReaderInterface     $configReader
      * @param IndexNameBuilderInterface $indexNameBuilder
-     * @param array $pluginConfig
+     * @param array                     $pluginConfig
      */
     public function __construct(
         ProductIndexerInterface $productIndexer,
@@ -59,8 +59,7 @@ class SyncService implements SyncServiceInterface
         ConfigReaderInterface $configReader,
         IndexNameBuilderInterface $indexNameBuilder,
         array $pluginConfig
-    )
-    {
+    ) {
         $this->productIndexer = $productIndexer;
         $this->algoliaService = $algoliaService;
         $this->configReader = $configReader;
@@ -117,7 +116,6 @@ class SyncService implements SyncServiceInterface
                 $this->algoliaService->delete($shop, $deleteNumbers, $indexName);
             }
         }
-
     }
 
     /**

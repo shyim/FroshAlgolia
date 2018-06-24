@@ -6,7 +6,6 @@ use AlgoliaSearch\Client;
 use AlgoliaSearch\Index;
 use Exception;
 use FroshAlgolia\AlgoliaIndexingBundle\Service\AlgoliaServiceInterface;
-use Shopware\Commands\ShopwareCommand;
 use Shopware\Components\Logger;
 use Shopware\Models\Shop\Shop;
 

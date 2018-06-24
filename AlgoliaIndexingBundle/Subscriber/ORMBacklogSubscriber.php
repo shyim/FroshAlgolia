@@ -219,6 +219,7 @@ class ORMBacklogSubscriber implements EventSubscriber
 
     /**
      * @param ArticleModel $entity
+     *
      * @return array
      */
     private function getNumbers(ArticleModel $entity)

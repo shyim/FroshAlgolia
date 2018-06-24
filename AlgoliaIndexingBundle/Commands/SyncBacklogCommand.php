@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace FroshAlgolia\AlgoliaIndexingBundle\Commands;
 
@@ -17,6 +17,7 @@ class SyncBacklogCommand extends ShopwareCommand
 
     /**
      * SyncBacklogCommand constructor.
+     *
      * @param BacklogSyncInterface $backlogSync
      */
     public function __construct(BacklogSyncInterface $backlogSync)
@@ -34,8 +35,9 @@ class SyncBacklogCommand extends ShopwareCommand
     }
 
     /**
-     * @param InputInterface $input
+     * @param InputInterface  $input
      * @param OutputInterface $output
+     *
      * @return int|null|void
      */
     public function execute(InputInterface $input, OutputInterface $output)

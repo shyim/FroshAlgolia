@@ -1,7 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace FroshAlgolia\AlgoliaIndexingBundle\Commands;
-
 
 use Shopware\Commands\ShopwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -17,8 +16,9 @@ class ClearBacklogCommand extends ShopwareCommand
     }
 
     /**
-     * @param InputInterface $input
+     * @param InputInterface  $input
      * @param OutputInterface $output
+     *
      * @return int|null|void
      */
     public function execute(InputInterface $input, OutputInterface $output)

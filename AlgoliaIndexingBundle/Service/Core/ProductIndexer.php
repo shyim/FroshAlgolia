@@ -13,7 +13,6 @@ use Shopware\Bundle\StoreFrontBundle\Service\ProductServiceInterface;
 use Shopware\Bundle\StoreFrontBundle\Struct\Attribute;
 use Shopware\Bundle\StoreFrontBundle\Struct\ListProduct;
 use Shopware\Bundle\StoreFrontBundle\Struct\Product;
-use Shopware\Bundle\StoreFrontBundle\Struct\ShopContextInterface;
 use Shopware\Models\Shop\Shop;
 
 class ProductIndexer implements ProductIndexerInterface
@@ -88,38 +87,6 @@ class ProductIndexer implements ProductIndexerInterface
     }
 
     /**
-     * @param Shop $shop
-     * @param int  $chunkSize
-     *
-     * @throws \Doctrine\DBAL\DBALException
-     *
-     * @return array
-     */
-    private function getProducts(Shop $shop, int $chunkSize)
-    {
-        $products = $this->connection->executeQuery('SELECT DISTINCT s_articles_details.ordernumber FROM s_articles_details INNER JOIN s_articles_categories_ro ON(s_articles_categories_ro.articleID = s_articles_details.articleID AND s_articles_categories_ro.categoryID = ?) WHERE kind = 1 AND active = 1', [
-            $shop->getCategory()->getId(),
-        ])->fetchAll(\PDO::FETCH_COLUMN);
-
-        return array_chunk($products, $chunkSize);
-    }
-
-    /**
-     * @param array         $categories
-     * @param ListProduct[] $products
-     *
-     * @throws \Exception
-     */
-    private function assignCategories($categories, $products)
-    {
-        foreach ($products as $product) {
-            if (isset($categories[$product->getId()])) {
-                $product->addAttribute('categories', new Attribute($categories[$product->getId()]));
-            }
-        }
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function indexNumbers(array $numbers, Shop $shop, array $shopConfig)
@@ -149,6 +116,39 @@ class ProductIndexer implements ProductIndexerInterface
 
             $data[] = $algoliaProduct->toArray();
         }
+
         return $data;
+    }
+
+    /**
+     * @param Shop $shop
+     * @param int  $chunkSize
+     *
+     * @throws \Doctrine\DBAL\DBALException
+     *
+     * @return array
+     */
+    private function getProducts(Shop $shop, int $chunkSize)
+    {
+        $products = $this->connection->executeQuery('SELECT DISTINCT s_articles_details.ordernumber FROM s_articles_details INNER JOIN s_articles_categories_ro ON(s_articles_categories_ro.articleID = s_articles_details.articleID AND s_articles_categories_ro.categoryID = ?) WHERE kind = 1 AND active = 1', [
+            $shop->getCategory()->getId(),
+        ])->fetchAll(\PDO::FETCH_COLUMN);
+
+        return array_chunk($products, $chunkSize);
+    }
+
+    /**
+     * @param array         $categories
+     * @param ListProduct[] $products
+     *
+     * @throws \Exception
+     */
+    private function assignCategories($categories, $products)
+    {
+        foreach ($products as $product) {
+            if (isset($categories[$product->getId()])) {
+                $product->addAttribute('categories', new Attribute($categories[$product->getId()]));
+            }
+        }
     }
 }

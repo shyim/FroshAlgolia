@@ -11,7 +11,7 @@ class DefaultProcessor implements ProcessorInterface
     /**
      * {@inheritdoc}
      */
-    public function process(Product $product, AlgoliaProduct $algoliaProduct, array $shopConfig) : void
+    public function process(Product $product, AlgoliaProduct $algoliaProduct, array $shopConfig): void
     {
         // Get the media
         $media = $product->getMedia();
@@ -52,8 +52,8 @@ class DefaultProcessor implements ProcessorInterface
      * Get all product attributes.
      *
      * @param Product $product
+     * @param array   $shopConfig
      *
-     * @param array $shopConfig
      * @return array
      */
     private function getAttributes(Product $product, array $shopConfig)

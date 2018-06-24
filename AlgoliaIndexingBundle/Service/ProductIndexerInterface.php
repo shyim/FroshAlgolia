@@ -20,8 +20,9 @@ interface ProductIndexerInterface
 
     /**
      * @param array $numbers
-     * @param Shop $shop
+     * @param Shop  $shop
      * @param array $shopConfig
+     *
      * @return AlgoliaProduct[]
      */
     public function indexNumbers(array $numbers, Shop $shop, array $shopConfig);

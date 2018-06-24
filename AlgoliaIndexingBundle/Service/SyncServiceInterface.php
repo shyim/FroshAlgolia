@@ -24,8 +24,8 @@ interface SyncServiceInterface
      * the changed data on the fly to Algolia.
      *
      * @param Shop[] $shops
-     * @param array $updateNumbers
-     * @param array $deleteNumbers
+     * @param array  $updateNumbers
+     * @param array  $deleteNumbers
      */
     public function liveSync(array $shops, array $updateNumbers, array $deleteNumbers): void;
 }
