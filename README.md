@@ -15,7 +15,7 @@ Blazing fast as-you-type auto-suggestion with keyboard navigation:
 ## Requirements
 
 - Shopware >= 5.5.0
-- PHP >= 7.0
+- PHP >= 7.1
 
 ## Installation
 
