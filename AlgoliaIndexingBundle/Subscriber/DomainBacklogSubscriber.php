@@ -5,7 +5,7 @@ namespace FroshAlgolia\AlgoliaIndexingBundle\Subscriber;
 use Enlight\Event\SubscriberInterface;
 use Enlight_Event_EventArgs as EventArgs;
 use FroshAlgolia\AlgoliaIndexingBundle\Service\BacklogProcessorInterface;
-use FroshAlgolia\Structs\Backlog;
+use FroshAlgolia\AlgoliaIndexingBundle\Struct\Backlog;
 
 /**
  * Class DomainBacklogSubscriber.

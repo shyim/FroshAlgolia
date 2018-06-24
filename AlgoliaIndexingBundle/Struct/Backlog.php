@@ -1,31 +1,31 @@
 <?php declare(strict_types=1);
 
-namespace FroshAlgolia\Structs;
+namespace FroshAlgolia\AlgoliaIndexingBundle\Struct;
 
 /**
  * Class Backlog.
  */
-class Backlog extends Struct implements StructInterface
+class Backlog extends Struct
 {
     /**
      * @var int
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
      */
-    private $event;
+    protected $event;
 
     /**
      * @var string
      */
-    private $payload;
+    protected $payload;
 
     /**
      * @var \DateTime
      */
-    private $time;
+    protected $time;
 
     /**
      * @param string   $event

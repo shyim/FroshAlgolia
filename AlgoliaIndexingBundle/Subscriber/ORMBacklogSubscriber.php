@@ -7,7 +7,7 @@ use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Event\PostFlushEventArgs;
 use Doctrine\ORM\Events;
 use FroshAlgolia\AlgoliaIndexingBundle\Service\BacklogProcessorInterface;
-use FroshAlgolia\Structs\Backlog;
+use FroshAlgolia\AlgoliaIndexingBundle\Struct\Backlog;
 use Shopware\Components\ContainerAwareEventManager;
 use Shopware\Components\Model\ModelManager;
 use Shopware\Models\Article\Article as ArticleModel;

@@ -2,6 +2,7 @@
 
 namespace FroshAlgolia\AlgoliaIndexingBundle\Service;
 
+use FroshAlgolia\AlgoliaIndexingBundle\Struct\AlgoliaProduct;
 use Shopware\Models\Shop\Shop;
 
 interface ProductIndexerInterface
@@ -16,4 +17,12 @@ interface ProductIndexerInterface
      * @return array
      */
     public function index(Shop $shop, $chunkSize, array $shopConfig): array;
+
+    /**
+     * @param array $numbers
+     * @param Shop $shop
+     * @param array $shopConfig
+     * @return AlgoliaProduct[]
+     */
+    public function indexNumbers(array $numbers, Shop $shop, array $shopConfig);
 }

@@ -5,14 +5,15 @@ namespace FroshAlgolia\AlgoliaIndexingBundle\Service\Core;
 use Doctrine\DBAL\Connection;
 use Enlight_Controller_Router;
 use FroshAlgolia\AlgoliaBundle\Service\CategoryServiceInterface;
+use FroshAlgolia\AlgoliaIndexingBundle\ProductProcessor\ProcessorInterface;
 use FroshAlgolia\AlgoliaIndexingBundle\Service\ProductIndexerInterface;
-use FroshAlgolia\Services\ProductProcessor\ProcessorInterface;
-use FroshAlgolia\Structs\Article;
+use FroshAlgolia\AlgoliaIndexingBundle\Struct\AlgoliaProduct;
 use Shopware\Bundle\StoreFrontBundle\Service\ContextServiceInterface;
 use Shopware\Bundle\StoreFrontBundle\Service\ProductServiceInterface;
 use Shopware\Bundle\StoreFrontBundle\Struct\Attribute;
 use Shopware\Bundle\StoreFrontBundle\Struct\ListProduct;
 use Shopware\Bundle\StoreFrontBundle\Struct\Product;
+use Shopware\Bundle\StoreFrontBundle\Struct\ShopContextInterface;
 use Shopware\Models\Shop\Shop;
 
 class ProductIndexer implements ProductIndexerInterface
@@ -78,32 +79,9 @@ class ProductIndexer implements ProductIndexerInterface
      */
     public function index(Shop $shop, $chunkSize, array $shopConfig): array
     {
-        $context = $this->context->createShopContext($shop->getId());
         $data = [];
         foreach ($this->getProducts($shop, $chunkSize) as $chunkKey => $products) {
-            $products = $this->productService->getList($products, $context);
-            $categories = $this->categoryService->getCategories($products, $context);
-            $this->assignCategories($categories, $products);
-
-            /** @var Product $product */
-            foreach ($products as $product) {
-                $article = new Article();
-                $assembleParams = [
-                    'module' => 'frontend',
-                    'sViewport' => 'detail',
-                    'sArticle' => $product->getId(),
-                ];
-                $link = $this->router->assemble($assembleParams);
-
-                $article->setCurrencySymbol($shop->getCurrency()->getSymbol());
-                $article->setLink($link);
-
-                foreach ($this->processor as $processor) {
-                    $processor->process($product, $article, $shopConfig);
-                }
-
-                $data[$chunkKey][] = $article->toArray();
-            }
+            $data[$chunkKey] = $this->indexNumbers($products, $shop, $shopConfig);
         }
 
         return $data;
@@ -139,5 +117,38 @@ class ProductIndexer implements ProductIndexerInterface
                 $product->addAttribute('categories', new Attribute($categories[$product->getId()]));
             }
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function indexNumbers(array $numbers, Shop $shop, array $shopConfig)
+    {
+        $data = [];
+        $context = $this->context->createShopContext($shop->getId());
+        $products = $this->productService->getList($numbers, $context);
+        $categories = $this->categoryService->getCategories($products, $context);
+        $this->assignCategories($categories, $products);
+
+        /** @var Product $product */
+        foreach ($products as $product) {
+            $algoliaProduct = new AlgoliaProduct();
+            $assembleParams = [
+                'module' => 'frontend',
+                'sViewport' => 'detail',
+                'sArticle' => $product->getId(),
+            ];
+            $link = $this->router->assemble($assembleParams);
+
+            $algoliaProduct->setCurrencySymbol($shop->getCurrency()->getSymbol());
+            $algoliaProduct->setLink($link);
+
+            foreach ($this->processor as $processor) {
+                $processor->process($product, $algoliaProduct, $shopConfig);
+            }
+
+            $data[] = $algoliaProduct->toArray();
+        }
+        return $data;
     }
 }

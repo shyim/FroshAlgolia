@@ -2,7 +2,7 @@
 
 namespace FroshAlgolia\AlgoliaIndexingBundle\ProductProcessor;
 
-use FroshAlgolia\Structs\Article;
+use FroshAlgolia\AlgoliaIndexingBundle\Struct\AlgoliaProduct;
 use Shopware\Bundle\StoreFrontBundle\Struct\Product;
 
 /**
@@ -11,9 +11,10 @@ use Shopware\Bundle\StoreFrontBundle\Struct\Product;
 interface ProcessorInterface
 {
     /**
-     * @param Product $product    Shopware Product
-     * @param Article $article    Algolia Product
-     * @param array   $shopConfig Shop Configuration
+     * @param Product $product Shopware Product
+     * @param AlgoliaProduct $algoliaProduct
+     * @param array $shopConfig Shop Configuration
+     * @return void
      */
-    public function process(Product $product, Article $article, array $shopConfig);
+    public function process(Product $product, AlgoliaProduct $algoliaProduct, array $shopConfig) : void;
 }

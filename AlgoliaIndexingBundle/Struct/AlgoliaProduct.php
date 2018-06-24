@@ -1,40 +1,31 @@
 <?php declare(strict_types=1);
 
-namespace FroshAlgolia\Structs;
+namespace FroshAlgolia\AlgoliaIndexingBundle\Struct;
 
 use Shopware\Bundle\StoreFrontBundle\Struct\Product\VoteAverage;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Article.
  */
-class Article extends Struct
+class AlgoliaProduct extends Struct
 {
     /**
      * @var null|int
-     *
-     * @Assert\NotBlank()
      */
     public $objectID;
 
     /**
      * @var null|string
-     *
-     * @Assert\NotBlank()
      */
     public $name;
 
     /**
      * @var int
-     *
-     * @Assert\NotBlank()
      */
     public $articleId;
 
     /**
      * @var null|string
-     *
-     * @Assert\NotBlank()
      */
     private $number;
 

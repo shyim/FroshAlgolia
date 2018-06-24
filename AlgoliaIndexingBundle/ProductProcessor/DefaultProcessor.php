@@ -2,20 +2,16 @@
 
 namespace FroshAlgolia\AlgoliaIndexingBundle\ProductProcessor;
 
-use FroshAlgolia\Structs\Article;
+use FroshAlgolia\AlgoliaIndexingBundle\Struct\AlgoliaProduct;
 use Shopware\Bundle\StoreFrontBundle\Struct\Product;
-use Shopware\Bundle\StoreFrontBundle\Struct\ShopContextInterface;
 use Shopware\Models\Media\Media;
 
 class DefaultProcessor implements ProcessorInterface
 {
     /**
-     * @param Product              $product     Shopware Product
-     * @param Article              $article     Algolia Product
-     * @param array                $shopConfig  Shop Configuration
-     * @param ShopContextInterface $shopContext
+     * {@inheritdoc}
      */
-    public function process(Product $product, Article $article, array $shopConfig)
+    public function process(Product $product, AlgoliaProduct $algoliaProduct, array $shopConfig) : void
     {
         // Get the media
         $media = $product->getMedia();
@@ -35,21 +31,21 @@ class DefaultProcessor implements ProcessorInterface
         }
 
         // Build the algolia product
-        $article->setObjectID($product->getNumber());
-        $article->setArticleId($product->getId());
-        $article->setName($product->getName());
-        $article->setNumber($product->getNumber());
-        $article->setManufacturerName($product->getManufacturer()->getName());
-        $article->setPrice(round($product->getCheapestPrice()->getCalculatedPrice(), 2));
-        $article->setDescription(strip_tags($product->getShortDescription()));
-        $article->setEan($product->getEan());
-        $article->setImage($image);
-        $article->setCategories($product->getAttribute('categories')->jsonSerialize());
-        $article->setAttributes($this->getAttributes($product, $shopConfig));
-        $article->setProperties($this->getProperties($product));
-        $article->setSales($product->getSales());
-        $article->setVotes($votes);
-        $article->setVoteAvgPoints($voteAvgPoints);
+        $algoliaProduct->setObjectID($product->getNumber());
+        $algoliaProduct->setArticleId($product->getId());
+        $algoliaProduct->setName($product->getName());
+        $algoliaProduct->setNumber($product->getNumber());
+        $algoliaProduct->setManufacturerName($product->getManufacturer()->getName());
+        $algoliaProduct->setPrice(round($product->getCheapestPrice()->getCalculatedPrice(), 2));
+        $algoliaProduct->setDescription(strip_tags($product->getShortDescription()));
+        $algoliaProduct->setEan($product->getEan());
+        $algoliaProduct->setImage($image);
+        $algoliaProduct->setCategories($product->getAttribute('categories')->jsonSerialize());
+        $algoliaProduct->setAttributes($this->getAttributes($product, $shopConfig));
+        $algoliaProduct->setProperties($this->getProperties($product));
+        $algoliaProduct->setSales($product->getSales());
+        $algoliaProduct->setVotes($votes);
+        $algoliaProduct->setVoteAvgPoints($voteAvgPoints);
     }
 
     /**
@@ -57,9 +53,10 @@ class DefaultProcessor implements ProcessorInterface
      *
      * @param Product $product
      *
+     * @param array $shopConfig
      * @return array
      */
-    private function getAttributes(Product $product, $shopConfig)
+    private function getAttributes(Product $product, array $shopConfig)
     {
         $data = [];
 
