@@ -37,7 +37,7 @@ class SyncCommand extends ShopwareCommand
     {
         $this
             ->setName('algolia:sync')
-            ->setDescription('Used to perform operations on the Algolia index.');
+            ->setDescription('Sync shopware products to algolia index');
     }
 
     /**

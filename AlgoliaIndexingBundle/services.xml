@@ -22,6 +22,17 @@
             <tag name="console.command"/>
         </service>
 
+        <service id="algolia_indexing_bundle.commands.clear_backlog"
+                 class="FroshAlgolia\AlgoliaIndexingBundle\Commands\ClearBacklogCommand">
+            <tag name="console.command"/>
+        </service>
+
+        <service id="algolia_indexing_bundle.commands.sync_backlog"
+                 class="FroshAlgolia\AlgoliaIndexingBundle\Commands\SyncBacklogCommand">
+            <argument type="service" id="algolia_indexing_bundle.service_core.backlog_sync"/>
+            <tag name="console.command"/>
+        </service>
+
         <!-- Services -->
         <service id="algolia_client" class="AlgoliaSearch\Client">
             <factory class="FroshAlgolia\AlgoliaIndexingBundle\DependencyInjection\Factory\AlgoliaFactory" method="factory"/>
@@ -58,14 +69,17 @@
             <argument type="service" id="dbal_connection" />
         </service>
 
+        <service id="algolia_indexing_bundle.service_core.backlog_sync" class="FroshAlgolia\AlgoliaIndexingBundle\Service\Core\BacklogSync">
+            <argument type="service" id="models" />
+            <argument type="service" id="algolia_indexing_bundle.service_core.sync_service" />
+        </service>
+
         <!-- Subscriber -->
 
         <!-- Consumes events fired by ORM -->
-        <!--<service id="frosh_algolia.orm_backlog_subscriber" class="FroshAlgolia\AlgoliaIndexingBundle\Subscriber\ORMBacklogSubscriber">-->
-            <!--<argument type="service" id="events" />-->
-            <!--<argument type="service" id="algolia_indexing_bundle.service_core.backlog_processor" />-->
-            <!--<tag name="doctrine.event_subscriber" />-->
-        <!--</service>-->
+        <service id="frosh_algolia.orm_backlog_subscriber" class="FroshAlgolia\AlgoliaIndexingBundle\Subscriber\ORMBacklogSubscriber">
+            <tag name="doctrine.event_subscriber" />
+        </service>
 
         <!-- Consumes events fired by Shopware -->
         <service id="frosh_algolia.domain_backlog_subscriber" class="FroshAlgolia\AlgoliaIndexingBundle\Subscriber\DomainBacklogSubscriber">

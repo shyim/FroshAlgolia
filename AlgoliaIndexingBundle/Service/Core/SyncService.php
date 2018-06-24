@@ -47,11 +47,11 @@ class SyncService implements SyncServiceInterface
     /**
      * SyncService constructor.
      *
-     * @param ProductIndexerInterface   $productIndexer
-     * @param AlgoliaServiceInterface   $algoliaService
-     * @param ConfigReaderInterface     $configReader
+     * @param ProductIndexerInterface $productIndexer
+     * @param AlgoliaServiceInterface $algoliaService
+     * @param ConfigReaderInterface $configReader
      * @param IndexNameBuilderInterface $indexNameBuilder
-     * @param array                     $pluginConfig
+     * @param array $pluginConfig
      */
     public function __construct(
         ProductIndexerInterface $productIndexer,
@@ -59,7 +59,8 @@ class SyncService implements SyncServiceInterface
         ConfigReaderInterface $configReader,
         IndexNameBuilderInterface $indexNameBuilder,
         array $pluginConfig
-    ) {
+    )
+    {
         $this->productIndexer = $productIndexer;
         $this->algoliaService = $algoliaService;
         $this->configReader = $configReader;
@@ -95,9 +96,28 @@ class SyncService implements SyncServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function liveSync(array $numbers): void
+    public function liveSync(array $shops, array $updateNumbers, array $deleteNumbers): void
     {
-        // @TODO TBD
+        /** @var Shop $shop */
+        foreach ($shops as $shop) {
+            $shop->registerResources();
+            $this->shopConfig = $this->configReader->read($shop);
+            $indexName = $this->indexNameBuilder->buildName($shop);
+
+            if (!empty($updateNumbers)) {
+                $products = $this->productIndexer->indexNumbers($updateNumbers, $shop, $this->shopConfig);
+                $receivedProducts = array_column($products, 'objectID');
+
+                $deleteNumbers = array_unique(array_merge(array_diff($updateNumbers, $receivedProducts), $deleteNumbers));
+
+                $this->algoliaService->update($shop, $products, $indexName);
+            }
+
+            if (!empty($deleteNumbers)) {
+                $this->algoliaService->delete($shop, $deleteNumbers, $indexName);
+            }
+        }
+
     }
 
     /**

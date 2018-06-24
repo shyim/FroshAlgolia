@@ -6,6 +6,7 @@ use AlgoliaSearch\Client;
 use AlgoliaSearch\Index;
 use Exception;
 use FroshAlgolia\AlgoliaIndexingBundle\Service\AlgoliaServiceInterface;
+use Shopware\Commands\ShopwareCommand;
 use Shopware\Components\Logger;
 use Shopware\Models\Shop\Shop;
 
@@ -54,6 +55,46 @@ class AlgoliaService implements AlgoliaServiceInterface
             return true;
         } catch (Exception $e) {
             $this->logger->addError('Error when pushing elements to Algolia: {errorMessage}', ['errorMessage' => $e->getMessage()]);
+
+            return false;
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function update(Shop $shop, array $data, string $indexName): bool
+    {
+        // Init the index
+        $index = $this->algoliaClient->initIndex($indexName);
+
+        try {
+            $response = $index->saveObjects($data);
+            $this->logger->addDebug('Successfully pushed elements {objectIds} for ShopId {shopId} to Algolia with TaskID {taskId}.', ['objectIds' => implode(', ', $response['objectIDs']), 'shopId' => $shop->getId(), 'taskId' => $response['taskID']]);
+
+            return true;
+        } catch (Exception $e) {
+            $this->logger->addError('Error when pushing elements to Algolia: {errorMessage}', ['errorMessage' => $e->getMessage()]);
+
+            return false;
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function delete(Shop $shop, array $data, string $indexName): bool
+    {
+        // Init the index
+        $index = $this->algoliaClient->initIndex($indexName);
+
+        try {
+            $response = $index->deleteObjects($data);
+            $this->logger->addDebug('Successfully deleted elements {objectIds} for ShopId {shopId} to Algolia with TaskID {taskId}.', ['objectIds' => implode(', ', $response['objectIDs']), 'shopId' => $shop->getId(), 'taskId' => $response['taskID']]);
+
+            return true;
+        } catch (Exception $e) {
+            $this->logger->addError('Error when deleting elements on Algolia: {errorMessage}', ['errorMessage' => $e->getMessage()]);
 
             return false;
         }

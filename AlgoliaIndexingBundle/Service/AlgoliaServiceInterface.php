@@ -22,6 +22,22 @@ interface AlgoliaServiceInterface
     public function push(Shop $shop, array $data, $indexName): bool;
 
     /**
+     * @param Shop $shop
+     * @param array $data
+     * @param string $indexName
+     * @return bool
+     */
+    public function update(Shop $shop, array $data, string $indexName): bool;
+
+    /**
+     * @param Shop $shop
+     * @param array $data
+     * @param string $indexName
+     * @return bool
+     */
+    public function delete(Shop $shop, array $data, string $indexName): bool;
+
+    /**
      * Initialize index.
      *
      * @param $indexName
